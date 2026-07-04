@@ -8,10 +8,10 @@
 
 <!-- Open Graph: vista previa al compartir en WhatsApp, Facebook, Instagram -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://hebraforbetel.vercel.app/">
+<meta property="og:url" content="https://gentle-halva-e154be.netlify.app/">
 <meta property="og:title" content="HEBRA — Manillas Hechas a Mano">
 <meta property="og:description" content="Manillas en acero, oro laminado, rodio y piedras. Catálogo completo, individuales y sets de pareja. Pide la tuya por WhatsApp.">
-<meta property="og:image" content="https://hebraforbetel.vercel.app/og-image.png">
+<meta property="og:image" content="https://gentle-halva-e154be.netlify.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="es_CO">
@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="HEBRA — Manillas Hechas a Mano">
 <meta name="twitter:description" content="Manillas en acero, oro laminado, rodio y piedras. Catálogo completo, individuales y sets de pareja.">
-<meta name="twitter:image" content="https://hebraforbetel.vercel.app/og-image.png">
+<meta name="twitter:image" content="https://gentle-halva-e154be.netlify.app/og-image.png">
 
 <!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -374,6 +374,12 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
   opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s;
 }
 .lightbox-overlay.is-open{opacity:1;visibility:visible;}
+/* Mientras la foto "vuela" del grid al lightbox, se quita el backdrop-filter:
+   animar opacity con blur detrás es de lo más caro que hay en CSS y era la
+   causa principal de que el vuelo se sintiera pesado/trabado. Se restaura
+   de golpe (sin transición) apenas termina el vuelo, cuando ya no compite
+   con ninguna otra animación en curso. */
+.lightbox-overlay.is-flying{backdrop-filter:none;}
 .lightbox{
   background:var(--bone);max-width:840px;width:100%;display:grid;grid-template-columns:1.05fr 1fr;
   transform:translateY(20px) scale(.98);transition:transform .4s var(--ease);
@@ -1571,8 +1577,11 @@ function openLightboxFromCard(ref, imgEl){
   art.classList.add("lightbox-art--flipping"); // oculta el arte real mientras viaja el clon
 
   lightboxLastFocused = document.activeElement;
-  lightboxOverlay.classList.add("is-priming", "is-open"); // congela el transform del panel para poder medir su posición final
-  void lightboxOverlay.offsetHeight; // fuerza reflow antes de medir (única lectura de layout que necesitamos)
+  // is-flying quita el backdrop-filter del overlay mientras dura el vuelo (ver CSS).
+  lightboxOverlay.classList.add("is-priming", "is-flying", "is-open"); // congela el transform del panel para poder medir su posición final
+  // getBoundingClientRect ya fuerza por sí sola el reflow que necesitamos leer;
+  // el "void offsetHeight" que había antes aquí era un reflow síncrono duplicado
+  // (mismo costo, ningún dato nuevo) y se quitó.
   const targetRect = art.getBoundingClientRect();
   lightboxOverlay.classList.remove("is-priming");
 
@@ -1580,8 +1589,12 @@ function openLightboxFromCard(ref, imgEl){
   // la foto real) y solo anima "transform" (translate + scale) para volver a
   // su tamaño identidad. Es compositor puro: no dispara layout en cada frame,
   // por eso deja de sentirse pesado o tardío como con top/left/width/height.
-  const clone = document.createElement("img");
-  clone.src = startSrc;
+  // Se clona el <img> real (no uno nuevo con el mismo src) para heredar el
+  // bitmap ya decodificado por el navegador y no pagar una decodificación
+  // extra justo en el instante más sensible de la animación.
+  const clone = imgEl.cloneNode(true);
+  clone.removeAttribute("loading");
+  clone.removeAttribute("sizes");
   clone.alt = "";
   clone.className = "lightbox-flip-clone";
   clone.style.top = targetRect.top + "px";
@@ -1595,12 +1608,21 @@ function openLightboxFromCard(ref, imgEl){
   clone.style.transition = "none";
   clone.style.transform = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
   document.body.appendChild(clone);
-  void clone.offsetWidth; // aplica el transform inicial antes de animar (sin esperar frames)
-  clone.style.transition = "transform .38s var(--ease)";
-  clone.style.transform = "translate(0,0) scale(1,1)";
+  // Doble rAF en vez de "void clone.offsetWidth": se deja que el navegador
+  // pinte el estado inicial del clon dentro de su ciclo normal de frame y
+  // solo entonces se activa la transición, sin forzar un reflow síncrono
+  // a mano. El segundo rAF es el patrón estándar para garantizar que el
+  // primer frame ya se pintó antes de animar.
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      clone.style.transition = "transform .38s var(--ease)";
+      clone.style.transform = "translate(0,0) scale(1,1)";
+    });
+  });
 
   const revealArt = () => {
     art.classList.remove("lightbox-art--flipping");
+    lightboxOverlay.classList.remove("is-flying"); // el backdrop-filter vuelve, ya no compite con ninguna animación
     clone.remove();
   };
   let flightDone = false;
