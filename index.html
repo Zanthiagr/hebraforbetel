@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEBRA — Manillas Exclusivas en Acero, Oro Laminado y Rodio</title>
+<meta name="description" content="Manillas hechas a mano en acero, oro laminado, rodio y piedras. Catálogo completo, individuales y sets de pareja. Pide la tuya por WhatsApp.">
+
+<!-- Open Graph: vista previa al compartir en WhatsApp, Facebook, Instagram -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gentle-halva-e154be.netlify.app/">
+<meta property="og:title" content="HEBRA — Manillas Hechas a Mano">
+<meta property="og:description" content="Manillas en acero, oro laminado, rodio y piedras. Catálogo completo, individuales y sets de pareja. Pide la tuya por WhatsApp.">
+<meta property="og:image" content="https://gentle-halva-e154be.netlify.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_CO">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HEBRA — Manillas Hechas a Mano">
+<meta name="twitter:description" content="Manillas en acero, oro laminado, rodio y piedras. Catálogo completo, individuales y sets de pareja.">
+<meta name="twitter:image" content="https://gentle-halva-e154be.netlify.app/og-image.png">
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   HEBRA — Manillas exclusivas tejidas y en metal
+   Paleta: grafito + perla, doble acento metálico (oro / plata)
+   ============================================================ */
+:root{
+  --ink:        #0D211A;   /* verde casi negro — joyería fina, no corporativo */
+  --ink-soft:   #13271C;
+  --ink-line:   #2D4339;
+  --bone:       #FAF6EE;   /* marfil cálido */
+  --bone-soft:  #EFEAE0;
+  --bone-line:  #DDD6C8;
+  --brass:      #C4985E;   /* oro más cálido/metálico */
+  --brass-light:#E3C794;
+  --silver:     #9BA1A6;   /* acero */
+  --silver-light:#C7CBCE;  /* rodio */
+  --clay:       #4A1420;   /* vino profundo — acento de lujo */
+  --clay-light: #8C3142;
+  --ink-text:   #ECE9E3;
+  --ink-text-dim:#8AA290;
+  --bone-text:  #17181A;
+  --bone-text-dim:#6B6E72;
+
+  --display: "Fraunces", serif;
+  --body: "Manrope", sans-serif;
+  --mono: "Space Mono", monospace;
+
+  --container: 1280px;
+  --pad: clamp(1.25rem, 4vw, 3.5rem);
+  --radius: 2px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:6rem;}
+body{
+  background:var(--ink);
+  color:var(--ink-text);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+ul{list-style:none;}
+input,select,textarea{font:inherit;color:inherit;background:none;border:none;}
+.container{max-width:var(--container);margin:0 auto;padding:0 var(--pad);}
+
+:focus-visible{outline:2px solid var(--brass-light);outline-offset:3px;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+}
+
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.72rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:.6em;
+}
+.eyebrow::before{content:"";width:1.4em;height:1px;background:currentColor;opacity:.6;display:inline-block;}
+
+/* ---------- SECTIONS ---------- */
+.section{padding:clamp(4rem,9vw,7.5rem) 0;}
+.section--ink{background:var(--ink);color:var(--ink-text);}
+.section--bone{background:var(--bone);color:var(--bone-text);}
+.section--bone .eyebrow{color:var(--clay);}
+.section--ink .eyebrow{color:var(--brass-light);}
+
+.section-head{max-width:640px;margin-bottom:clamp(2.5rem,5vw,4rem);}
+.section-head h2{font-size:clamp(2.1rem,4.2vw,3.4rem);line-height:1.05;margin-top:.6em;}
+.section-head p{margin-top:1.1em;font-size:1.05rem;max-width:46ch;}
+.section--bone .section-head p{color:var(--bone-text-dim);}
+.section--ink .section-head p{color:var(--ink-text-dim);}
+
+/* ---------- BUTTONS ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:.6em;
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.95em 1.7em;border:1px solid currentColor;border-radius:var(--radius);
+  transition:background .35s var(--ease),color .35s var(--ease);
+  white-space:nowrap;
+}
+.btn--solid{background:var(--brass);border-color:var(--brass);color:var(--ink);}
+.btn--solid:hover{background:var(--brass-light);border-color:var(--brass-light);}
+.btn--ghost.ink-ctx{color:var(--ink-text);}
+.btn--ghost.ink-ctx:hover{background:var(--ink-text);color:var(--ink);}
+.btn--ghost.bone-ctx{color:var(--bone-text);}
+.btn--ghost.bone-ctx:hover{background:var(--bone-text);color:var(--bone);}
+.btn--wa{background:var(--ink-soft);border-color:var(--brass);color:var(--ink-text);}
+.btn--wa:hover{background:var(--brass);color:var(--ink);}
+.btn[disabled]{opacity:.4;cursor:not-allowed;}
+.btn svg{width:1.1em;height:1.1em;flex:none;}
+
+/* ============================================================
+   HEADER / NAV
+   ============================================================ */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.4rem var(--pad);
+  transition:background .4s var(--ease),padding .4s var(--ease),border-color .4s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.site-header.is-scrolled{
+  background:rgba(26,58,42,.92);backdrop-filter:blur(10px);
+  padding:.9rem var(--pad);border-color:var(--ink-line);
+}
+.logo{font-family:var(--display);font-size:1.5rem;font-weight:700;letter-spacing:.02em;}
+.logo span{color:var(--brass-light);font-style:italic;}
+
+.main-nav{display:flex;align-items:center;gap:2.2rem;}
+.main-nav>ul{display:flex;gap:2.2rem;}
+.nav-item{position:relative;}
+.nav-link{
+  font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;font-weight:600;
+  display:flex;align-items:center;gap:.4em;padding:.5em 0;position:relative;
+}
+.nav-link::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--brass-light);
+  transition:width .35s var(--ease);
+}
+.nav-item:hover .nav-link::after,.nav-item.is-open .nav-link::after{width:100%;}
+.nav-link .chev{width:.6em;height:.6em;transition:transform .3s var(--ease);}
+.nav-item:hover .chev,.nav-item.is-open .chev{transform:rotate(180deg);}
+
+.mega{
+  position:absolute;top:calc(100% + 1.1rem);left:50%;transform:translate(-50%,8px);
+  width:min(640px,90vw);
+  background:var(--ink-soft);border:1px solid var(--ink-line);
+  padding:1.6rem;display:grid;grid-template-columns:repeat(2,1fr);gap:.4rem;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .3s var(--ease),transform .3s var(--ease),visibility .3s;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.6);
+}
+.nav-item:hover .mega,.nav-item.is-open .mega{opacity:1;visibility:visible;transform:translate(-50%,0);pointer-events:auto;}
+.mega-item{display:flex;gap:.9rem;align-items:center;padding:.7rem;border-radius:var(--radius);transition:background .25s;}
+.mega-item:hover{background:rgba(182,144,75,.12);}
+.mega-icon{width:46px;height:24px;flex:none;}
+.mega-icon svg{width:100%;height:100%;}
+.mega-text strong{display:block;font-size:.85rem;font-weight:700;}
+.mega-text span{font-size:.74rem;color:var(--ink-text-dim);}
+.mega-all{grid-column:1/-1;border-top:1px solid var(--ink-line);margin-top:.3rem;padding-top:.8rem;}
+.mega-all a{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brass-light);}
+
+.header-actions{display:flex;align-items:center;gap:1rem;}
+.burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:30px;height:30px;z-index:120;}
+.burger span{height:1px;width:100%;background:var(--ink-text);transition:transform .35s var(--ease),opacity .35s var(--ease);}
+.burger.is-active span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.burger.is-active span:nth-child(2){opacity:0;}
+.burger.is-active span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+.mobile-nav{
+  position:fixed;inset:0;background:var(--ink);z-index:110;
+  display:flex;flex-direction:column;justify-content:center;gap:.2rem;padding:0 var(--pad);
+  opacity:0;visibility:hidden;transform:translateY(-12px);
+  transition:opacity .4s var(--ease),visibility .4s,transform .4s var(--ease);
+}
+.mobile-nav.is-open{opacity:1;visibility:visible;transform:translateY(0);}
+.mobile-nav a{
+  font-family:var(--display);font-size:clamp(2rem,9vw,3rem);padding:.45em 0;
+  border-bottom:1px solid var(--ink-line);
+}
+.mobile-nav .mobile-sub{display:none;flex-direction:column;padding:0 0 .8em 1em;}
+.mobile-nav .mobile-sub.is-open{display:flex;}
+.mobile-nav .mobile-sub a{font-family:var(--body);font-size:1rem;border-bottom:none;padding:.5em 0;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-text-dim);}
+
+@media (max-width:900px){
+  .main-nav{display:none;}
+  .burger{display:flex;}
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;min-height:100vh;display:flex;flex-direction:column;
+  padding-top:7rem;overflow:hidden;
+  background:radial-gradient(120% 90% at 80% 0%, #234936 0%, var(--ink) 55%);
+}
+.hero-grid{flex:1;display:grid;grid-template-columns:1.1fr 1fr;gap:3rem;align-items:center;align-content:center;perspective:1000px;}
+.hero-copy .eyebrow{margin-bottom:1.4rem;color:var(--brass-light);}
+.hero-reveal{opacity:0;animation:heroReveal .9s var(--ease) forwards;}
+@keyframes heroReveal{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.hero-copy h1 em{position:relative;font-style:italic;color:var(--brass-light);font-weight:400;}
+.hero-copy h1 em::after{
+  content:"";position:absolute;left:0;bottom:.02em;width:100%;height:2px;background:var(--brass);
+  transform:scaleX(0);transform-origin:left;animation:weaveLine .7s var(--ease) forwards;animation-delay:1.05s;
+}
+@keyframes weaveLine{to{transform:scaleX(1);}}
+.scroll-cue{
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;margin:0 auto;
+  padding:1.4rem 0;background:none;border:0;cursor:pointer;color:var(--ink-text-dim);
+  opacity:0;animation:heroReveal .9s var(--ease) forwards;animation-delay:1.4s;transition:opacity .4s var(--ease);
+}
+.scroll-cue.is-hidden{opacity:0 !important;pointer-events:none;}
+.scroll-cue-line{width:1px;height:34px;background:var(--ink-line);position:relative;overflow:hidden;}
+.scroll-cue-line::after{
+  content:"";position:absolute;top:0;left:0;width:100%;height:12px;background:var(--brass-light);
+  animation:cueDrop 1.8s ease-in-out infinite;
+}
+@keyframes cueDrop{
+  0%{transform:translateY(-100%);opacity:0;}
+  25%{opacity:1;}
+  75%{opacity:1;}
+  100%{transform:translateY(280%);opacity:0;}
+}
+.scroll-cue-text{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;}
+.hero-copy h1{
+  font-size:clamp(3rem,7.2vw,5.6rem);line-height:.98;letter-spacing:-.01em;
+}
+.hero-copy p{margin-top:1.6rem;max-width:44ch;font-size:1.1rem;color:var(--ink-text-dim);}
+.hero-cta{margin-top:2.4rem;display:flex;gap:1rem;flex-wrap:wrap;}
+.hero-ref{margin-top:3.2rem;display:flex;gap:2.4rem;}
+.hero-ref div{font-family:var(--mono);}
+.hero-ref strong{display:block;font-size:1.5rem;color:var(--bone);}
+.hero-ref span{font-size:.7rem;color:var(--ink-text-dim);letter-spacing:.1em;}
+
+.hero-art{position:relative;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d;will-change:transform;}
+.hero-art svg{width:100%;height:100%;}
+.hero-art .strand{fill:none;stroke-width:5.5;stroke-linecap:round;}
+.hero-strand-anim{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.6s var(--ease) forwards;}
+@keyframes draw{to{stroke-dashoffset:0;}}
+.hero-art-group{animation:bob 7s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+
+.marquee{
+  border-top:1px solid var(--ink-line);border-bottom:1px solid var(--ink-line);
+  overflow:hidden;white-space:nowrap;padding:.9rem 0;background:var(--ink-soft);
+}
+.marquee-track{display:inline-flex;animation:scroll 28s linear infinite;}
+.marquee-track span{
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-text-dim);padding:0 1.6rem;display:flex;align-items:center;gap:1.6rem;
+}
+.marquee-track span::after{content:"◆";color:var(--brass);font-size:.6rem;}
+@keyframes scroll{to{transform:translateX(-50%);}}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-art{aspect-ratio:16/10;order:-1;}
+  .hero-ref{gap:1.6rem;}
+  .scroll-cue{display:none;}
+}
+
+/* ============================================================
+   CATÁLOGO
+   ============================================================ */
+.filters{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2.6rem;}
+.filter-chip{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.6em 1.2em;border:1px solid var(--bone-line);border-radius:999px;
+  transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease);
+}
+.filter-chip:hover{border-color:var(--clay);}
+.filter-chip.is-active{background:var(--ink);color:var(--bone);border-color:var(--ink);}
+
+.catalog-tabs{display:flex;gap:0;border-bottom:1px solid var(--bone-line);margin-bottom:2rem;}
+.catalog-tab{
+  font-family:var(--mono);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:.9em 0;margin-right:2.2rem;border-bottom:2px solid transparent;color:var(--bone-text-dim);
+  transition:color .3s var(--ease),border-color .3s var(--ease);
+}
+.catalog-tab:hover{color:var(--bone-text);}
+.catalog-tab.is-active{color:var(--ink);border-color:var(--clay);}
+.catalog-empty{font-size:.92rem;color:var(--bone-text-dim);padding:2.4rem 0;text-align:center;}
+
+.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;transition:opacity .2s var(--ease);}
+.catalog-grid.is-leaving{opacity:0;}
+.bracelet-card{
+  background:var(--bone-soft);border:1px solid var(--bone-line);padding:1.6rem;cursor:pointer;
+  transition:box-shadow .4s var(--ease),border-color .4s var(--ease);
+  display:flex;flex-direction:column;transform-style:preserve-3d;will-change:transform;
+}
+/* Sin transition en transform a propósito (mismo criterio que .hero-art): en desktop el
+   tilt lo controla JS en cada mousemove y necesita seguir el cursor 1:1, sin el "efecto
+   persecución" que metería una transition de .4s en cada frame. */
+@media (pointer: coarse){
+  .bracelet-card{transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);}
+}
+.bracelet-card:hover{transform:translateY(-6px);box-shadow:0 24px 40px -20px rgba(23,24,26,.25);border-color:var(--clay);}
+.bracelet-card:active{transform:translateY(-2px) scale(.99) !important;box-shadow:0 12px 20px -12px rgba(23,24,26,.3);}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.card-stagger{animation:cardIn .55s var(--ease) backwards;}
+.card-frame{background:var(--bone);border:1px solid var(--bone-line);padding:1.6rem .8rem;margin-bottom:1.2rem;overflow:hidden;}
+.card-frame--photo{padding:0;}
+.card-frame--photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .5s var(--ease);will-change:transform;}
+/* la imagen escala y se desplaza distinto al marco al inclinar la tarjeta: eso es lo que da la sensación de profundidad, no solo la sombra */
+.bracelet-card:hover .card-frame--photo img{transform:scale(1.07);}
+
+.bracelet-svg{width:100%;height:auto;}
+.bracelet-svg .strand{fill:none;stroke-width:9;stroke-linecap:round;}
+.bracelet-svg .link{fill:none;stroke-width:5;}
+.bracelet-svg .gem{stroke-width:1.4;}
+.bracelet-svg .band{stroke-width:2;fill:none;}
+.bracelet-svg .knots circle{fill:var(--bone-text);opacity:.14;}
+.bracelet-svg .clasp{fill:none;stroke-width:2;}
+.bracelet-svg .charm{stroke:var(--bone-text);stroke-width:1;}
+.bracelet-svg .charm-line{stroke-width:1.4;}
+
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem;gap:.5rem;}
+.card-ref{font-family:var(--mono);font-size:.68rem;color:var(--bone-text-dim);letter-spacing:.08em;}
+.card-tags{display:flex;gap:.4rem;flex-wrap:wrap;}
+.tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;padding:.3em .6em;border-radius:999px;border:1px solid currentColor;}
+.tag--material{color:var(--bone-text);}
+.tag--parejas{color:var(--clay);border-color:var(--clay);background:rgba(122,34,48,.06);}
+.tag--badge{color:var(--clay);border-color:var(--clay);}
+.card-name{font-size:1.3rem;margin-top:.5rem;}
+.card-desc{font-size:.88rem;color:var(--bone-text-dim);margin-top:.5rem;flex:1;}
+.care-note{font-size:.76rem;color:var(--clay);margin-top:.5rem;display:flex;gap:.4em;align-items:flex-start;}
+.care-note svg{width:1em;height:1em;flex:none;margin-top:.1em;}
+.card-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:1.2rem;padding-top:1.1rem;border-top:1px solid var(--bone-line);}
+.card-price{font-family:var(--mono);font-weight:700;font-size:1rem;}
+.card-cta{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--clay);display:flex;align-items:center;gap:.4em;}
+.card-cta svg{width:1em;height:1em;}
+
+@media (max-width:1000px){.catalog-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:620px){.catalog-grid{grid-template-columns:1fr;}}
+
+/* ---------- SKELETON (mientras carga el Sheet) ---------- */
+.skel-card{background:var(--bone-soft);border:1px solid var(--bone-line);padding:1.6rem;display:flex;flex-direction:column;}
+.skel-block{background:linear-gradient(100deg,var(--bone-line) 8%,var(--bone-soft) 28%,var(--bone-line) 42%);background-size:200% 100%;animation:skelShimmer 1.5s ease-in-out infinite;}
+.skel-frame{aspect-ratio:4/3;margin-bottom:1.2rem;}
+.skel-line{height:.8rem;border-radius:2px;margin-top:.7rem;}
+.skel-line--name{height:1.1rem;width:70%;margin-top:1rem;}
+.skel-line--desc{width:95%;}
+.skel-line--desc2{width:60%;}
+.skel-line--price{height:1.4rem;width:35%;margin-top:1.6rem;}
+@keyframes skelShimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+@media (prefers-reduced-motion: reduce){.skel-block{animation:none;opacity:.6;}}
+
+/* ---------- LIGHTBOX ---------- */
+.lightbox-overlay{
+  position:fixed;inset:0;background:rgba(8,16,12,.78);backdrop-filter:blur(4px);z-index:200;
+  display:flex;align-items:center;justify-content:center;padding:1.5rem;
+  opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s;
+}
+.lightbox-overlay.is-open{opacity:1;visibility:visible;}
+.lightbox{
+  background:var(--bone);max-width:840px;width:100%;display:grid;grid-template-columns:1.05fr 1fr;
+  transform:translateY(20px) scale(.98);transition:transform .4s var(--ease);
+  max-height:88vh;border-radius:20px;overflow:hidden;
+  box-shadow:0 40px 90px -20px rgba(8,16,12,.55),0 0 0 1px rgba(8,16,12,.05);
+}
+.lightbox-overlay.is-open .lightbox{transform:translateY(0) scale(1);}
+.lightbox-overlay.is-priming .lightbox{transition:none !important;}
+.lightbox-art{background:var(--bone-soft);display:flex;align-items:center;justify-content:center;padding:2.4rem;border-right:1px solid var(--bone-line);position:relative;overflow:hidden;}
+.lightbox-art--photo{padding:0;aspect-ratio:1/1;align-self:center;}
+.lightbox-art--flipping{opacity:0;}
+.lightbox-flip-clone{position:fixed;top:0;left:0;object-fit:cover;z-index:300;pointer-events:none;will-change:transform;transform-origin:top left;transition:transform .38s var(--ease);}
+.lightbox-art--photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease),opacity .3s var(--ease);}
+.lightbox-art--photo:hover img{transform:scale(1.045);}
+.lightbox-art--photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,16,12,.22),transparent 42%);pointer-events:none;}
+.carousel-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;
+  background:rgba(8,16,12,.55);color:#fff;display:flex;align-items:center;justify-content:center;
+  border:none;cursor:pointer;transition:background .25s var(--ease),transform .2s var(--ease);z-index:2;
+  font-size:1.1rem;line-height:1;
+}
+.carousel-arrow:hover{background:rgba(8,16,12,.8);transform:translateY(-50%) scale(1.1);}
+.carousel-arrow:active{transform:translateY(-50%) scale(.92);}
+.carousel-arrow--prev{left:.8rem;}
+.carousel-arrow--next{right:.8rem;}
+.carousel-dots{position:absolute;bottom:.9rem;left:0;right:0;display:flex;justify-content:center;gap:.4rem;z-index:2;}
+.carousel-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);border:none;cursor:pointer;padding:0;transition:background .25s var(--ease),transform .25s var(--ease);}
+.carousel-dot:hover{background:rgba(255,255,255,.8);transform:scale(1.15);}
+.carousel-dot.is-active{background:#fff;transform:scale(1.25);}
+.lightbox-body{padding:2.6rem;color:var(--bone-text);position:relative;overflow-y:auto;max-height:88vh;min-height:0;}
+.lightbox-close{position:absolute;top:1.2rem;right:1.2rem;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--bone-line);border-radius:50%;}
+.lightbox-body .card-ref{display:block;margin-bottom:.6rem;}
+.lightbox-body h3{font-size:2rem;}
+.lightbox-tags{display:flex;gap:.4rem;margin-top:.6rem;flex-wrap:wrap;}
+.lightbox-body p.desc{margin-top:1rem;color:var(--bone-text-dim);}
+.lightbox-price{font-family:var(--mono);font-size:1.4rem;font-weight:700;margin-top:1.6rem;}
+.lightbox-body .btn{margin-top:1.6rem;width:100%;justify-content:center;}
+@media (max-width:680px){
+  .lightbox-overlay{padding:0;align-items:flex-end;}
+  .lightbox{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);max-height:92vh;max-width:100%;border-radius:18px 18px 0 0;}
+  .lightbox-art{border-right:none;border-bottom:1px solid var(--bone-line);height:62vw;max-height:320px;min-height:220px;aspect-ratio:auto;}
+  .lightbox-body{padding:1.8rem 1.6rem 2rem;max-height:none;}
+  .lightbox-body h3{font-size:1.6rem;}
+  .carousel-arrow{width:30px;height:30px;font-size:.95rem;}
+}
+
+/* ============================================================
+   BARRA DE CONFIANZA
+   ============================================================ */
+.trust-bar{background:var(--ink-soft);border-top:1px solid var(--ink-line);border-bottom:1px solid var(--ink-line);padding:2.2rem 0;}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.8rem;}
+.trust-item{display:flex;gap:.9rem;align-items:flex-start;}
+.trust-item svg{width:1.6em;height:1.6em;color:var(--brass-light);flex:none;margin-top:.1em;}
+.trust-item strong{display:block;font-size:.9rem;}
+.trust-item span{font-size:.78rem;color:var(--ink-text-dim);}
+@media (max-width:900px){.trust-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.trust-grid{grid-template-columns:1fr;}}
+
+/* ============================================================
+   NOSOTROS
+   ============================================================ */
+.nosotros-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:3rem;align-items:center;}
+.portrait-placeholder{aspect-ratio:4/5;background:linear-gradient(160deg,var(--ink-soft),var(--ink));border:1px solid var(--ink-line);display:flex;align-items:center;justify-content:center;}
+.portrait-placeholder span{font-family:var(--display);font-size:5rem;font-style:italic;color:var(--brass-light);}
+.portrait-caption{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-text-dim);text-align:center;margin-top:.8rem;}
+.nosotros-story p{margin-top:1.1rem;color:var(--ink-text-dim);max-width:54ch;}
+.nosotros-story .firma{margin-top:1.4rem;font-family:var(--display);font-style:italic;font-size:1.2rem;color:var(--ink-text);}
+.nosotros-stats{display:flex;gap:2rem;margin-top:2rem;flex-wrap:wrap;}
+.nosotros-stats div{font-family:var(--mono);}
+.nosotros-stats strong{display:block;font-size:1.2rem;color:var(--bone);}
+.nosotros-stats span{font-size:.7rem;color:var(--ink-text-dim);letter-spacing:.08em;}
+@media (max-width:900px){.nosotros-grid{grid-template-columns:1fr;}.portrait-placeholder{max-width:280px;margin:0 auto;}}
+
+/* ============================================================
+   GUÍA DE TALLAS
+   ============================================================ */
+.talla-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:3rem;align-items:center;}
+.talla-art{background:var(--bone-soft);border:1px solid var(--bone-line);padding:2rem;}
+.talla-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.85rem;}
+.talla-table th{text-align:left;padding:.7rem 0;border-bottom:1px solid var(--bone-text);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-text-dim);}
+.talla-table td{padding:.8rem 0;border-bottom:1px solid var(--bone-line);}
+.talla-tip{margin-top:1.3rem;font-size:.85rem;color:var(--bone-text-dim);display:flex;gap:.6em;align-items:flex-start;}
+.talla-tip svg{width:1.2em;height:1.2em;flex:none;color:var(--clay);margin-top:.1em;}
+@media (max-width:900px){.talla-grid{grid-template-columns:1fr;}}
+
+/* ============================================================
+   TESTIMONIOS
+   ============================================================ */
+.testimonios-note{font-size:.85rem;color:var(--ink-text-dim);margin-top:-.6rem;margin-bottom:2rem;max-width:60ch;}
+.testimonios-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+.testimonio-card{background:var(--ink-soft);border:1px solid var(--ink-line);padding:1.8rem;display:flex;flex-direction:column;}
+.testimonio-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;}
+.testimonio-stars{color:var(--brass-light);font-size:.85rem;letter-spacing:.15em;}
+.testimonio-quote{font-family:var(--display);font-size:1.05rem;font-style:italic;line-height:1.45;flex:1;}
+.testimonio-name{margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--ink-line);font-family:var(--mono);font-size:.76rem;color:var(--ink-text-dim);}
+.testimonio-name strong{color:var(--ink-text);display:block;font-size:.85rem;margin-bottom:.2rem;}
+.testimonios-cta{margin-top:2.4rem;text-align:center;}
+.testimonios-cta p{font-size:.9rem;color:var(--ink-text-dim);margin-bottom:1rem;}
+@media (max-width:1000px){.testimonios-grid{grid-template-columns:1fr;}}
+
+/* ============================================================
+   PROCESO
+   ============================================================ */
+.proceso-list{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--ink-line);}
+.proceso-item{padding:2rem 1.4rem 2rem 0;border-right:1px solid var(--ink-line);}
+.proceso-item:last-child{border-right:none;}
+.proceso-num{font-family:var(--mono);font-size:.8rem;color:var(--brass-light);}
+.proceso-item h4{font-size:1.25rem;margin-top:1rem;}
+.proceso-item p{font-size:.88rem;color:var(--ink-text-dim);margin-top:.6rem;}
+@media (max-width:900px){
+  .proceso-list{grid-template-columns:1fr;}
+  .proceso-item{border-right:none;border-bottom:1px solid var(--ink-line);padding:1.8rem 0;}
+}
+
+/* ============================================================
+   CREA TU MANILLA
+   ============================================================ */
+.crear-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:3rem;align-items:start;}
+.crear-preview{position:sticky;top:7rem;}
+.preview-card{background:var(--bone-soft);border:1px solid var(--bone-line);padding:2rem;}
+.preview-card .bracelet-svg{margin:1.2rem 0;}
+.preview-meta{font-family:var(--mono);font-size:.76rem;color:var(--bone-text-dim);display:flex;justify-content:space-between;border-top:1px solid var(--bone-line);padding-top:1rem;margin-top:1rem;flex-wrap:wrap;gap:.4rem;}
+.preview-swatches-label{font-size:.85rem;color:var(--bone-text-dim);margin-top:.4rem;}
+
+.field{margin-bottom:1.6rem;}
+.field label{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-text-dim);margin-bottom:.6rem;}
+.field input[type=text],.field input[type=tel],.field textarea,.field select{
+  width:100%;border-bottom:1px solid var(--bone-line);padding:.7em .2em;font-size:1rem;
+  transition:border-color .25s;background:transparent;
+}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--clay);}
+.field textarea{resize:vertical;min-height:90px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;}
+.chip{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:.6em 1.1em;border:1px solid var(--bone-line);border-radius:999px;
+  transition:background .25s,color .25s,border-color .25s;display:flex;align-items:center;gap:.5em;
+}
+.chip .dot{width:.7em;height:.7em;border-radius:50%;flex:none;}
+.chip.is-active{background:var(--bone-text);color:var(--bone);border-color:var(--bone-text);}
+.sub-row{margin-top:.9rem;}
+.sub-row.is-hidden{display:none;}
+
+.swatches{display:flex;flex-wrap:wrap;gap:.7rem;}
+.swatch{
+  width:38px;height:38px;border-radius:50%;border:2px solid transparent;position:relative;cursor:pointer;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);
+}
+.swatch.is-selected{border-color:var(--clay);}
+.swatch.is-selected::after{content:"";position:absolute;inset:-6px;border:1px solid var(--clay);border-radius:50%;}
+.swatch-help{font-size:.78rem;color:var(--bone-text-dim);margin-top:.6rem;}
+
+.toggle-row{display:flex;align-items:center;gap:.7rem;}
+.toggle{width:42px;height:24px;border:1px solid var(--bone-line);border-radius:999px;position:relative;flex:none;transition:background .25s;}
+.toggle::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--bone-text-dim);transition:transform .25s;}
+.toggle.is-on{background:var(--clay);border-color:var(--clay);}
+.toggle.is-on::after{transform:translateX(17px);background:var(--bone);}
+
+.upload-box{border:1px dashed var(--bone-line);padding:1.6rem;text-align:center;cursor:pointer;transition:border-color .25s,background .25s;}
+.upload-box:hover{border-color:var(--clay);background:rgba(122,34,48,.04);}
+.upload-box svg{width:28px;height:28px;margin:0 auto .6rem;}
+.upload-box p{font-size:.85rem;color:var(--bone-text-dim);}
+.thumbs{display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;}
+.thumbs img{width:56px;height:56px;object-fit:cover;border:1px solid var(--bone-line);}
+
+.form-note{font-size:.8rem;color:var(--bone-text-dim);margin-top:1rem;display:flex;gap:.6em;align-items:flex-start;}
+.form-note svg{width:1.1em;height:1.1em;flex:none;margin-top:.15em;color:var(--clay);}
+.confirm-note{display:none;margin-top:1rem;font-size:.85rem;color:var(--clay);font-weight:700;}
+.confirm-note.is-visible{display:block;}
+
+@media (max-width:900px){
+  .crear-grid{grid-template-columns:1fr;}
+  .crear-preview{position:static;}
+  .field-row{grid-template-columns:1fr;}
+}
+
+/* ============================================================
+   CONTACTO / FOOTER
+   ============================================================ */
+.contacto-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:3rem;}
+.contacto-grid h2{font-size:clamp(2rem,4vw,3rem);}
+.contacto-info{margin-top:2rem;display:flex;flex-direction:column;gap:1.4rem;}
+.contacto-info a,.contacto-info div{display:flex;gap:1rem;align-items:flex-start;font-size:.95rem;}
+.contacto-info svg{width:1.3em;height:1.3em;flex:none;color:var(--brass-light);margin-top:.1em;}
+.contacto-info strong{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-text-dim);margin-bottom:.2rem;}
+.social-row{display:flex;gap:1rem;margin-top:1rem;}
+.social-row a{width:38px;height:38px;border:1px solid var(--ink-line);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .25s,border-color .25s;}
+.social-row a:hover{background:var(--brass);border-color:var(--brass);color:var(--ink);}
+.social-row svg{width:1.1em;height:1.1em;}
+
+.footer-bottom{border-top:1px solid var(--ink-line);margin-top:3rem;padding-top:1.6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;font-size:.78rem;color:var(--ink-text-dim);}
+
+.wa-float{
+  position:fixed;bottom:1.6rem;right:1.6rem;z-index:90;width:58px;height:58px;border-radius:50%;
+  background:var(--ink);border:1.5px solid var(--brass);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 12px 30px -8px rgba(0,0,0,.5);transition:transform .3s var(--ease);
+}
+.wa-float:hover{transform:scale(1.08);}
+.wa-float svg{width:26px;height:26px;color:var(--brass-light);}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.reveal.is-visible{opacity:1;transform:translateY(0);}
+
+@media (max-width:900px){.contacto-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header" id="siteHeader">
+  <a href="#inicio" class="logo">HEBRA<span>.</span></a>
+
+  <nav class="main-nav">
+    <ul>
+      <li class="nav-item">
+        <a href="#inicio" class="nav-link">Inicio</a>
+      </li>
+      <li class="nav-item" id="navCatalogo">
+        <button class="nav-link" type="button">Catálogo
+          <svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.4"/></svg>
+        </button>
+        <div class="mega" id="megaMenu"></div>
+      </li>
+      <li class="nav-item"><a href="#nosotros" class="nav-link">Nosotros</a></li>
+      <li class="nav-item"><a href="#crear" class="nav-link">Crea tu Manilla</a></li>
+      <li class="nav-item"><a href="#proceso" class="nav-link">Proceso</a></li>
+      <li class="nav-item"><a href="#contacto" class="nav-link">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <div class="header-actions">
+    <a href="#" id="navWaBtn" class="btn btn--wa" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+      Escríbenos
+    </a>
+    <button class="burger" id="burgerBtn" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- MENÚ MÓVIL -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="#inicio">Inicio</a>
+  <a href="#" id="mobileCatalogoToggle">Catálogo</a>
+  <div class="mobile-sub" id="mobileSub"></div>
+  <a href="#nosotros">Nosotros</a>
+  <a href="#crear">Crea tu Manilla</a>
+  <a href="#proceso">Proceso</a>
+  <a href="#contacto">Contacto</a>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="inicio">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow hero-reveal" style="animation-delay:.1s">Manillas exclusivas · para él y para ella</p>
+      <h1 class="hero-reveal" style="animation-delay:.25s">El lujo<br>también <em>se teje</em>.</h1>
+      <p class="hero-reveal" style="animation-delay:.5s">Tejidas a mano y trabajadas en oro laminado, acero o rodio — con o sin piedras. Piezas exclusivas con un precio para cada quien: tú eliges el material, nosotros el detalle.</p>
+      <div class="hero-cta hero-reveal" style="animation-delay:.68s">
+        <a href="#catalogo" class="btn btn--solid">Ver catálogo completo</a>
+        <a href="#crear" class="btn btn--ghost ink-ctx">Crea la tuya</a>
+      </div>
+      <div class="hero-ref hero-reveal" style="animation-delay:.85s">
+        <div><strong id="statPiezas" data-count-to="12" data-suffix="+">0</strong><span>Diseños en catálogo</span></div>
+        <div><strong data-count-to="4">0</strong><span>Materiales disponibles</span></div>
+        <div><strong>1 a 1</strong><span>Asesoría por WhatsApp</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 320 200" class="hero-art-group">
+        <g class="strand hero-strand-anim" stroke="#C4985E"><path d="M10,100 C60,30 100,170 150,100 C190,40 230,160 270,100 C290,70 305,120 312,100"/></g>
+        <g class="strand hero-strand-anim" stroke="#9BA1A6" style="animation-delay:.15s"><path d="M10,108 C60,178 100,38 150,108 C190,168 230,48 270,108 C290,138 305,88 312,108"/></g>
+        <g class="strand hero-strand-anim" stroke="#FAF6EE" style="animation-delay:.3s"><path d="M10,94 C60,55 100,145 150,94 C190,60 230,138 270,94 C290,78 305,108 312,94"/></g>
+      </svg>
+    </div>
+  </div>
+
+  <button class="scroll-cue" id="scrollCue" type="button">
+    <span class="scroll-cue-line"></span>
+    <span class="scroll-cue-text">Descubre el catálogo</span>
+  </button>
+
+  <div class="marquee">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BARRA DE CONFIANZA
+     ============================================================ -->
+<section class="trust-bar">
+  <div class="container trust-grid">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="7" width="15" height="10" rx="1"/><path d="M16 10h3l3 3v4h-6"/><circle cx="6" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/></svg>
+      <div><strong>Envíos a toda Colombia</strong><span>2–5 días hábiles</span></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/></svg>
+      <div><strong>Garantía de fábrica</strong><span>30 días por defectos de fabricación</span></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      <div><strong>Pago seguro</strong><span>Transferencia, tarjeta o contraentrega</span></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-4.5-9.5-9C.5 8 2 4 6 4c2.2 0 3.6 1.3 4.5 2.5L12 8l1.5-1.5C14.4 5.3 15.8 4 18 4c4 0 5.5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
+      <div><strong>Hecho a mano</strong><span>Piezas únicas, taller en Villavicencio</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CATÁLOGO
+     ============================================================ -->
+<section class="section section--bone" id="catalogo">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Catálogo completo</p>
+      <h2>Una manilla para cada material, cada estilo</h2>
+      <p>Filtra por material y encuentra tu favorita. El color, el grosor y los dijes se ajustan contigo por WhatsApp antes de confeccionarla.</p>
+    </div>
+    <div class="catalog-tabs" id="catalogTabs">
+      <button class="catalog-tab is-active" data-tab="individual">Individual</button>
+      <button class="catalog-tab" data-tab="parejas">Sets de Pareja</button>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="catalog-grid" id="catalogGrid"></div>
+    <p class="catalog-empty" id="catalogEmpty" hidden>Por ahora no hay sets de pareja en este material. Mira otra opción arriba o escríbenos y te ayudamos a armar uno a tu gusto.</p>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-labelledby="lightboxName">
+  <div class="lightbox">
+    <div class="lightbox-art" id="lightboxArt"></div>
+    <div class="lightbox-body">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">✕</button>
+      <span class="card-ref" id="lightboxRef"></span>
+      <h3 id="lightboxName"></h3>
+      <div class="lightbox-tags" id="lightboxTags"></div>
+      <p class="desc" id="lightboxDesc"></p>
+      <div id="lightboxCare"></div>
+      <p class="lightbox-price" id="lightboxPrice"></p>
+      <a class="btn btn--solid" id="lightboxWa" target="_blank" rel="noopener">Pedir esta manilla por WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     NOSOTROS
+     ============================================================ -->
+<section class="section section--ink" id="nosotros">
+  <div class="container nosotros-grid">
+    <div class="reveal">
+      <div class="portrait-placeholder"><span>H</span></div>
+      <p class="portrait-caption">Foto del taller — próximamente</p>
+    </div>
+    <div class="nosotros-story reveal">
+      <p class="eyebrow">Quién hace tus manillas</p>
+      <h2 style="font-size:clamp(1.9rem,3.6vw,2.8rem);margin-top:.6em;">Detrás de cada hebra, una persona</h2>
+      <p>Empecé tejiendo manillas sencillas para amigos y familia. Hoy, cada pieza de HEBRA combina esa misma técnica artesanal con materiales que duran: oro laminado, acero y rodio. Sigo revisando cada nudo y cada engaste antes de que salga del taller, porque una manilla exclusiva debería sentirse como tal — la use quien la use.</p>
+      <p class="firma">— Leidy, fundadora de HEBRA</p>
+      <div class="nosotros-stats">
+        <div><strong>100%</strong><span>Hecho a mano</span></div>
+        <div><strong>Unisex</strong><span>Para él y para ella</span></div>
+        <div><strong>No en serie</strong><span>Piezas exclusivas</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCESO
+     ============================================================ -->
+<section class="section section--ink" id="proceso">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Cómo se hace una HEBRA</p>
+      <h2>Del material a tu muñeca</h2>
+    </div>
+    <div class="proceso-list reveal">
+      <div class="proceso-item">
+        <span class="proceso-num">01</span>
+        <h4>Elegimos el material</h4>
+        <p>Acero, oro laminado, rodio o piedras: tú decides la base y el presupuesto.</p>
+      </div>
+      <div class="proceso-item">
+        <span class="proceso-num">02</span>
+        <h4>Tejemos o montamos a mano</h4>
+        <p>Cada nudo o engaste se hace uno por uno, sin máquinas, con técnica artesanal.</p>
+      </div>
+      <div class="proceso-item">
+        <span class="proceso-num">03</span>
+        <h4>Pulimos y sellamos</h4>
+        <p>Revisamos brillo, cierre y acabado antes de que salga del taller.</p>
+
+      </div>
+      <div class="proceso-item">
+        <span class="proceso-num">04</span>
+        <h4>Empacamos y enviamos</h4>
+        <p>Va lista para regalar o usar, con empaque propio de HEBRA.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GUÍA DE TALLAS
+     ============================================================ -->
+<section class="section section--bone" id="tallas">
+  <div class="container talla-grid">
+    <div class="talla-art reveal">
+      <svg viewBox="0 0 220 220" width="100%">
+        <ellipse cx="110" cy="115" rx="58" ry="72" fill="none" stroke="#1C1710" stroke-width="2" opacity=".35"/>
+        <ellipse cx="110" cy="115" rx="72" ry="86" fill="none" stroke="#C4985E" stroke-width="2" stroke-dasharray="4 5"/>
+        <circle cx="110" cy="29" r="3" fill="#C4985E"/>
+        <circle cx="182" cy="115" r="3" fill="#C4985E"/>
+        <text x="110" y="13" text-anchor="middle" font-family="Space Mono, monospace" font-size="9.5" fill="#6B6E72">cinta o hilo alrededor</text>
+        <text x="110" y="25" text-anchor="middle" font-family="Space Mono, monospace" font-size="9.5" fill="#6B6E72">de la muñeca</text>
+        <text x="110" y="212" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" fill="#6B6E72">↓ luego mide ese largo en cm</text>
+      </svg>
+    </div>
+    <div class="reveal">
+      <p class="eyebrow">Antes de elegir talla</p>
+      <h2 style="font-size:clamp(1.9rem,3.6vw,2.8rem);margin-top:.6em;">Mide tu muñeca en 30 segundos</h2>
+      <p style="margin-top:1rem;color:var(--bone-text-dim);max-width:46ch;">Envuelve una cinta o un hilo alrededor de tu muñeca, marca dónde se cruza y mide ese largo con una regla. Compara el resultado con esta tabla:</p>
+      <table class="talla-table">
+        <thead><tr><th>Talla</th><th>Muñeca</th></tr></thead>
+        <tbody>
+          <tr><td>Niño/a</td><td>12 – 13 cm</td></tr>
+          <tr><td>Pequeña</td><td>14 – 16 cm</td></tr>
+          <tr><td>Mediana</td><td>17 – 19 cm</td></tr>
+          <tr><td>Grande</td><td>20 – 22 cm</td></tr>
+        </tbody>
+      </table>
+      <p class="talla-tip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+        ¿Tu medida queda entre dos tallas? Elige la más grande — siempre es más fácil ajustar una manilla un poco holgada.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CREA TU MANILLA
+     ============================================================ -->
+<section class="section section--bone" id="crear">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Diseño personalizado</p>
+      <h2>Crea tu propia manilla</h2>
+      <p>Elige el material, el estilo, las piedras y el dije. Verás una vista previa aquí mismo antes de escribirnos — con foto de inspiración si quieres.</p>
+    </div>
+
+    <div class="crear-grid">
+      <div class="crear-preview reveal">
+        <div class="preview-card">
+          <p class="eyebrow">Vista previa</p>
+          <div id="previewSvg"></div>
+          <p class="preview-swatches-label" id="previewColorsLabel">Elige hasta 2 tonos →</p>
+          <div class="preview-meta">
+            <span id="previewMaterial">Material: Acero</span>
+            <span id="previewOcasion">Ocasión: —</span>
+            <span id="previewTalla">Talla: —</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="crear-form reveal">
+        <div class="field-row">
+          <div class="field">
+            <label for="ftName">Tu nombre</label>
+            <input type="text" id="ftName" placeholder="¿Cómo te llamas?">
+          </div>
+          <div class="field">
+            <label for="ftPhone">Tu número (opcional)</label>
+            <input type="tel" id="ftPhone" placeholder="Por si queremos confirmar algo">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Material</label>
+          <div class="chips" id="materialPicker"></div>
+        </div>
+
+        <div class="field sub-row" id="estiloRow">
+          <label>Estilo</label>
+          <div class="chips" id="estiloPicker"></div>
+        </div>
+
+        <div class="field sub-row is-hidden" id="engasteRow">
+          <label>Engaste de las piedras</label>
+          <p style="font-size:.85rem;color:var(--bone-text-dim);">Nuestra línea de piedras va engastada en <strong style="color:var(--bone-text);">rodio</strong>.</p>
+        </div>
+
+        <div class="field sub-row is-hidden" id="rodioNote">
+          <p class="form-note" style="margin-top:0;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+            El rodio es muy brillante, pero con el uso diario puede perder color o brillo con el tiempo. Te recomendamos evitar perfumes, cremas y agua salada.
+          </p>
+        </div>
+
+        <div class="field">
+          <label id="swatchLabel">Elige tus tonos o piedras (máx. 2)</label>
+          <div class="swatches" id="swatchPicker"></div>
+          <p class="swatch-help" id="swatchHelp">0 de 2 seleccionados</p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="ftOcasion">Ocasión</label>
+            <select id="ftOcasion">
+              <option value="">Selecciona...</option>
+              <option>Para regalar</option>
+              <option>Para mí</option>
+              <option>En pareja</option>
+              <option>Amistad</option>
+              <option>Carnaval</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ftTalla">Talla de muñeca</label>
+            <select id="ftTalla">
+              <option value="">Selecciona...</option>
+              <option>Niño/a</option>
+              <option>Pequeña (14–16 cm)</option>
+              <option>Mediana (17–19 cm)</option>
+              <option>Grande (20–22 cm)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="toggle-row">
+            <button class="toggle" id="charmToggle" type="button" aria-pressed="false"></button>
+            <label style="margin:0;text-transform:none;font-family:var(--body);font-size:.95rem;color:var(--bone-text);">Agregar dije o piedra central</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="ftMensaje">Cuéntanos tu idea</label>
+          <textarea id="ftMensaje" placeholder="Ej: la quiero con mi inicial, para regalo de cumpleaños..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Fotos de inspiración (opcional)</label>
+          <div class="upload-box" id="uploadBox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4M12 4l-4 4M12 4l4 4M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
+            <p>Haz clic para subir imágenes</p>
+          </div>
+          <input type="file" id="ftFiles" accept="image/*" multiple hidden>
+          <div class="thumbs" id="thumbs"></div>
+        </div>
+
+        <button class="btn btn--solid" id="submitCustom" type="button" disabled>Enviar por WhatsApp</button>
+        <p class="form-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          Al enviar se abrirá WhatsApp con tu pedido ya escrito. Si subiste fotos, adjúntalas también ahí mismo: por ahora no podemos enviarlas automáticamente desde la web.
+        </p>
+        <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con tu idea. Si tienes fotos, ¡no olvides adjuntarlas en el chat!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIOS
+     ============================================================ -->
+<section class="section section--ink" id="testimonios">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Lo que dicen de HEBRA</p>
+      <h2>Voces que ya tejimos</h2>
+    </div>
+    <p class="testimonios-note reveal">Así se verán las opiniones de tus clientes. Las tres de abajo son <strong>ejemplos</strong> — reemplázalas en cuanto tengas tus primeras reseñas reales.</p>
+    <div class="testimonios-grid reveal" id="testimoniosGrid"></div>
+    <div class="testimonios-cta reveal">
+      <p>¿Ya tienes tu manilla HEBRA? Cuéntanos cómo te fue.</p>
+      <a href="#" id="testimonioWaBtn" class="btn btn--ghost ink-ctx" target="_blank" rel="noopener">Déjanos tu opinión por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACTO / FOOTER
+     ============================================================ -->
+<footer class="section section--ink" id="contacto">
+
+  <div class="container contacto-grid">
+    <div class="reveal">
+      <p class="eyebrow">Hablemos</p>
+      <h2>¿Tienes una idea?<br>La hacemos realidad.</h2>
+      <a href="#" id="footerWaBtn" class="btn btn--solid" style="margin-top:2rem;" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+    </div>
+    <div class="contacto-info reveal">
+      <a href="#" id="footerWaLink" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        <span><strong>WhatsApp</strong>+57 320 398 8520</span>
+      </a>
+      <div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span><strong>Taller</strong>Villavicencio, Meta — Colombia</span>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <span><strong>Horario</strong>Lun – Sáb, 9:00am – 6:00pm</span>
+      </div>
+      <div class="social-row">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 4v9.5a3.5 3.5 0 11-3-3.46"/><path d="M14 4c0 2.5 2 4.5 4.5 4.5"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span id="footerYear"></span>
+    <span>HEBRA — Manillas exclusivas en acero y rodio. Hecho a mano en Villavicencio.</span>
+  </div>
+</footer>
+
+<a href="#" id="floatWaBtn" class="wa-float" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+/* ============================================================
+   CONFIGURACIÓN — edita aquí los datos reales de tu negocio
+   ============================================================ */
+const CONFIG = {
+  brand: "HEBRA",
+  whatsappNumber: "573203988520", // número de WhatsApp del negocio
+  instagram: "https://instagram.com/tu_usuario",
+
+  // ---- Catálogo en vivo desde Google Sheets (opcional) ----
+  // 1) Crea una hoja de Google con estas columnas en la primera fila:
+  //      ref | nombre | material | precio | descripcion | foto_url | foto_url_2 | foto_url_3 | etiqueta
+  //    - material: Acero / Oro Laminado / Rodio / Piedras
+  //    - foto_url, foto_url_2, foto_url_3: links directos a fotos (opcionales).
+  //      foto_url es la foto principal (la que se ve en el catálogo). Las
+  //      columnas _2 y _3 son fotos adicionales que solo aparecen en el
+  //      detalle del producto, como un carrusel. Se pueden dejar vacías
+  //      si el producto solo tiene una foto, o ninguna.
+  //    - etiqueta: texto corto opcional, ej. "Más vendida" o "Exclusiva"
+  // 2) En Sheets: Archivo → Compartir → Publicar en la web → formato CSV.
+  // 3) Pega aquí ese link. Si lo dejas vacío (""), la página usa el
+  //    catálogo de ejemplo que ya viene escrito en este archivo, así que
+  //    NUNCA se rompe aunque la hoja no esté lista o falle la conexión.
+  sheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSJlO7-qJgcxnLUWsWzbp6gtLNFdAe2Lb82YcQz59TohAaasPo5MTPtoztC0Pte_OYkUuSLHzdQOlE/pub?output=csv",
+};
+
+/* Materiales: tono principal usado en insignias e iconos.
+   "metal" en piezas de piedras indica el engaste (por ahora, solo rodio). */
+const MATERIALS = {
+  acero:        { label:"Acero",        tone:"#9BA1A6" },
+  oro_laminado: { label:"Oro Laminado", tone:"#D9B97B" },
+  rodio:        { label:"Rodio",        tone:"#C7CBCE" },
+  piedras:      { label:"Piedras",      tone:"#7A2230" },
+};
+const MATERIAL_ORDER = ["acero","oro_laminado","rodio","piedras"];
+
+const MATERIAL_DEFAULT_TONES = {
+  acero:["#9BA1A6","#C7CBCE"],
+  oro_laminado:["#D9B97B","#B6904B"],
+  rodio:["#C7CBCE","#8B9096"],
+  piedras:["#7A2230","#16171A"],
+};
+
+/* Catálogo de ejemplo — reemplaza nombres, precios y descripciones
+   por tu catálogo real. Las imágenes son ilustraciones generadas;
+   más adelante puedes sustituirlas por fotografía de producto. */
+const PRODUCTS = [
+  { ref:"HB-01", name:"Bocas de Cenizas", material:"acero",        texture:"tejida", tones:["#9BA1A6","#D9D5CC"], charm:false, parejas:false, price:58000,  badge:"Más vendida", desc:"Acero quirúrgico en dos tonos. Resistente al agua y al uso diario, para él o para ella." },
+  { ref:"HB-02", name:"Malecón",          material:"acero",        texture:"cadena", tones:["#9BA1A6"],            charm:false, parejas:false, price:72000,  badge:"Más vendida", desc:"Cadena de acero unisex, cierre ajustable. Nuestra base más pedida." },
+  { ref:"HB-03", name:"Brisa Loca",       material:"acero",        texture:"tejida", tones:["#9BA1A6","#2E9A93"], charm:false, parejas:false, price:65000,  badge:null,           desc:"Acero con hilo turquesa tejido a mano. Fresca y resistente." },
+  { ref:"HB-04", name:"Reina del Carnaval",material:"oro_laminado",texture:"tejida", tones:["#D9B97B","#C77B8C"], charm:true,  parejas:false, price:145000, badge:null,           desc:"Oro laminado y rosa, tejido fino con un dije a juego." },
+  { ref:"HB-05", name:"Oro del Caribe",   material:"oro_laminado", texture:"cadena", tones:["#D9B97B"],            charm:false, parejas:true,  price:165000, badge:null,           desc:"Set de dos cadenas en oro laminado, una para cada uno. Brillo cálido para uso diario." },
+  { ref:"HB-06", name:"Plata de Luna",    material:"rodio",        texture:"cadena", tones:["#C7CBCE"],            charm:false, parejas:false, price:158000, badge:null,           desc:"Rodio de brillo blanco e intenso, hipoalergénico." },
+  { ref:"HB-07", name:"Garabato",         material:"rodio",        texture:"tejida", tones:["#C7CBCE","#16171A"], charm:false, parejas:true,  price:142000, badge:null,           desc:"Set de pareja en rodio y negro tejidos a mano. Dos piezas que hacen juego." },
+  { ref:"HB-08", name:"Marimonda",        material:"piedras",      texture:"piedras",tones:["#7A2230","#16171A","#D9B97B"], metal:"rodio", charm:false, parejas:false, price:128000, badge:null, desc:"Piedras en rojo, negro y dorado, engastadas en rodio. Inspirada en el carnaval." },
+  { ref:"HB-09", name:"Manglar",          material:"piedras",      texture:"piedras",tones:["#355E3B","#6E8F6B"],            metal:"rodio", charm:false, parejas:false, price:118000, badge:null, desc:"Piedras verdes engastadas en rodio. Discreta y elegante." },
+  { ref:"HB-10", name:"Cumbia Eterna",    material:"piedras",      texture:"piedras",tones:["#7A2230","#D9B97B","#16171A"], metal:"rodio", charm:true,  parejas:false, price:168000, badge:"Exclusiva", desc:"La pieza de piedras más elaborada del taller, con dije central." },
+];
+
+const SWATCHES = [
+  {name:"Onyx",        hex:"#16171A"},
+  {name:"Marfil",      hex:"#F2EDE3"},
+  {name:"Turquesa",    hex:"#2E9A93"},
+  {name:"Coral",       hex:"#C76B4A"},
+  {name:"Esmeralda",   hex:"#2F5E45"},
+  {name:"Zafiro",      hex:"#2F4F7A"},
+  {name:"Granate",     hex:"#7A2230"},
+  {name:"Cuarzo Rosa", hex:"#C77B8C"},
+  {name:"Champagne",   hex:"#D9B97B"},
+  {name:"Perla",       hex:"#C7CBCE"},
+];
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+const fmtCOP = n => "$ " + n.toLocaleString("es-CO");
+const waLink = (text) => `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
+
+// Convierte texto libre de la hoja ("Oro Laminado", "rodio", " Acero ")
+// en la clave interna que usa el sitio (oro_laminado, rodio, acero...).
+function normalizeMaterial(raw){
+  const key = (raw || "").toString().trim().toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "_");
+  return MATERIALS[key] ? key : "acero";
+}
+
+// Lee el catálogo desde el Google Sheet publicado en CONFIG.sheetCsvUrl.
+// Si no hay link, si falla la conexión, o si la librería no cargó,
+// no hace nada y el sitio sigue usando el catálogo de ejemplo de arriba.
+async function loadProductsFromSheet(){
+  if (!CONFIG.sheetCsvUrl || typeof Papa === "undefined") return false;
+  try {
+    const res = await fetch(CONFIG.sheetCsvUrl, { cache:"no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const csvText = await res.text();
+    const parsed = Papa.parse(csvText, { header:true, skipEmptyLines:true });
+    const rows = (parsed.data || []).filter(r => r.nombre && String(r.nombre).trim());
+    if (!rows.length) throw new Error("La hoja está vacía o falta la columna 'nombre'");
+
+    const mapped = rows.map((r, i) => {
+      const material = normalizeMaterial(r.material);
+      const parejasRaw = (r.parejas || "").toString().trim().toLowerCase();
+      const parejas = ["si","sí","x","true","1","yes"].includes(parejasRaw);
+      const fotos = [r.foto_url, r.foto_url_2, r.foto_url_3]
+        .map(f => (f || "").toString().trim())
+        .filter(Boolean);
+      return {
+        ref: (r.ref || ("HB-" + String(i + 1).padStart(2, "0"))).toString().trim(),
+        name: String(r.nombre).trim(),
+        material,
+        texture: "tejida",
+        tones: MATERIAL_DEFAULT_TONES[material],
+        metal: material === "piedras" ? "rodio" : "rodio",
+        charm: false,
+        parejas,
+        price: parseInt(String(r.precio || "0").replace(/[^\d]/g, ""), 10) || 0,
+        badge: (r.etiqueta || "").toString().trim() || null,
+        desc: (r.descripcion || "").toString().trim(),
+        foto: fotos[0] || "",
+        fotos,
+      };
+    });
+
+    PRODUCTS.length = 0;
+    PRODUCTS.push(...mapped);
+    return true;
+  } catch (err) {
+    console.warn("HEBRA: no se pudo cargar el catálogo desde Google Sheets, se usa el catálogo de respaldo.", err);
+    return false;
+  }
+}
+
+function braceletSVG(p){
+  if (p.texture === "piedras") return gemsSVG(p);
+  if (p.texture === "cadena")  return chainSVG(p);
+  return braidSVG(p);
+}
+
+// Si el producto trae foto_url (desde el Sheet o editada a mano), se usa
+// la foto real. Si no, se dibuja el ícono ilustrado como hasta ahora.
+function productVisual(p){
+  if (p.foto) return `<img src="${p.foto}" alt="${p.name}" loading="lazy" decoding="async">`;
+  return braceletSVG(p);
+}
+
+function braidSVG(p){
+  const c = (p.tones && p.tones.length) ? p.tones : ["#B6904B","#17181A"];
+  const c0=c[0], c1=c[1]||c[0], c2=c[2];
+  return `<svg viewBox="0 0 160 70" class="bracelet-svg" preserveAspectRatio="xMidYMid meet">
+    <path class="strand" d="M5,35 C25,10 45,60 65,35 C85,10 105,60 125,35 C140,20 150,45 155,35" stroke="${c0}"/>
+    <path class="strand" d="M5,38 C25,55 45,15 65,38 C85,55 105,15 125,38 C140,48 150,22 155,38" stroke="${c1}"/>
+    ${c2 ? `<path class="strand" d="M5,32 C25,18 45,52 65,32 C85,18 105,52 125,32 C140,28 150,40 155,32" stroke="${c2}"/>` : ""}
+    <g class="knots">
+      <circle cx="25" cy="33"/><circle cx="45" cy="38"/><circle cx="65" cy="33"/>
+      <circle cx="85" cy="38"/><circle cx="105" cy="33"/><circle cx="125" cy="38"/>
+    </g>
+    <circle class="clasp" cx="6" cy="35" r="5" stroke="${c0}"/>
+    <circle class="clasp" cx="154" cy="35" r="5" stroke="${c0}"/>
+    ${p.charm ? `<line class="charm-line" x1="140" y1="38" x2="140" y2="53" stroke="${c0}"/><circle class="charm" cx="140" cy="57" r="5" fill="${c0}"/>` : ""}
+  </svg>`;
+}
+
+function chainSVG(p){
+  const c0 = (p.tones && p.tones[0]) || "#9BA1A6";
+  const c1 = (p.tones && p.tones[1]) || c0;
+  const xs = [18,40,62,84,106,128,148];
+  const links = xs.map((x,i)=>`<ellipse class="link" cx="${x}" cy="35" rx="13" ry="7" transform="rotate(${i%2?18:-18} ${x} 35)" stroke="${i%2?c1:c0}"/>`).join("");
+  return `<svg viewBox="0 0 160 70" class="bracelet-svg" preserveAspectRatio="xMidYMid meet">
+    ${links}
+    <circle class="clasp" cx="6" cy="35" r="5" stroke="${c0}"/>
+    <circle class="clasp" cx="154" cy="35" r="5" stroke="${c0}"/>
+    ${p.charm ? `<line class="charm-line" x1="140" y1="38" x2="140" y2="53" stroke="${c0}"/><circle class="charm" cx="140" cy="57" r="5" fill="${c0}"/>` : ""}
+  </svg>`;
+}
+
+function gemsSVG(p){
+  const gems = (p.tones && p.tones.length) ? p.tones : ["#7A2230","#16171A","#B6904B"];
+  const metal = (MATERIALS[p.metal] && MATERIALS[p.metal].tone) || "#C7CBCE";
+  const xs = [22,45,68,91,114,137];
+  const stones = xs.map((x,i)=>`<g transform="translate(${x} 35) rotate(45)"><rect class="gem" x="-7" y="-7" width="14" height="14" fill="${gems[i % gems.length]}" stroke="${metal}"/></g><circle cx="${x-2.5}" cy="32" r="1.1" fill="#fff" opacity=".7"/>`).join("");
+  return `<svg viewBox="0 0 160 70" class="bracelet-svg" preserveAspectRatio="xMidYMid meet">
+    <line class="band" x1="10" y1="35" x2="150" y2="35" stroke="${metal}"/>
+    ${stones}
+    <circle class="clasp" cx="6" cy="35" r="5" stroke="${metal}"/>
+    <circle class="clasp" cx="154" cy="35" r="5" stroke="${metal}"/>
+    ${p.charm ? `<line class="charm-line" x1="140" y1="38" x2="140" y2="53" stroke="${metal}"/><circle class="charm" cx="140" cy="57" r="5" fill="${metal}"/>` : ""}
+  </svg>`;
+}
+
+/* ============================================================
+   HEADER: scroll state, mega menu, mobile nav
+   ============================================================ */
+const header = document.getElementById("siteHeader");
+const heroArt = document.querySelector(".hero-art");
+const heroSection = document.getElementById("inicio");
+const scrollCue = document.getElementById("scrollCue");
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Estado combinado del hero-art: el scroll aporta traslado/escala/rotación de
+// "salida", el mouse aporta un tilt 3D sutil. Se combinan en una sola cadena
+// de transform para no pisarse entre sí (cada handler solo actualiza su parte).
+const heroArtState = { scrollY: 0, scale: 1, rotate: 0, tiltX: 0, tiltY: 0 };
+function applyHeroArtTransform(){
+  if (!heroArt) return;
+  heroArt.style.transform =
+    `translateY(${heroArtState.scrollY}px) scale(${heroArtState.scale}) rotate(${heroArtState.rotate}deg) rotateX(${heroArtState.tiltX}deg) rotateY(${heroArtState.tiltY}deg)`;
+}
+
+window.addEventListener("scroll", () => {
+  header.classList.toggle("is-scrolled", window.scrollY > 40);
+  scrollCue?.classList.toggle("is-hidden", window.scrollY > 80);
+
+  // Parallax multicapa: mientras el hero sigue visible, el arte se mueve más
+  // lento que el scroll y, a medida que va saliendo de pantalla, también se
+  // encoge y rota un poco — un pequeño gesto de "cierre" antes de pasar al
+  // catálogo. Se desactiva por completo si el usuario prefiere menos movimiento.
+  if (heroArt && heroSection && !prefersReducedMotion){
+    const rect = heroSection.getBoundingClientRect();
+    if (rect.bottom > 0){
+      const progress = Math.min(1, Math.max(0, -rect.top / Math.max(rect.height, 1)));
+      heroArtState.scrollY = window.scrollY * 0.12;
+      heroArtState.scale = 1 - progress * 0.08;
+      heroArtState.rotate = progress * -4;
+      applyHeroArtTransform();
+    }
+  }
+}, { passive:true });
+
+// Tilt 3D sutil siguiendo el cursor. Se escucha solo sobre .hero-art (no
+// sobre toda la sección) para que la imagen reaccione al hover directo,
+// no al movimiento del mouse sobre el texto. Solo en dispositivos con
+// puntero fino (desktop) y si el usuario no pidió menos movimiento.
+if (heroArt && window.matchMedia("(pointer: fine)").matches && !prefersReducedMotion){
+  heroArt.addEventListener("mousemove", (e) => {
+    const rect = heroArt.getBoundingClientRect();
+    const relX = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+    const relY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+    heroArtState.tiltY = Math.max(-1, Math.min(1, relX)) * 8;
+    heroArtState.tiltX = Math.max(-1, Math.min(1, relY)) * -8;
+    applyHeroArtTransform();
+  });
+  heroArt.addEventListener("mouseleave", () => {
+    heroArtState.tiltX = 0;
+    heroArtState.tiltY = 0;
+    applyHeroArtTransform();
+  });
+}
+
+scrollCue?.addEventListener("click", () => {
+  document.getElementById("catalogo")?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+});
+
+// Contadores animados de las estadísticas del hero. Corren una sola vez.
+function animateCounter(el, target, suffix = ""){
+  if (!el || isNaN(target)) return;
+  if (prefersReducedMotion){
+    el.textContent = target + suffix;
+    return;
+  }
+  const duration = 1100;
+  const start = performance.now();
+  function tick(now){
+    const p = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(eased * target) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+// Los contadores de "4 materiales" arrancan recién cuando el bloque hero-ref
+// termina su propia animación de entrada (heroReveal) y se vuelve visible.
+// Si se dispararan al cargar el script (mientras el bloque sigue oculto por
+// el delay de la entrada en cascada), el conteo terminaría antes de que el
+// usuario pueda verlo — por eso se sincroniza con el evento real, no con un
+// tiempo fijo adivinado a mano.
+const heroRef = document.querySelector(".hero-ref");
+function startHeroRefCounters(){
+  document.querySelectorAll("[data-count-to]:not(#statPiezas)").forEach(el => {
+    animateCounter(el, parseInt(el.dataset.countTo, 10), el.dataset.suffix || "");
+  });
+}
+if (heroRef){
+  heroRef.addEventListener("animationend", function onReveal(e){
+    if (e.animationName !== "heroReveal") return;
+    heroRef.removeEventListener("animationend", onReveal);
+    startHeroRefCounters();
+  });
+} else {
+  startHeroRefCounters();
+}
+
+
+const megaMenu = document.getElementById("megaMenu");
+function renderMegaMenu(){
+  megaMenu.innerHTML = MATERIAL_ORDER.map(id => {
+    const sample = PRODUCTS.find(p=>p.material===id);
+    if (!sample) return "";
+    return `<a class="mega-item" href="#catalogo" data-cat="${id}">
+      <span class="mega-icon">${braceletSVG(sample)}</span>
+      <span class="mega-text"><strong>${MATERIALS[id].label}</strong><span>${PRODUCTS.filter(p=>p.material===id).length} diseños</span></span>
+    </a>`;
+  }).join("") + `<div class="mega-all"><a href="#catalogo">Ver catálogo completo →</a></div>`;
+  megaMenu.querySelectorAll(".mega-item").forEach(item => {
+    item.addEventListener("click", () => setFilter(item.dataset.cat));
+  });
+}
+
+document.getElementById("navCatalogo").addEventListener("click", (e) => {
+  if (e.target.closest(".mega-item")) return;
+  document.getElementById("navCatalogo").classList.toggle("is-open");
+});
+
+// mobile nav
+const burgerBtn = document.getElementById("burgerBtn");
+const mobileNav = document.getElementById("mobileNav");
+const mobileSub = document.getElementById("mobileSub");
+mobileSub.innerHTML = MATERIAL_ORDER.map(id => `<a href="#catalogo" data-cat="${id}">${MATERIALS[id].label}</a>`).join("");
+
+burgerBtn.addEventListener("click", () => {
+  burgerBtn.classList.toggle("is-active");
+  mobileNav.classList.toggle("is-open");
+});
+mobileNav.querySelectorAll("a").forEach(a => a.addEventListener("click", (e) => {
+  if (a.id === "mobileCatalogoToggle") {
+    e.preventDefault();
+    mobileSub.classList.toggle("is-open");
+    return;
+  }
+  if (a.dataset.cat) setFilter(a.dataset.cat);
+  burgerBtn.classList.remove("is-active");
+  mobileNav.classList.remove("is-open");
+}));
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+const marqueeItems = ["Acero inoxidable","Oro laminado","Rodio","Piedras naturales","Diseños unisex","Piezas exclusivas","Hecho en Villavicencio"];
+const marqueeHTML = marqueeItems.map(t=>`<span>${t}</span>`).join("");
+document.getElementById("marqueeTrack").innerHTML = marqueeHTML + marqueeHTML;
+
+/* ============================================================
+   CATÁLOGO: render, filtros, lightbox
+   ============================================================ */
+const filtersEl = document.getElementById("filters");
+const gridEl = document.getElementById("catalogGrid");
+const emptyEl = document.getElementById("catalogEmpty");
+let currentFilter = "todas";     // "todas" o una clave de MATERIALS
+let catalogTab = "individual";   // "individual" o "parejas" — secciones independientes, nunca se mezclan
+
+document.querySelectorAll(".catalog-tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    catalogTab = btn.dataset.tab;
+    currentFilter = "todas"; // al cambiar de sección, se reinicia el filtro de material
+    document.querySelectorAll(".catalog-tab").forEach(b => b.classList.toggle("is-active", b===btn));
+    renderFilters();
+    renderGridTransition();
+  });
+});
+
+function renderFilters(){
+  const all = [{id:"todas",label:"Todas"}, ...MATERIAL_ORDER.map(id=>({id,label:MATERIALS[id].label}))];
+  filtersEl.innerHTML = all.map(c => `<button class="filter-chip ${c.id===currentFilter?'is-active':''}" data-id="${c.id}">${c.label}</button>`).join("");
+  filtersEl.querySelectorAll(".filter-chip").forEach(btn => btn.addEventListener("click", () => setFilter(btn.dataset.id)));
+}
+
+function setFilter(id){
+  currentFilter = id;
+  renderFilters();
+  renderGridTransition();
+  document.getElementById("catalogo").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+// Antes, al cambiar filtro/tab, gridEl.innerHTML se reemplazaba de golpe: las
+// tarjetas nuevas entraban con animación pero las viejas desaparecían sin
+// ninguna transición de salida. Este wrapper resuelve ese corte: hace un
+// fade-out breve, y solo entonces vuelve a pintar (con el fade-in de siempre).
+function renderGridTransition(){
+  const hasCards = gridEl.querySelectorAll(".bracelet-card").length > 0;
+  if (!hasCards || prefersReducedMotion){ renderGrid(); return; }
+  gridEl.classList.add("is-leaving");
+  setTimeout(() => {
+    renderGrid();
+    gridEl.classList.remove("is-leaving");
+  }, 200);
+}
+
+function cardTags(p){
+  let html = `<span class="tag tag--material" style="color:${MATERIALS[p.material].tone}">${MATERIALS[p.material].label}</span>`;
+  if (p.parejas) html += `<span class="tag tag--parejas">Parejas</span>`;
+  if (p.badge) html += `<span class="tag tag--badge">${p.badge}</span>`;
+  return html;
+}
+
+const careIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>`;
+function careNote(p){
+  if (p.material === "rodio" || p.material === "piedras"){
+    return `<p class="care-note">${careIcon}El rodio puede perder brillo o color con el uso prolongado.</p>`;
+  }
+  return "";
+}
+
+// Se pinta antes de esperar el fetch del Sheet, para que el catálogo nunca
+// se vea vacío mientras carga (antes no había ningún indicador).
+function renderSkeleton(){
+  const card = `
+    <div class="skel-card" aria-hidden="true">
+      <div class="skel-block skel-frame"></div>
+      <div class="skel-block skel-line" style="width:40%"></div>
+      <div class="skel-block skel-line skel-line--name"></div>
+      <div class="skel-block skel-line skel-line--desc"></div>
+      <div class="skel-block skel-line skel-line--desc2"></div>
+      <div class="skel-block skel-line skel-line--price"></div>
+    </div>`;
+  gridEl.innerHTML = card.repeat(6);
+}
+
+function renderGrid(){
+  let list = catalogTab === "parejas" ? PRODUCTS.filter(p => p.parejas) : PRODUCTS.filter(p => !p.parejas);
+  if (currentFilter !== "todas") list = list.filter(p => p.material === currentFilter);
+
+  emptyEl.hidden = list.length > 0;
+  gridEl.innerHTML = list.map((p,i) => `
+    <article class="bracelet-card card-stagger" data-ref="${p.ref}" style="animation-delay:${Math.min(i,8)*60}ms">
+      <div class="card-frame ${p.foto ? 'card-frame--photo' : ''}">${productVisual(p)}</div>
+      <div class="card-top">
+        <span class="card-ref">Ref. ${p.ref}</span>
+        <div class="card-tags">${cardTags(p)}</div>
+      </div>
+      <h3 class="card-name">${p.name}</h3>
+      <p class="card-desc">${p.desc}</p>
+      ${careNote(p)}
+      <div class="card-bottom">
+        <span class="card-price">${fmtCOP(p.price)}</span>
+        <span class="card-cta">Pedir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </article>`).join("");
+  gridEl.querySelectorAll(".bracelet-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const img = card.querySelector(".card-frame--photo img");
+      openLightboxFromCard(card.dataset.ref, img);
+    });
+    attachCardTilt(card);
+  });
+}
+
+// Tilt 3D real sobre la tarjeta (solo desktop con mouse fino, respeta reduced-motion):
+// inclina la tarjeta según la posición del cursor y desplaza la imagen interior
+// en sentido contrario, dando profundidad real en vez de solo una sombra.
+const canTilt = window.matchMedia("(pointer: fine)").matches && !prefersReducedMotion;
+function attachCardTilt(card){
+  if (!canTilt) return;
+  const MAX_TILT = 7; // grados
+  card.addEventListener("mousemove", (e) => {
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width;  // 0..1
+    const py = (e.clientY - r.top) / r.height;  // 0..1
+    const rx = (py - .5) * -MAX_TILT * 2;
+    const ry = (px - .5) * MAX_TILT * 2;
+    card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+  });
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "";
+  });
+}
+
+// Lightbox
+const lightboxOverlay = document.getElementById("lightboxOverlay");
+let carouselIndex = 0;
+let carouselProduct = null;
+let carouselFotos = [];
+let lightboxLastFocused = null; // elemento que tenía el foco antes de abrir el lightbox, para restaurarlo al cerrar
+
+function goToSlide(i, fotos){
+  carouselIndex = i;
+  const img = document.getElementById("carouselImg");
+  if (img){
+    const nextSrc = fotos[carouselIndex];
+    let swapped = false;
+    const swap = () => {
+      if (swapped) return;
+      swapped = true;
+      img.src = nextSrc;
+      img.style.opacity = "1";
+    };
+    img.style.opacity = "0";
+    const preload = new Image();
+    preload.onload = () => setTimeout(swap, 120); // deja terminar el fade-out antes de revelar
+    preload.onerror = swap;
+    preload.src = nextSrc;
+    setTimeout(swap, 900); // salvavidas: con conexión lenta, igual se revela, nunca se queda "trabada" en blanco
+  }
+  document.querySelectorAll("#carouselDots .carousel-dot").forEach((dot,idx)=>{
+    dot.classList.toggle("is-active", idx===carouselIndex);
+  });
+}
+
+function renderCarousel(){
+  const p = carouselProduct;
+  const art = document.getElementById("lightboxArt");
+  const fotos = (p.fotos && p.fotos.length) ? p.fotos : (p.foto ? [p.foto] : []);
+  carouselFotos = fotos;
+
+  if (!fotos.length){
+    art.classList.remove("lightbox-art--photo");
+    art.innerHTML = braceletSVG(p);
+    return;
+  }
+
+  art.classList.add("lightbox-art--photo");
+  fotos.forEach(src => { const pre = new Image(); pre.src = src; }); // precarga silenciosa para que cambiar de foto sea instantáneo
+  const arrows = fotos.length > 1 ? `
+    <button class="carousel-arrow carousel-arrow--prev" id="carouselPrev" aria-label="Foto anterior">‹</button>
+    <button class="carousel-arrow carousel-arrow--next" id="carouselNext" aria-label="Foto siguiente">›</button>
+    <div class="carousel-dots" id="carouselDots">
+      ${fotos.map((_,i)=>`<button class="carousel-dot ${i===carouselIndex?'is-active':''}" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join("")}
+    </div>` : "";
+  art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" loading="lazy" style="transition:opacity .18s var(--ease)">${arrows}`;
+
+  if (fotos.length > 1){
+    document.getElementById("carouselPrev").addEventListener("click", (e)=>{ e.stopPropagation(); goToSlide((carouselIndex-1+fotos.length)%fotos.length, fotos); });
+    document.getElementById("carouselNext").addEventListener("click", (e)=>{ e.stopPropagation(); goToSlide((carouselIndex+1)%fotos.length, fotos); });
+    document.getElementById("carouselDots").querySelectorAll(".carousel-dot").forEach(dot=>{
+      dot.addEventListener("click", (e)=>{ e.stopPropagation(); goToSlide(parseInt(dot.dataset.i,10), fotos); });
+    });
+  }
+}
+
+function fillLightboxContent(p){
+  carouselProduct = p;
+  carouselIndex = 0;
+  renderCarousel();
+  document.getElementById("lightboxRef").textContent = "Ref. " + p.ref;
+  document.getElementById("lightboxName").textContent = p.name;
+  document.getElementById("lightboxTags").innerHTML = cardTags(p);
+  document.getElementById("lightboxDesc").textContent = p.desc;
+  document.getElementById("lightboxPrice").textContent = fmtCOP(p.price);
+  document.getElementById("lightboxCare").innerHTML = careNote(p);
+  const parejasTxt = p.parejas ? ", Set de Parejas" : "";
+  const msg = `Hola HEBRA, quiero pedir la manilla "${p.name}" (Ref. ${p.ref}, ${MATERIALS[p.material].label}${parejasTxt}) por ${fmtCOP(p.price)}. ¿Me ayudas con el pedido?`;
+  document.getElementById("lightboxWa").href = waLink(msg);
+}
+
+function openLightbox(ref){
+  const p = PRODUCTS.find(x=>x.ref===ref);
+  fillLightboxContent(p);
+  lightboxLastFocused = document.activeElement;
+  lightboxOverlay.classList.add("is-open");
+  document.getElementById("lightboxClose").focus();
+}
+
+// Abre el lightbox desde una tarjeta del grid haciendo que la foto "viaje"
+// desde su posición real en la tarjeta hasta su lugar en el lightbox (FLIP:
+// First-Last-Invert-Play), en vez del corte seco anterior. Si la tarjeta no
+// tiene foto (SVG de respaldo) o hay reduced-motion, cae de vuelta al open normal.
+function openLightboxFromCard(ref, imgEl){
+  const p = PRODUCTS.find(x=>x.ref===ref);
+  if (!imgEl || prefersReducedMotion){ openLightbox(ref); return; }
+
+  const startRect = imgEl.getBoundingClientRect();
+  if (!startRect.width || !startRect.height){ openLightbox(ref); return; }
+  const startSrc = imgEl.currentSrc || imgEl.src;
+
+  fillLightboxContent(p);
+  const art = document.getElementById("lightboxArt");
+  art.classList.add("lightbox-art--flipping"); // oculta el arte real mientras viaja el clon
+
+  lightboxLastFocused = document.activeElement;
+  lightboxOverlay.classList.add("is-priming", "is-open"); // congela el transform del panel para poder medir su posición final
+  void lightboxOverlay.offsetHeight; // fuerza reflow antes de medir (única lectura de layout que necesitamos)
+  const targetRect = art.getBoundingClientRect();
+  lightboxOverlay.classList.remove("is-priming");
+
+  // El clon nace YA en su caja final (mismo top/left/width/height que ocupará
+  // la foto real) y solo anima "transform" (translate + scale) para volver a
+  // su tamaño identidad. Es compositor puro: no dispara layout en cada frame,
+  // por eso deja de sentirse pesado o tardío como con top/left/width/height.
+  const clone = document.createElement("img");
+  clone.src = startSrc;
+  clone.alt = "";
+  clone.className = "lightbox-flip-clone";
+  clone.style.top = targetRect.top + "px";
+  clone.style.left = targetRect.left + "px";
+  clone.style.width = targetRect.width + "px";
+  clone.style.height = targetRect.height + "px";
+  const dx = startRect.left - targetRect.left;
+  const dy = startRect.top - targetRect.top;
+  const sx = startRect.width / targetRect.width;
+  const sy = startRect.height / targetRect.height;
+  clone.style.transition = "none";
+  clone.style.transform = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
+  document.body.appendChild(clone);
+  void clone.offsetWidth; // aplica el transform inicial antes de animar (sin esperar frames)
+  clone.style.transition = "transform .38s var(--ease)";
+  clone.style.transform = "translate(0,0) scale(1,1)";
+
+  const revealArt = () => {
+    art.classList.remove("lightbox-art--flipping");
+    clone.remove();
+  };
+  let flightDone = false;
+  const onFlightEnd = () => {
+    if (flightDone) return;
+    flightDone = true;
+    clone.removeEventListener("transitionend", onFlightEnd);
+    const realImg = document.getElementById("carouselImg");
+    // el clon se queda de puente hasta que la foto real termine de cargar,
+    // así nunca hay un instante en blanco entre el vuelo y el contenido real
+    if (realImg && !realImg.complete){
+      realImg.addEventListener("load", revealArt, { once:true });
+      realImg.addEventListener("error", revealArt, { once:true });
+      setTimeout(revealArt, 600); // salvavidas por conexión lenta
+    } else {
+      revealArt();
+    }
+    document.getElementById("lightboxClose").focus();
+  };
+  clone.addEventListener("transitionend", onFlightEnd);
+  setTimeout(onFlightEnd, 460); // salvavidas por si el navegador no dispara transitionend
+}
+function closeLightbox(){
+  lightboxOverlay.classList.remove("is-open");
+  if (lightboxLastFocused && typeof lightboxLastFocused.focus === "function"){
+    lightboxLastFocused.focus();
+  }
+}
+document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+lightboxOverlay.addEventListener("click", (e) => { if(e.target===lightboxOverlay) closeLightbox(); });
+document.addEventListener("keydown", (e) => {
+  if (!lightboxOverlay.classList.contains("is-open")) return;
+  if (e.key === "Escape"){ closeLightbox(); return; }
+  if (e.key === "Tab"){
+    const focusables = lightboxOverlay.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])');
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first){
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last){
+      e.preventDefault();
+      first.focus();
+    }
+    return;
+  }
+  if (!carouselProduct) return;
+  if (carouselFotos.length < 2) return;
+  if (e.key === "ArrowLeft"){ goToSlide((carouselIndex-1+carouselFotos.length)%carouselFotos.length, carouselFotos); }
+  if (e.key === "ArrowRight"){ goToSlide((carouselIndex+1)%carouselFotos.length, carouselFotos); }
+});
+
+// Intenta traer el catálogo desde Google Sheets; si no hay link, falla o
+// tarda, sigue de inmediato con el catálogo de ejemplo (nunca deja la
+// página en blanco ni rota esperando una respuesta).
+(async function initCatalog(){
+  renderSkeleton();
+  await loadProductsFromSheet();
+  renderMegaMenu();
+  renderFilters();
+  renderGrid();
+  document.getElementById("statPiezas").dataset.countTo = PRODUCTS.length;
+  animateCounter(document.getElementById("statPiezas"), PRODUCTS.length, "+");
+})();
+
+/* ============================================================
+   CREA TU MANILLA
+   ============================================================ */
+const customState = {
+  material:"acero",
+  texture:"tejida",
+  metal:"rodio",
+  colors:[], colorNames:[],
+  charm:false,
+  files:[],
+};
+
+// Material chips
+const materialPicker = document.getElementById("materialPicker");
+materialPicker.innerHTML = MATERIAL_ORDER.map(id => `<button class="chip ${id==='acero'?'is-active':''}" data-id="${id}" type="button"><span class="dot" style="background:${MATERIALS[id].tone}"></span>${MATERIALS[id].label}</button>`).join("");
+
+function syncCustomUI(){
+  const esPiedrasMaterial = customState.material === "piedras";
+  const esRodio = customState.material === "rodio";
+  const esEstiloPiedras = customState.texture === "piedras";
+  document.getElementById("estiloRow").classList.toggle("is-hidden", esPiedrasMaterial);
+  document.getElementById("engasteRow").classList.toggle("is-hidden", !esPiedrasMaterial);
+  document.getElementById("rodioNote").classList.toggle("is-hidden", !(esPiedrasMaterial || esRodio));
+  document.getElementById("previewMaterial").textContent = "Material: " + MATERIALS[customState.material].label;
+  document.getElementById("swatchLabel").textContent = esEstiloPiedras ? "Elige tus piedras (máx. 2)" : "Elige tus tonos (máx. 2)";
+  // el engaste de las piedras es el material elegido (o rodio si "Piedras" es el material de base)
+  customState.metal = esPiedrasMaterial ? "rodio" : customState.material;
+}
+
+materialPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
+  const veniaDePiedrasMaterial = customState.material === "piedras";
+  customState.material = btn.dataset.id;
+  materialPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
+  const esPiedras = customState.material === "piedras";
+  if (esPiedras) {
+    customState.texture = "piedras";
+  } else if (veniaDePiedrasMaterial) {
+    customState.texture = "tejida";
+  }
+  estiloPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b.dataset.id===customState.texture));
+  syncCustomUI();
+  updatePreview();
+}));
+
+// Estilo chips (tejida / piedras) — solo para materiales que no sean "Piedras"
+const estiloPicker = document.getElementById("estiloPicker");
+estiloPicker.innerHTML = `<button class="chip is-active" data-id="tejida" type="button">Tejida</button><button class="chip" data-id="piedras" type="button">Piedras</button>`;
+estiloPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
+  customState.texture = btn.dataset.id;
+  estiloPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
+  syncCustomUI();
+  updatePreview();
+}));
+
+const swatchPicker = document.getElementById("swatchPicker");
+swatchPicker.innerHTML = SWATCHES.map(s => `<button class="swatch" style="background:${s.hex}" data-hex="${s.hex}" data-name="${s.name}" title="${s.name}" type="button"></button>`).join("");
+
+function updatePreview(){
+  const tones = customState.colors.length ? customState.colors : MATERIAL_DEFAULT_TONES[customState.material];
+  const pseudo = { texture:customState.texture, tones, metal:customState.metal, charm:customState.charm };
+  document.getElementById("previewSvg").innerHTML = braceletSVG(pseudo);
+  document.getElementById("previewColorsLabel").textContent = customState.colors.length
+    ? "Tonos: " + customState.colorNames.join(" + ")
+    : "Elige hasta 2 tonos →";
+  validateForm();
+}
+
+swatchPicker.querySelectorAll(".swatch").forEach(sw => {
+  sw.addEventListener("click", () => {
+    const hex = sw.dataset.hex, name = sw.dataset.name;
+    const idx = customState.colors.indexOf(hex);
+    if (idx > -1){
+      customState.colors.splice(idx,1);
+      customState.colorNames.splice(idx,1);
+      sw.classList.remove("is-selected");
+    } else {
+      if (customState.colors.length >= 2) return;
+      customState.colors.push(hex);
+      customState.colorNames.push(name);
+      sw.classList.add("is-selected");
+    }
+    document.getElementById("swatchHelp").textContent = `${customState.colors.length} de 2 seleccionados`;
+    updatePreview();
+  });
+});
+
+const charmToggle = document.getElementById("charmToggle");
+charmToggle.addEventListener("click", () => {
+  customState.charm = !customState.charm;
+  charmToggle.classList.toggle("is-on", customState.charm);
+  charmToggle.setAttribute("aria-pressed", String(customState.charm));
+  updatePreview();
+});
+
+document.getElementById("ftOcasion").addEventListener("change", (e) => {
+  document.getElementById("previewOcasion").textContent = "Ocasión: " + (e.target.value || "—");
+  validateForm();
+});
+document.getElementById("ftTalla").addEventListener("change", (e) => {
+  document.getElementById("previewTalla").textContent = "Talla: " + (e.target.value || "—");
+  validateForm();
+});
+document.getElementById("ftName").addEventListener("input", validateForm);
+syncCustomUI();
+updatePreview(); // vista previa por defecto al cargar
+
+// uploads (solo vista previa local — ver nota en el formulario)
+const uploadBox = document.getElementById("uploadBox");
+const ftFiles = document.getElementById("ftFiles");
+const thumbsEl = document.getElementById("thumbs");
+uploadBox.addEventListener("click", () => ftFiles.click());
+ftFiles.addEventListener("change", () => {
+  thumbsEl.innerHTML = "";
+  customState.files = Array.from(ftFiles.files).slice(0,6);
+  customState.files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = document.createElement("img");
+      img.src = ev.target.result;
+      thumbsEl.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+function validateForm(){
+  const name = document.getElementById("ftName").value.trim();
+  const ocasion = document.getElementById("ftOcasion").value;
+  const ok = name.length>0 && ocasion.length>0;
+  document.getElementById("submitCustom").disabled = !ok;
+}
+
+document.getElementById("submitCustom").addEventListener("click", () => {
+  const name = document.getElementById("ftName").value.trim();
+  const phone = document.getElementById("ftPhone").value.trim();
+  const ocasion = document.getElementById("ftOcasion").value;
+  const talla = document.getElementById("ftTalla").value;
+  const mensaje = document.getElementById("ftMensaje").value.trim();
+  const fotos = customState.files.length;
+
+  let text = `Hola HEBRA, quiero diseñar mi propia manilla.\n`;
+  text += `Nombre: ${name}\n`;
+  if (phone) text += `Teléfono: ${phone}\n`;
+  text += `Material: ${MATERIALS[customState.material].label}\n`;
+  text += `Estilo: ${customState.texture === "piedras" ? "Con piedras" : "Tejida"}\n`;
+  if (customState.texture === "piedras") text += `Engaste: ${MATERIALS[customState.metal].label}\n`;
+  if (customState.colorNames.length) text += `Tonos / piedras: ${customState.colorNames.join(", ")}\n`;
+  text += `Dije o piedra central: ${customState.charm ? "Sí" : "No"}\n`;
+  if (ocasion) text += `Ocasión: ${ocasion}\n`;
+  if (talla) text += `Talla: ${talla}\n`;
+  if (mensaje) text += `Idea: ${mensaje}\n`;
+  if (fotos) text += `(Tengo ${fotos} foto(s) de inspiración para enviarte aquí mismo)\n`;
+
+  window.open(waLink(text), "_blank");
+  document.getElementById("confirmNote").classList.add("is-visible");
+});
+
+/* ============================================================
+   TESTIMONIOS — ejemplos, reemplaza por reseñas reales de clientes
+   ============================================================ */
+const TESTIMONIALS = [
+  { quote:"Pedí la Bocas de Cenizas en acero y llegó exactamente como en la foto. Un año de uso diario y sigue intacta.", name:"Cliente Ejemplo", location:"Villavicencio", stars:5 },
+  { quote:"Me hicieron una manilla personalizada con mis iniciales para regalo. El proceso por WhatsApp fue súper fácil.", name:"Cliente Ejemplo", location:"Bogotá", stars:5 },
+  { quote:"La calidad del oro laminado superó lo que esperaba por el precio. Definitivamente vuelvo a comprar.", name:"Cliente Ejemplo", location:"Acacías", stars:5 },
+];
+
+document.getElementById("testimoniosGrid").innerHTML = TESTIMONIALS.map(t => `
+  <div class="testimonio-card">
+    <div class="testimonio-top">
+      <span class="testimonio-stars">${"★".repeat(t.stars)}${"☆".repeat(5-t.stars)}</span>
+      <span class="tag tag--badge" style="color:var(--brass-light);border-color:var(--brass-light);">Ejemplo</span>
+    </div>
+    <p class="testimonio-quote">"${t.quote}"</p>
+    <p class="testimonio-name"><strong>${t.name}</strong>${t.location}</p>
+  </div>`).join("");
+
+/* ============================================================
+   ENLACES WHATSAPP GENERALES
+   ============================================================ */
+const generalMsg = `Hola HEBRA, vi su catálogo en la página web y quiero más información.`;
+["navWaBtn","footerWaBtn","footerWaLink","floatWaBtn"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.href = waLink(generalMsg);
+});
+const reviewMsg = `Hola HEBRA, ya tengo mi manilla y quiero dejarles mi opinión.`;
+const reviewBtn = document.getElementById("testimonioWaBtn");
+if (reviewBtn) reviewBtn.href = waLink(reviewMsg);
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+const revealEls = document.querySelectorAll(".reveal");
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(en => { if(en.isIntersecting) en.target.classList.add("is-visible"); });
+}, { threshold:.15 });
+revealEls.forEach(el => io.observe(el));
+
+document.getElementById("footerYear").textContent = "© " + new Date().getFullYear();
+
+// cerrar mega menú al hacer click fuera
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#navCatalogo")) document.getElementById("navCatalogo").classList.remove("is-open");
+});
+</script>
+</body>
+</html>
