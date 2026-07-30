@@ -393,6 +393,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .lightbox-art--flipping{opacity:0;}
 .lightbox-flip-clone{position:fixed;top:0;left:0;object-fit:cover;z-index:300;pointer-events:none;will-change:transform;transform-origin:top left;transition:transform .38s var(--ease);}
 .lightbox-art--photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease),opacity .3s var(--ease);}
+.carousel-photo-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bone-soft);}
+.carousel-photo-fallback svg{width:70%;height:auto;}
 .lightbox-art--photo:hover img{transform:scale(1.045);}
 .lightbox-art--photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,16,12,.22),transparent 42%);pointer-events:none;}
 .carousel-arrow{
@@ -578,16 +580,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .toggle.is-on{background:var(--clay);border-color:var(--clay);}
 .toggle.is-on::after{transform:translateX(17px);background:var(--bone);}
 
-.upload-pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.upload-box{border:1px dashed var(--bone-line);padding:1.6rem 1rem;text-align:center;cursor:pointer;transition:border-color .25s,background .25s;position:relative;}
-.upload-box:hover{border-color:var(--clay);background:rgba(122,34,48,.04);}
-.upload-box.has-image{border-style:solid;padding:0;overflow:hidden;aspect-ratio:1/1;}
-.upload-box svg{width:26px;height:26px;margin:0 auto .5rem;}
-.upload-box p{font-size:.8rem;color:var(--bone-text-dim);}
-.upload-box img{width:100%;height:100%;object-fit:cover;display:block;}
-.upload-box .upload-remove{position:absolute;top:.4rem;right:.4rem;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--bone);display:flex;align-items:center;justify-content:center;}
-.upload-box .upload-remove svg{width:14px;height:14px;margin:0;}
-@media (max-width:520px){.upload-pair{grid-template-columns:1fr;}}
 
 .form-note{font-size:.8rem;color:var(--bone-text-dim);margin-top:1rem;display:flex;gap:.6em;align-items:flex-start;}
 .form-note svg{width:1.1em;height:1.1em;flex:none;margin-top:.15em;color:var(--clay);}
@@ -982,32 +974,17 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
           <textarea id="ftMensaje" placeholder="Ej: la quiero con mi inicial, para regalo de cumpleaños..."></textarea>
         </div>
 
-        <div class="field">
-          <label>Fotos de inspiración (opcional)</label>
-          <div class="upload-pair">
-            <div>
-              <div class="upload-box" id="uploadBoxDije" data-slot="dije">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4M12 4l-4 4M12 4l4 4M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
-                <p>Foto del dije que te gusta</p>
-              </div>
-              <input type="file" id="ftFileDije" accept="image/*" hidden>
-            </div>
-            <div>
-              <div class="upload-box" id="uploadBoxManilla" data-slot="manilla">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4M12 4l-4 4M12 4l4 4M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
-                <p>Foto de la manilla que te gusta</p>
-              </div>
-              <input type="file" id="ftFileManilla" accept="image/*" hidden>
-            </div>
-          </div>
-        </div>
+        <p class="form-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          ¿Tienes foto del dije o de la manilla que te gusta? Perfecto — adjúntala directo aquí cuando te escribamos por WhatsApp.
+        </p>
 
         <button class="btn btn--solid" id="submitCustom" type="button" disabled>Enviar por WhatsApp</button>
         <p class="form-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          Al enviar se abrirá WhatsApp con tu pedido ya escrito. Si subiste fotos, adjúntalas también ahí mismo: por ahora no podemos enviarlas automáticamente desde la web.
+          Al enviar se abrirá WhatsApp con tu pedido ya escrito.
         </p>
-        <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con tu idea. Si tienes fotos, ¡no olvides adjuntarlas en el chat!</p>
+        <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con tu idea. ¡No olvides adjuntar tus fotos de inspiración en el chat!</p>
       </div>
     </div>
   </div>
@@ -1214,8 +1191,40 @@ function braceletSVG(p){
 // Si el producto trae foto_url (desde el Sheet o editada a mano), se usa
 // la foto real. Si no, se dibuja el ícono ilustrado como hasta ahora.
 function productVisual(p){
-  if (p.foto) return `<img src="${p.foto}" alt="${p.name}" loading="lazy" decoding="async">`;
+  if (p.foto) return `<img src="${p.foto}" alt="${p.name}" loading="lazy" decoding="async" data-ref="${p.ref}">`;
   return braceletSVG(p);
+}
+
+// Algunos hosts de imágenes gratuitos (ya nos pasó con Google Drive, y ahora con
+// postimg.cc) bloquean o limitan de forma intermitente las peticiones de <img>
+// "hotlinked" — la foto existe y es válida, pero a veces el navegador la recibe
+// vacía. Por eso nunca confiamos en un solo intento: si falla, reintentamos con
+// una URL "distinta" (mismo archivo + parámetro random) hasta 2 veces con una
+// pequeña espera; si sigue sin cargar, en vez de dejar el espacio en blanco
+// mostramos el ícono ilustrado de la manilla — nunca un hueco vacío.
+function attachPhotoFallback(img, product, opts = {}){
+  if (!img || !product) return;
+  const replaceParent = opts.replaceParent !== false;
+  let retries = 0;
+  img.addEventListener("error", () => {
+    retries++;
+    if (retries <= 2){
+      setTimeout(() => {
+        const base = img.src.split("?")[0];
+        img.src = base + "?retry=" + retries + "-" + Date.now();
+      }, 700 * retries);
+    } else if (replaceParent) {
+      // caso grid: la tarjeta entera cae de vuelta al ícono ilustrado, igual que un producto sin foto
+      const holder = img.parentElement;
+      if (!holder) return;
+      holder.classList.remove("card-frame--photo", "lightbox-art--photo");
+      holder.innerHTML = braceletSVG(product);
+    } else {
+      // caso carrusel del lightbox: solo se reemplaza esta foto puntual, sin tocar
+      // flechas/dots — las otras fotos del mismo producto pueden seguir funcionando
+      img.outerHTML = `<div class="carousel-photo-fallback">${braceletSVG(product)}</div>`;
+    }
+  });
 }
 
 function braidSVG(p){
@@ -1515,6 +1524,8 @@ function renderGrid(){
       openLightboxFromCard(card.dataset.ref, img);
     });
     attachCardTilt(card);
+    const photoImg = card.querySelector(".card-frame--photo img");
+    if (photoImg) attachPhotoFallback(photoImg, PRODUCTS.find(x => x.ref === card.dataset.ref));
   });
 }
 
@@ -1590,6 +1601,7 @@ function renderCarousel(){
       ${fotos.map((_,i)=>`<button class="carousel-dot ${i===carouselIndex?'is-active':''}" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join("")}
     </div>` : "";
   art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" loading="lazy" style="transition:opacity .18s var(--ease)">${arrows}`;
+  attachPhotoFallback(document.getElementById("carouselImg"), p, { replaceParent:false });
 
   if (fotos.length > 1){
     document.getElementById("carouselPrev").addEventListener("click", (e)=>{ e.stopPropagation(); goToSlide((carouselIndex-1+fotos.length)%fotos.length, fotos); });
@@ -1761,7 +1773,6 @@ const customState = {
   metal:"rodio",
   colors:[], colorNames:[],
   charm:false,
-  files:{ dije:null, manilla:null },
 };
 
 // Material chips
@@ -1862,37 +1873,6 @@ previewColorsLabel.addEventListener("click", () => {
   document.getElementById("colorDetails").scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "center" });
 });
 
-// uploads — 2 casillas separadas (dije / manilla), 1 foto cada una (solo vista previa local — ver nota en el formulario)
-function setupUploadSlot(slotKey, boxId, inputId){
-  const box = document.getElementById(boxId);
-  const input = document.getElementById(inputId);
-  const iconHtml = box.innerHTML; // guarda el ícono + texto original para poder "vaciar" la casilla
-  box.addEventListener("click", () => input.click());
-  input.addEventListener("change", () => {
-    const file = input.files[0];
-    if (!file) return;
-    customState.files[slotKey] = file;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      box.classList.add("has-image");
-      box.innerHTML = `<img src="${ev.target.result}" alt="Foto de referencia — ${slotKey}">
-        <button type="button" class="upload-remove" aria-label="Quitar foto">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
-        </button>`;
-      box.querySelector(".upload-remove").addEventListener("click", (e) => {
-        e.stopPropagation();
-        customState.files[slotKey] = null;
-        input.value = "";
-        box.classList.remove("has-image");
-        box.innerHTML = iconHtml;
-      });
-    };
-    reader.readAsDataURL(file);
-  });
-}
-setupUploadSlot("dije", "uploadBoxDije", "ftFileDije");
-setupUploadSlot("manilla", "uploadBoxManilla", "ftFileManilla");
-
 function validateForm(){
   const name = document.getElementById("ftName").value.trim();
   const ocasion = document.getElementById("ftOcasion").value;
@@ -1905,8 +1885,6 @@ document.getElementById("submitCustom").addEventListener("click", () => {
   const phone = document.getElementById("ftPhone").value.trim();
   const ocasion = document.getElementById("ftOcasion").value;
   const mensaje = document.getElementById("ftMensaje").value.trim();
-  const tieneDije = !!customState.files.dije;
-  const tieneManilla = !!customState.files.manilla;
 
   let text = `Hola HEBRA, quiero diseñar mi propia manilla.\n`;
   text += `Nombre: ${name}\n`;
@@ -1918,9 +1896,7 @@ document.getElementById("submitCustom").addEventListener("click", () => {
   text += `Dije o piedra central: ${customState.charm ? "Sí" : "No"}\n`;
   if (ocasion) text += `Ocasión: ${ocasion}\n`;
   if (mensaje) text += `Idea: ${mensaje}\n`;
-  if (tieneDije && tieneManilla) text += `(Tengo foto del dije y de la manilla de inspiración para enviarte aquí mismo)\n`;
-  else if (tieneDije) text += `(Tengo foto del dije de inspiración para enviarte aquí mismo)\n`;
-  else if (tieneManilla) text += `(Tengo foto de la manilla de inspiración para enviarte aquí mismo)\n`;
+
 
   window.open(waLink(text), "_blank");
   document.getElementById("confirmNote").classList.add("is-visible");
