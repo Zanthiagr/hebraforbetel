@@ -500,6 +500,32 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
    ============================================================ */
 .crear-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:3rem;align-items:start;}
 .crear-preview{position:sticky;top:7rem;}
+
+/* CTA directo a WhatsApp — atajo antes del configurador */
+@keyframes crearQuickGlow{
+  0%,100%{box-shadow:0 0 0 0 rgba(196,152,94,.35);}
+  50%{box-shadow:0 0 0 10px rgba(196,152,94,0);}
+}
+.crear-quick{
+  display:flex;align-items:center;gap:1.2rem;
+  background:var(--ink);border:1px solid var(--brass);border-radius:var(--radius);
+  padding:1.3rem 1.6rem;margin-bottom:2rem;text-decoration:none;
+  animation:crearQuickGlow 2.6s ease-in-out infinite;
+  will-change:transform;
+}
+.crear-quick-icon{
+  width:48px;height:48px;flex:none;border-radius:50%;
+  background:var(--brass);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+}
+.crear-quick-icon svg{width:24px;height:24px;}
+.crear-quick-copy{display:flex;flex-direction:column;gap:.15rem;flex:1;}
+.crear-quick-copy strong{font-family:var(--display);font-size:1.15rem;color:var(--bone);font-weight:600;}
+.crear-quick-copy span{font-family:var(--mono);font-size:.76rem;letter-spacing:.04em;color:var(--ink-text-dim);}
+.crear-quick-arrow{width:20px;height:20px;flex:none;color:var(--brass-light);transition:transform .3s var(--ease);}
+.crear-quick:hover .crear-quick-arrow{transform:translateX(5px);}
+.crear-divider{display:flex;align-items:center;gap:1rem;margin-bottom:2.2rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--bone-text-dim);}
+.crear-divider::before,.crear-divider::after{content:"";flex:1;height:1px;background:var(--bone-line);}
 .preview-card{background:var(--bone-soft);border:1px solid var(--bone-line);padding:2rem;}
 .preview-card .bracelet-svg{margin:1.2rem 0;}
 .preview-meta{font-family:var(--mono);font-size:.76rem;color:var(--bone-text-dim);display:flex;justify-content:space-between;border-top:1px solid var(--bone-line);padding-top:1rem;margin-top:1rem;flex-wrap:wrap;gap:.4rem;}
@@ -526,6 +552,17 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .sub-row{margin-top:.9rem;}
 .sub-row.is-hidden{display:none;}
 
+.color-details{border:1px solid var(--bone-line);border-radius:var(--radius);padding:0;}
+.color-summary{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:1em 1.2em;cursor:pointer;list-style:none;
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:var(--bone-text);
+}
+.color-summary::-webkit-details-marker{display:none;}
+.color-summary .chev{width:16px;height:16px;flex:none;transition:transform .25s var(--ease);color:var(--bone-text-dim);}
+.color-details[open] .color-summary .chev{transform:rotate(180deg);}
+.color-details-body{padding:0 1.2em 1.3em;}
+.swatch-sublabel{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-text-dim);margin-bottom:.6rem;}
 .swatches{display:flex;flex-wrap:wrap;gap:.7rem;}
 .swatch{
   width:38px;height:38px;border-radius:50%;border:2px solid transparent;position:relative;cursor:pointer;
@@ -541,12 +578,16 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .toggle.is-on{background:var(--clay);border-color:var(--clay);}
 .toggle.is-on::after{transform:translateX(17px);background:var(--bone);}
 
-.upload-box{border:1px dashed var(--bone-line);padding:1.6rem;text-align:center;cursor:pointer;transition:border-color .25s,background .25s;}
+.upload-pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.upload-box{border:1px dashed var(--bone-line);padding:1.6rem 1rem;text-align:center;cursor:pointer;transition:border-color .25s,background .25s;position:relative;}
 .upload-box:hover{border-color:var(--clay);background:rgba(122,34,48,.04);}
-.upload-box svg{width:28px;height:28px;margin:0 auto .6rem;}
-.upload-box p{font-size:.85rem;color:var(--bone-text-dim);}
-.thumbs{display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;}
-.thumbs img{width:56px;height:56px;object-fit:cover;border:1px solid var(--bone-line);}
+.upload-box.has-image{border-style:solid;padding:0;overflow:hidden;aspect-ratio:1/1;}
+.upload-box svg{width:26px;height:26px;margin:0 auto .5rem;}
+.upload-box p{font-size:.8rem;color:var(--bone-text-dim);}
+.upload-box img{width:100%;height:100%;object-fit:cover;display:block;}
+.upload-box .upload-remove{position:absolute;top:.4rem;right:.4rem;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--bone);display:flex;align-items:center;justify-content:center;}
+.upload-box .upload-remove svg{width:14px;height:14px;margin:0;}
+@media (max-width:520px){.upload-pair{grid-template-columns:1fr;}}
 
 .form-note{font-size:.8rem;color:var(--bone-text-dim);margin-top:1rem;display:flex;gap:.6em;align-items:flex-start;}
 .form-note svg{width:1.1em;height:1.1em;flex:none;margin-top:.15em;color:var(--clay);}
@@ -842,6 +883,18 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
       <p>Elige el material, el estilo, las piedras y el dije. Verás una vista previa aquí mismo antes de escribirnos — con foto de inspiración si quieres.</p>
     </div>
 
+    <a href="#" id="crearQuickBtn" class="crear-quick reveal" target="_blank" rel="noopener">
+      <span class="crear-quick-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+      </span>
+      <span class="crear-quick-copy">
+        <strong>¿Ya sabes qué quieres?</strong>
+        <span>Escríbenos directo por WhatsApp, sin llenar nada</span>
+      </span>
+      <svg class="crear-quick-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <p class="crear-divider reveal"><span>o arma tu idea paso a paso aquí abajo</span></p>
+
     <div class="crear-grid">
       <div class="crear-preview reveal">
         <div class="preview-card">
@@ -851,7 +904,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
           <div class="preview-meta">
             <span id="previewMaterial">Material: Acero</span>
             <span id="previewOcasion">Ocasión: —</span>
-            <span id="previewTalla">Talla: —</span>
           </div>
         </div>
       </div>
@@ -890,35 +942,33 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
           </p>
         </div>
 
-        <div class="field">
-          <label id="swatchLabel">Elige tus tonos o piedras (máx. 2)</label>
-          <div class="swatches" id="swatchPicker"></div>
-          <p class="swatch-help" id="swatchHelp">0 de 2 seleccionados</p>
-        </div>
+        <details class="field color-details" id="colorDetails">
+          <summary class="color-summary">
+            <span>Personalizar colores (opcional)</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <div class="color-details-body">
+            <p class="swatch-sublabel" id="swatchLabel">Elige tus tonos (máx. 2)</p>
+            <div class="swatches" id="swatchPicker"></div>
+            <p class="swatch-help" id="swatchHelp">0 de 2 seleccionados</p>
+          </div>
+        </details>
 
-        <div class="field-row">
-          <div class="field">
-            <label for="ftOcasion">Ocasión</label>
-            <select id="ftOcasion">
-              <option value="">Selecciona...</option>
-              <option>Para regalar</option>
-              <option>Para mí</option>
-              <option>En pareja</option>
-              <option>Amistad</option>
-              <option>Carnaval</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="ftTalla">Talla de muñeca</label>
-            <select id="ftTalla">
-              <option value="">Selecciona...</option>
-              <option>Niño/a</option>
-              <option>Pequeña (14–16 cm)</option>
-              <option>Mediana (17–19 cm)</option>
-              <option>Grande (20–22 cm)</option>
-            </select>
-          </div>
+        <div class="field">
+          <label for="ftOcasion">Ocasión</label>
+          <select id="ftOcasion">
+            <option value="">Selecciona...</option>
+            <option>Para regalar</option>
+            <option>Para mí</option>
+            <option>En pareja</option>
+            <option>Amistad</option>
+            <option>Carnaval</option>
+          </select>
         </div>
+        <p class="form-note" style="margin-top:-.8rem;margin-bottom:1.6rem;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          ¿No sabes tu talla todavía? Revisa la <a href="#tallas" style="color:var(--clay);text-decoration:underline;">guía de tallas</a> — no hace falta que la traigas lista para escribirnos.
+        </p>
 
         <div class="field">
           <div class="toggle-row">
@@ -934,12 +984,22 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 
         <div class="field">
           <label>Fotos de inspiración (opcional)</label>
-          <div class="upload-box" id="uploadBox">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4M12 4l-4 4M12 4l4 4M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
-            <p>Haz clic para subir imágenes</p>
+          <div class="upload-pair">
+            <div>
+              <div class="upload-box" id="uploadBoxDije" data-slot="dije">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4M12 4l-4 4M12 4l4 4M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
+                <p>Foto del dije que te gusta</p>
+              </div>
+              <input type="file" id="ftFileDije" accept="image/*" hidden>
+            </div>
+            <div>
+              <div class="upload-box" id="uploadBoxManilla" data-slot="manilla">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4M12 4l-4 4M12 4l4 4M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
+                <p>Foto de la manilla que te gusta</p>
+              </div>
+              <input type="file" id="ftFileManilla" accept="image/*" hidden>
+            </div>
           </div>
-          <input type="file" id="ftFiles" accept="image/*" multiple hidden>
-          <div class="thumbs" id="thumbs"></div>
         </div>
 
         <button class="btn btn--solid" id="submitCustom" type="button" disabled>Enviar por WhatsApp</button>
@@ -1701,7 +1761,7 @@ const customState = {
   metal:"rodio",
   colors:[], colorNames:[],
   charm:false,
-  files:[],
+  files:{ dije:null, manilla:null },
 };
 
 // Material chips
@@ -1790,32 +1850,48 @@ document.getElementById("ftOcasion").addEventListener("change", (e) => {
   document.getElementById("previewOcasion").textContent = "Ocasión: " + (e.target.value || "—");
   validateForm();
 });
-document.getElementById("ftTalla").addEventListener("change", (e) => {
-  document.getElementById("previewTalla").textContent = "Talla: " + (e.target.value || "—");
-  validateForm();
-});
 document.getElementById("ftName").addEventListener("input", validateForm);
 syncCustomUI();
 updatePreview(); // vista previa por defecto al cargar
 
-// uploads (solo vista previa local — ver nota en el formulario)
-const uploadBox = document.getElementById("uploadBox");
-const ftFiles = document.getElementById("ftFiles");
-const thumbsEl = document.getElementById("thumbs");
-uploadBox.addEventListener("click", () => ftFiles.click());
-ftFiles.addEventListener("change", () => {
-  thumbsEl.innerHTML = "";
-  customState.files = Array.from(ftFiles.files).slice(0,6);
-  customState.files.forEach(file => {
+// abrir el disclosure de colores al hacer clic en la etiqueta de la vista previa
+const previewColorsLabel = document.getElementById("previewColorsLabel");
+previewColorsLabel.style.cursor = "pointer";
+previewColorsLabel.addEventListener("click", () => {
+  document.getElementById("colorDetails").open = true;
+  document.getElementById("colorDetails").scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "center" });
+});
+
+// uploads — 2 casillas separadas (dije / manilla), 1 foto cada una (solo vista previa local — ver nota en el formulario)
+function setupUploadSlot(slotKey, boxId, inputId){
+  const box = document.getElementById(boxId);
+  const input = document.getElementById(inputId);
+  const iconHtml = box.innerHTML; // guarda el ícono + texto original para poder "vaciar" la casilla
+  box.addEventListener("click", () => input.click());
+  input.addEventListener("change", () => {
+    const file = input.files[0];
+    if (!file) return;
+    customState.files[slotKey] = file;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      const img = document.createElement("img");
-      img.src = ev.target.result;
-      thumbsEl.appendChild(img);
+      box.classList.add("has-image");
+      box.innerHTML = `<img src="${ev.target.result}" alt="Foto de referencia — ${slotKey}">
+        <button type="button" class="upload-remove" aria-label="Quitar foto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>`;
+      box.querySelector(".upload-remove").addEventListener("click", (e) => {
+        e.stopPropagation();
+        customState.files[slotKey] = null;
+        input.value = "";
+        box.classList.remove("has-image");
+        box.innerHTML = iconHtml;
+      });
     };
     reader.readAsDataURL(file);
   });
-});
+}
+setupUploadSlot("dije", "uploadBoxDije", "ftFileDije");
+setupUploadSlot("manilla", "uploadBoxManilla", "ftFileManilla");
 
 function validateForm(){
   const name = document.getElementById("ftName").value.trim();
@@ -1828,9 +1904,9 @@ document.getElementById("submitCustom").addEventListener("click", () => {
   const name = document.getElementById("ftName").value.trim();
   const phone = document.getElementById("ftPhone").value.trim();
   const ocasion = document.getElementById("ftOcasion").value;
-  const talla = document.getElementById("ftTalla").value;
   const mensaje = document.getElementById("ftMensaje").value.trim();
-  const fotos = customState.files.length;
+  const tieneDije = !!customState.files.dije;
+  const tieneManilla = !!customState.files.manilla;
 
   let text = `Hola HEBRA, quiero diseñar mi propia manilla.\n`;
   text += `Nombre: ${name}\n`;
@@ -1841,9 +1917,10 @@ document.getElementById("submitCustom").addEventListener("click", () => {
   if (customState.colorNames.length) text += `Tonos / piedras: ${customState.colorNames.join(", ")}\n`;
   text += `Dije o piedra central: ${customState.charm ? "Sí" : "No"}\n`;
   if (ocasion) text += `Ocasión: ${ocasion}\n`;
-  if (talla) text += `Talla: ${talla}\n`;
   if (mensaje) text += `Idea: ${mensaje}\n`;
-  if (fotos) text += `(Tengo ${fotos} foto(s) de inspiración para enviarte aquí mismo)\n`;
+  if (tieneDije && tieneManilla) text += `(Tengo foto del dije y de la manilla de inspiración para enviarte aquí mismo)\n`;
+  else if (tieneDije) text += `(Tengo foto del dije de inspiración para enviarte aquí mismo)\n`;
+  else if (tieneManilla) text += `(Tengo foto de la manilla de inspiración para enviarte aquí mismo)\n`;
 
   window.open(waLink(text), "_blank");
   document.getElementById("confirmNote").classList.add("is-visible");
@@ -1879,6 +1956,13 @@ const generalMsg = `Hola HEBRA, vi su catálogo en la página web y quiero más 
 const reviewMsg = `Hola HEBRA, ya tengo mi manilla y quiero dejarles mi opinión.`;
 const reviewBtn = document.getElementById("testimonioWaBtn");
 if (reviewBtn) reviewBtn.href = waLink(reviewMsg);
+
+const crearQuickMsg = `Hola HEBRA, quiero una manilla personalizada. ¿Me ayudan a armar la idea?`;
+const crearQuickBtn = document.getElementById("crearQuickBtn");
+if (crearQuickBtn){
+  crearQuickBtn.href = waLink(crearQuickMsg);
+  attachCardTilt(crearQuickBtn);
+}
 
 /* ============================================================
    SCROLL REVEAL
