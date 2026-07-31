@@ -498,12 +498,12 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 }
 
 /* ============================================================
-   CREA TU MANILLA
+   CREA TU MANILLA — ahora un tutorial interactivo, no un formulario
    ============================================================ */
 .crear-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:3rem;align-items:start;}
 .crear-preview{position:sticky;top:7rem;}
 
-/* CTA directo a WhatsApp — atajo antes del configurador */
+/* CTA directo a WhatsApp — atajo antes del tutorial, para quien ya sabe qué quiere */
 @keyframes crearQuickGlow{
   0%,100%{box-shadow:0 0 0 0 rgba(196,152,94,.35);}
   50%{box-shadow:0 0 0 10px rgba(196,152,94,0);}
@@ -528,20 +528,28 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .crear-quick:hover .crear-quick-arrow{transform:translateX(5px);}
 .crear-divider{display:flex;align-items:center;gap:1rem;margin-bottom:2.2rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--bone-text-dim);}
 .crear-divider::before,.crear-divider::after{content:"";flex:1;height:1px;background:var(--bone-line);}
+
+/* Vista previa — se queda fija mientras el usuario explora los pasos, con su propio botón de WhatsApp siempre activo */
 .preview-card{background:var(--bone-soft);border:1px solid var(--bone-line);padding:2rem;}
 .preview-card .bracelet-svg{margin:1.2rem 0;}
 .preview-meta{font-family:var(--mono);font-size:.76rem;color:var(--bone-text-dim);display:flex;justify-content:space-between;border-top:1px solid var(--bone-line);padding-top:1rem;margin-top:1rem;flex-wrap:wrap;gap:.4rem;}
 .preview-swatches-label{font-size:.85rem;color:var(--bone-text-dim);margin-top:.4rem;}
+.preview-wa-btn{width:100%;justify-content:center;margin-top:1.4rem;}
+.preview-wa-btn svg{width:1.1em;height:1.1em;}
 
-.field{margin-bottom:1.6rem;}
-.field label{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-text-dim);margin-bottom:.6rem;}
-.field input[type=text],.field input[type=tel],.field textarea,.field select{
-  width:100%;border-bottom:1px solid var(--bone-line);padding:.7em .2em;font-size:1rem;
-  transition:border-color .25s;background:transparent;
+/* Pasos del tutorial */
+.crear-step{display:flex;gap:1.4rem;padding:2rem 0;border-top:1px solid var(--bone-line);}
+.crear-step:first-child{border-top:none;padding-top:0;}
+.crear-step-num{
+  font-family:var(--display);font-style:italic;font-size:2.2rem;line-height:1;
+  color:var(--brass);flex:none;width:2ch;
 }
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--clay);}
-.field textarea{resize:vertical;min-height:90px;}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+.crear-step-body{flex:1;}
+.crear-step-body h3{font-size:1.2rem;margin-bottom:.3rem;}
+.crear-step-body>p{font-size:.92rem;color:var(--bone-text-dim);margin-bottom:1rem;max-width:48ch;}
+.sub-row{margin-top:.9rem;}
+.sub-row.is-hidden{display:none;}
+.swatch-sublabel{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-text-dim);margin-bottom:.6rem;}
 
 .chips{display:flex;flex-wrap:wrap;gap:.6rem;}
 .chip{
@@ -551,20 +559,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 }
 .chip .dot{width:.7em;height:.7em;border-radius:50%;flex:none;}
 .chip.is-active{background:var(--bone-text);color:var(--bone);border-color:var(--bone-text);}
-.sub-row{margin-top:.9rem;}
-.sub-row.is-hidden{display:none;}
 
-.color-details{border:1px solid var(--bone-line);border-radius:var(--radius);padding:0;}
-.color-summary{
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  padding:1em 1.2em;cursor:pointer;list-style:none;
-  font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:var(--bone-text);
-}
-.color-summary::-webkit-details-marker{display:none;}
-.color-summary .chev{width:16px;height:16px;flex:none;transition:transform .25s var(--ease);color:var(--bone-text-dim);}
-.color-details[open] .color-summary .chev{transform:rotate(180deg);}
-.color-details-body{padding:0 1.2em 1.3em;}
-.swatch-sublabel{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-text-dim);margin-bottom:.6rem;}
 .swatches{display:flex;flex-wrap:wrap;gap:.7rem;}
 .swatch{
   width:38px;height:38px;border-radius:50%;border:2px solid transparent;position:relative;cursor:pointer;
@@ -580,16 +575,12 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .toggle.is-on{background:var(--clay);border-color:var(--clay);}
 .toggle.is-on::after{transform:translateX(17px);background:var(--bone);}
 
-
 .form-note{font-size:.8rem;color:var(--bone-text-dim);margin-top:1rem;display:flex;gap:.6em;align-items:flex-start;}
 .form-note svg{width:1.1em;height:1.1em;flex:none;margin-top:.15em;color:var(--clay);}
-.confirm-note{display:none;margin-top:1rem;font-size:.85rem;color:var(--clay);font-weight:700;}
-.confirm-note.is-visible{display:block;}
 
 @media (max-width:900px){
   .crear-grid{grid-template-columns:1fr;}
   .crear-preview{position:static;}
-  .field-row{grid-template-columns:1fr;}
 }
 
 /* ============================================================
@@ -871,8 +862,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Diseño personalizado</p>
-      <h2>Crea tu propia manilla</h2>
-      <p>Elige el material, el estilo, las piedras y el dije. Verás una vista previa aquí mismo antes de escribirnos — con foto de inspiración si quieres.</p>
+      <h2>Diseña tu propia manilla</h2>
+      <p>Material, estilo, color, dije — tú eliges. Explora las opciones aquí mismo y escríbenos cuando quieras: no hay que llenar nada.</p>
     </div>
 
     <a href="#" id="crearQuickBtn" class="crear-quick reveal" target="_blank" rel="noopener">
@@ -885,7 +876,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
       </span>
       <svg class="crear-quick-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </a>
-    <p class="crear-divider reveal"><span>o arma tu idea paso a paso aquí abajo</span></p>
+    <p class="crear-divider reveal"><span>o descubre cómo se arma la tuya, paso a paso</span></p>
 
     <div class="crear-grid">
       <div class="crear-preview reveal">
@@ -895,96 +886,65 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
           <p class="preview-swatches-label" id="previewColorsLabel">Elige hasta 2 tonos →</p>
           <div class="preview-meta">
             <span id="previewMaterial">Material: Acero</span>
-            <span id="previewOcasion">Ocasión: —</span>
+            <span id="previewEstilo">Estilo: Tejida</span>
           </div>
+          <a href="#" id="submitCustom" class="btn btn--solid preview-wa-btn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+            Enviar esta idea por WhatsApp
+          </a>
+          <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con exactamente lo que ves aquí.</p>
         </div>
       </div>
 
       <div class="crear-form reveal">
-        <div class="field-row">
-          <div class="field">
-            <label for="ftName">Tu nombre</label>
-            <input type="text" id="ftName" placeholder="¿Cómo te llamas?">
+
+        <div class="crear-step">
+          <span class="crear-step-num">01</span>
+          <div class="crear-step-body">
+            <h3>Elige tu material</h3>
+            <p>Acero, oro laminado, rodio o piedras — el que más te guste, sin ningún compromiso todavía.</p>
+            <div class="chips" id="materialPicker"></div>
           </div>
-          <div class="field">
-            <label for="ftPhone">Tu número (opcional)</label>
-            <input type="tel" id="ftPhone" placeholder="Por si queremos confirmar algo">
+        </div>
+
+        <div class="crear-step">
+          <span class="crear-step-num">02</span>
+          <div class="crear-step-body">
+            <h3>Elige tu estilo</h3>
+            <div class="sub-row" id="estiloRow">
+              <div class="chips" id="estiloPicker"></div>
+            </div>
+            <div class="sub-row is-hidden" id="engasteRow">
+              <p style="font-size:.85rem;color:var(--bone-text-dim);">Nuestra línea de piedras va engastada en <strong style="color:var(--bone-text);">rodio</strong>.</p>
+            </div>
+            <div class="sub-row is-hidden" id="rodioNote">
+              <p class="form-note" style="margin-top:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+                El rodio es muy brillante, pero con el uso diario puede perder color o brillo con el tiempo. Te recomendamos evitar perfumes, cremas y agua salada.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div class="field">
-          <label>Material</label>
-          <div class="chips" id="materialPicker"></div>
-        </div>
-
-        <div class="field sub-row" id="estiloRow">
-          <label>Estilo</label>
-          <div class="chips" id="estiloPicker"></div>
-        </div>
-
-        <div class="field sub-row is-hidden" id="engasteRow">
-          <label>Engaste de las piedras</label>
-          <p style="font-size:.85rem;color:var(--bone-text-dim);">Nuestra línea de piedras va engastada en <strong style="color:var(--bone-text);">rodio</strong>.</p>
-        </div>
-
-        <div class="field sub-row is-hidden" id="rodioNote">
-          <p class="form-note" style="margin-top:0;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-            El rodio es muy brillante, pero con el uso diario puede perder color o brillo con el tiempo. Te recomendamos evitar perfumes, cremas y agua salada.
-          </p>
-        </div>
-
-        <details class="field color-details" id="colorDetails">
-          <summary class="color-summary">
-            <span>Personalizar colores (opcional)</span>
-            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9l6 6 6-6"/></svg>
-          </summary>
-          <div class="color-details-body">
+        <div class="crear-step">
+          <span class="crear-step-num">03</span>
+          <div class="crear-step-body">
+            <h3>Suma color, piedra o dije</h3>
+            <p>Totalmente opcional — pero es la parte más divertida.</p>
             <p class="swatch-sublabel" id="swatchLabel">Elige tus tonos (máx. 2)</p>
             <div class="swatches" id="swatchPicker"></div>
             <p class="swatch-help" id="swatchHelp">0 de 2 seleccionados</p>
+            <div class="toggle-row" style="margin-top:1.4rem;">
+              <button class="toggle" id="charmToggle" type="button" aria-pressed="false"></button>
+              <label style="margin:0;text-transform:none;font-family:var(--body);font-size:.95rem;color:var(--bone-text);">Agregar dije o piedra central</label>
+            </div>
           </div>
-        </details>
-
-        <div class="field">
-          <label for="ftOcasion">Ocasión</label>
-          <select id="ftOcasion">
-            <option value="">Selecciona...</option>
-            <option>Para regalar</option>
-            <option>Para mí</option>
-            <option>En pareja</option>
-            <option>Amistad</option>
-            <option>Carnaval</option>
-          </select>
-        </div>
-        <p class="form-note" style="margin-top:-.8rem;margin-bottom:1.6rem;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          ¿No sabes tu talla todavía? Revisa la <a href="#tallas" style="color:var(--clay);text-decoration:underline;">guía de tallas</a> — no hace falta que la traigas lista para escribirnos.
-        </p>
-
-        <div class="field">
-          <div class="toggle-row">
-            <button class="toggle" id="charmToggle" type="button" aria-pressed="false"></button>
-            <label style="margin:0;text-transform:none;font-family:var(--body);font-size:.95rem;color:var(--bone-text);">Agregar dije o piedra central</label>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="ftMensaje">Cuéntanos tu idea</label>
-          <textarea id="ftMensaje" placeholder="Ej: la quiero con mi inicial, para regalo de cumpleaños..."></textarea>
         </div>
 
         <p class="form-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          ¿Tienes foto del dije o de la manilla que te gusta? Perfecto — adjúntala directo aquí cuando te escribamos por WhatsApp.
+          ¿No sabes tu talla, o tienes una foto de inspiración? No hace falta traer nada listo — lo resolvemos juntos por WhatsApp.
         </p>
-
-        <button class="btn btn--solid" id="submitCustom" type="button" disabled>Enviar por WhatsApp</button>
-        <p class="form-note">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          Al enviar se abrirá WhatsApp con tu pedido ya escrito.
-        </p>
-        <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con tu idea. ¡No olvides adjuntar tus fotos de inspiración en el chat!</p>
       </div>
     </div>
   </div>
@@ -1787,6 +1747,7 @@ function syncCustomUI(){
   document.getElementById("engasteRow").classList.toggle("is-hidden", !esPiedrasMaterial);
   document.getElementById("rodioNote").classList.toggle("is-hidden", !(esPiedrasMaterial || esRodio));
   document.getElementById("previewMaterial").textContent = "Material: " + MATERIALS[customState.material].label;
+  document.getElementById("previewEstilo").textContent = "Estilo: " + (esEstiloPiedras ? "Con piedras" : "Tejida");
   document.getElementById("swatchLabel").textContent = esEstiloPiedras ? "Elige tus piedras (máx. 2)" : "Elige tus tonos (máx. 2)";
   // el engaste de las piedras es el material elegido (o rodio si "Piedras" es el material de base)
   customState.metal = esPiedrasMaterial ? "rodio" : customState.material;
@@ -1820,6 +1781,19 @@ estiloPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("clic
 const swatchPicker = document.getElementById("swatchPicker");
 swatchPicker.innerHTML = SWATCHES.map(s => `<button class="swatch" style="background:${s.hex}" data-hex="${s.hex}" data-name="${s.name}" title="${s.name}" type="button"></button>`).join("");
 
+// Arma el mensaje de WhatsApp con exactamente lo que la persona ha tocado hasta
+// ahora — nunca pide nombre, teléfono ni ningún dato: eso se resuelve en el chat.
+function buildCrearMessage(){
+  let text = `Hola HEBRA, vi las opciones en su web y quiero una manilla así:\n`;
+  text += `Material: ${MATERIALS[customState.material].label}\n`;
+  text += `Estilo: ${customState.texture === "piedras" ? "Con piedras" : "Tejida"}\n`;
+  if (customState.texture === "piedras") text += `Engaste: ${MATERIALS[customState.metal].label}\n`;
+  if (customState.colorNames.length) text += `Tonos / piedras: ${customState.colorNames.join(", ")}\n`;
+  text += `Dije o piedra central: ${customState.charm ? "Sí" : "No"}\n`;
+  text += `¿Me ayudan a definir el resto? 🙂`;
+  return text;
+}
+
 function updatePreview(){
   const tones = customState.colors.length ? customState.colors : MATERIAL_DEFAULT_TONES[customState.material];
   const pseudo = { texture:customState.texture, tones, metal:customState.metal, charm:customState.charm };
@@ -1827,7 +1801,7 @@ function updatePreview(){
   document.getElementById("previewColorsLabel").textContent = customState.colors.length
     ? "Tonos: " + customState.colorNames.join(" + ")
     : "Elige hasta 2 tonos →";
-  validateForm();
+  document.getElementById("submitCustom").href = waLink(buildCrearMessage());
 }
 
 swatchPicker.querySelectorAll(".swatch").forEach(sw => {
@@ -1857,48 +1831,17 @@ charmToggle.addEventListener("click", () => {
   updatePreview();
 });
 
-document.getElementById("ftOcasion").addEventListener("change", (e) => {
-  document.getElementById("previewOcasion").textContent = "Ocasión: " + (e.target.value || "—");
-  validateForm();
-});
-document.getElementById("ftName").addEventListener("input", validateForm);
 syncCustomUI();
-updatePreview(); // vista previa por defecto al cargar
+updatePreview(); // vista previa y mensaje de WhatsApp por defecto al cargar
 
-// abrir el disclosure de colores al hacer clic en la etiqueta de la vista previa
+// la etiqueta de colores en la vista previa lleva directo al paso 03
 const previewColorsLabel = document.getElementById("previewColorsLabel");
 previewColorsLabel.style.cursor = "pointer";
 previewColorsLabel.addEventListener("click", () => {
-  document.getElementById("colorDetails").open = true;
-  document.getElementById("colorDetails").scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "center" });
+  document.getElementById("swatchPicker").scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "center" });
 });
 
-function validateForm(){
-  const name = document.getElementById("ftName").value.trim();
-  const ocasion = document.getElementById("ftOcasion").value;
-  const ok = name.length>0 && ocasion.length>0;
-  document.getElementById("submitCustom").disabled = !ok;
-}
-
 document.getElementById("submitCustom").addEventListener("click", () => {
-  const name = document.getElementById("ftName").value.trim();
-  const phone = document.getElementById("ftPhone").value.trim();
-  const ocasion = document.getElementById("ftOcasion").value;
-  const mensaje = document.getElementById("ftMensaje").value.trim();
-
-  let text = `Hola HEBRA, quiero diseñar mi propia manilla.\n`;
-  text += `Nombre: ${name}\n`;
-  if (phone) text += `Teléfono: ${phone}\n`;
-  text += `Material: ${MATERIALS[customState.material].label}\n`;
-  text += `Estilo: ${customState.texture === "piedras" ? "Con piedras" : "Tejida"}\n`;
-  if (customState.texture === "piedras") text += `Engaste: ${MATERIALS[customState.metal].label}\n`;
-  if (customState.colorNames.length) text += `Tonos / piedras: ${customState.colorNames.join(", ")}\n`;
-  text += `Dije o piedra central: ${customState.charm ? "Sí" : "No"}\n`;
-  if (ocasion) text += `Ocasión: ${ocasion}\n`;
-  if (mensaje) text += `Idea: ${mensaje}\n`;
-
-
-  window.open(waLink(text), "_blank");
   document.getElementById("confirmNote").classList.add("is-visible");
 });
 
