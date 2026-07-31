@@ -425,7 +425,12 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
   .lightbox-art{border-right:none;border-bottom:1px solid var(--bone-line);height:62vw;max-height:320px;min-height:220px;aspect-ratio:auto;}
   .lightbox-body{padding:1.8rem 1.6rem 2rem;max-height:none;}
   .lightbox-body h3{font-size:1.6rem;}
-  .carousel-arrow{width:30px;height:30px;font-size:.95rem;}
+  .carousel-arrow{width:44px;height:44px;font-size:1.1rem;}
+  .carousel-dot{width:44px;height:28px;background:none;display:flex;align-items:center;justify-content:center;}
+  .carousel-dot.is-active{background:none;transform:none;}
+  .carousel-dot::after{content:"";width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);transition:background .25s var(--ease),transform .25s var(--ease);}
+  .carousel-dot.is-active::after{background:#fff;transform:scale(1.25);}
+  .lightbox-close{width:44px;height:44px;}
 }
 
 /* ============================================================
@@ -578,9 +583,30 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .form-note{font-size:.8rem;color:var(--bone-text-dim);margin-top:1rem;display:flex;gap:.6em;align-items:flex-start;}
 .form-note svg{width:1.1em;height:1.1em;flex:none;margin-top:.15em;color:var(--clay);}
 
+.crear-sticky-cta{display:none;}
+
 @media (max-width:900px){
   .crear-grid{grid-template-columns:1fr;}
   .crear-preview{position:static;}
+  .chip{padding:.85em 1.2em;min-height:44px;}
+  .swatch{width:44px;height:44px;}
+  .preview-wa-btn{min-height:48px;}
+  .toggle{width:48px;height:28px;}
+  .toggle::after{width:22px;height:22px;}
+  .toggle.is-on::after{transform:translateX(20px);}
+
+  .crear-sticky-cta{
+    display:flex;align-items:center;justify-content:center;gap:.6em;
+    position:fixed;left:1rem;right:1rem;bottom:1rem;z-index:60;
+    background:var(--ink);color:var(--bone);border:1px solid var(--brass);border-radius:999px;
+    padding:1em 1.2em;font-family:var(--mono);font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;
+    text-decoration:none;box-shadow:0 16px 32px -12px rgba(8,16,12,.45);
+    transform:translateY(120%);opacity:0;transition:transform .35s var(--ease),opacity .35s var(--ease);
+    pointer-events:none;
+  }
+  .crear-sticky-cta svg{width:1.2em;height:1.2em;flex:none;color:var(--brass-light);}
+  .crear-sticky-cta.is-visible{transform:translateY(0);opacity:1;pointer-events:auto;}
+  body.crear-sticky-active .wa-float{opacity:0;pointer-events:none;transition:opacity .3s var(--ease);}
 }
 
 /* ============================================================
@@ -948,6 +974,14 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
       </div>
     </div>
   </div>
+
+  <!-- Barra fija solo en móvil: la vista previa deja de ser sticky en pantallas
+       chicas, así que esto reemplaza esa función mientras el usuario explora
+       los 3 pasos — siempre a la vista, siempre con el mensaje actualizado. -->
+  <a href="#" id="crearStickyBtn" class="crear-sticky-cta" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+    <span>Enviar esta idea por WhatsApp</span>
+  </a>
 </section>
 
 <!-- ============================================================
@@ -1572,6 +1606,26 @@ function renderCarousel(){
   }
 }
 
+// Swipe real en el carrusel del lightbox — el público navega mayormente desde
+// el celular, y hasta ahora solo había flechas de 30px. Un solo listener basta:
+// el mismo <div id="lightboxArt"> se reutiliza en cada apertura, solo cambia
+// su contenido interno.
+const lightboxArtEl = document.getElementById("lightboxArt");
+let swipeStartX = 0, swipeStartY = 0;
+lightboxArtEl.addEventListener("touchstart", (e) => {
+  if (carouselFotos.length < 2) return;
+  swipeStartX = e.touches[0].clientX;
+  swipeStartY = e.touches[0].clientY;
+}, { passive:true });
+lightboxArtEl.addEventListener("touchend", (e) => {
+  if (carouselFotos.length < 2) return;
+  const dx = e.changedTouches[0].clientX - swipeStartX;
+  const dy = e.changedTouches[0].clientY - swipeStartY;
+  if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return; // gesto muy corto o vertical (scroll): ignorar
+  if (dx < 0) goToSlide((carouselIndex+1)%carouselFotos.length, carouselFotos);
+  else goToSlide((carouselIndex-1+carouselFotos.length)%carouselFotos.length, carouselFotos);
+}, { passive:true });
+
 function fillLightboxContent(p){
   carouselProduct = p;
   carouselIndex = 0;
@@ -1802,6 +1856,8 @@ function updatePreview(){
     ? "Tonos: " + customState.colorNames.join(" + ")
     : "Elige hasta 2 tonos →";
   document.getElementById("submitCustom").href = waLink(buildCrearMessage());
+  const stickyBtn = document.getElementById("crearStickyBtn");
+  if (stickyBtn) stickyBtn.href = waLink(buildCrearMessage());
 }
 
 swatchPicker.querySelectorAll(".swatch").forEach(sw => {
@@ -1891,6 +1947,20 @@ const io = new IntersectionObserver((entries) => {
   entries.forEach(en => { if(en.isIntersecting) en.target.classList.add("is-visible"); });
 }, { threshold:.15 });
 revealEls.forEach(el => io.observe(el));
+
+// Barra fija de WhatsApp (solo móvil, ver CSS): visible mientras la sección
+// "Diseña tu manilla" está en pantalla, sin importar en qué paso vaya el usuario.
+const crearSection = document.getElementById("crear");
+const crearStickyCta = document.getElementById("crearStickyBtn");
+if (crearSection && crearStickyCta){
+  const crearIo = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      crearStickyCta.classList.toggle("is-visible", en.isIntersecting);
+      document.body.classList.toggle("crear-sticky-active", en.isIntersecting);
+    });
+  }, { threshold:.05 });
+  crearIo.observe(crearSection);
+}
 
 document.getElementById("footerYear").textContent = "© " + new Date().getFullYear();
 
