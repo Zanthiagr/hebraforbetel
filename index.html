@@ -322,7 +322,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .card-stagger{animation:cardIn .55s var(--ease) backwards;}
 .card-frame{background:var(--bone);border:1px solid var(--bone-line);padding:1.6rem .8rem;margin-bottom:1.2rem;overflow:hidden;}
 .card-frame--photo{padding:0;}
-.card-frame--photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .5s var(--ease);will-change:transform;}
+.card-frame--photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;opacity:0;transition:transform .5s var(--ease),opacity .4s var(--ease);will-change:transform;}
+.card-frame--photo img.is-loaded{opacity:1;}
 /* la imagen escala y se desplaza distinto al marco al inclinar la tarjeta: eso es lo que da la sensación de profundidad, no solo la sombra */
 .bracelet-card:hover .card-frame--photo img{transform:scale(1.07);}
 
@@ -392,9 +393,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .lightbox-art--photo{padding:0;aspect-ratio:1/1;align-self:center;}
 .lightbox-art--flipping{opacity:0;}
 .lightbox-flip-clone{position:fixed;top:0;left:0;object-fit:cover;z-index:300;pointer-events:none;will-change:transform;transform-origin:top left;transition:transform .38s var(--ease);}
-.lightbox-art--photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease),opacity .3s var(--ease);}
-.carousel-photo-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bone-soft);}
-.carousel-photo-fallback svg{width:70%;height:auto;}
+.lightbox-art--photo img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:transform .5s var(--ease),opacity .3s var(--ease);}
+.lightbox-art--photo img.is-loaded{opacity:1;}
 .lightbox-art--photo:hover img{transform:scale(1.045);}
 .lightbox-art--photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,16,12,.22),transparent 42%);pointer-events:none;}
 .carousel-arrow{
@@ -425,12 +425,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
   .lightbox-art{border-right:none;border-bottom:1px solid var(--bone-line);height:62vw;max-height:320px;min-height:220px;aspect-ratio:auto;}
   .lightbox-body{padding:1.8rem 1.6rem 2rem;max-height:none;}
   .lightbox-body h3{font-size:1.6rem;}
-  .carousel-arrow{width:44px;height:44px;font-size:1.1rem;}
-  .carousel-dot{width:44px;height:28px;background:none;display:flex;align-items:center;justify-content:center;}
-  .carousel-dot.is-active{background:none;transform:none;}
-  .carousel-dot::after{content:"";width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);transition:background .25s var(--ease),transform .25s var(--ease);}
-  .carousel-dot.is-active::after{background:#fff;transform:scale(1.25);}
-  .lightbox-close{width:44px;height:44px;}
+  .carousel-arrow{width:30px;height:30px;font-size:.95rem;}
 }
 
 /* ============================================================
@@ -449,9 +444,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
    NOSOTROS
    ============================================================ */
 .nosotros-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:3rem;align-items:center;}
-.portrait-placeholder{aspect-ratio:4/5;background:linear-gradient(160deg,var(--ink-soft),var(--ink));border:1px solid var(--ink-line);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.portrait-placeholder{aspect-ratio:4/5;background:linear-gradient(160deg,var(--ink-soft),var(--ink));border:1px solid var(--ink-line);display:flex;align-items:center;justify-content:center;}
 .portrait-placeholder span{font-family:var(--display);font-size:5rem;font-style:italic;color:var(--brass-light);}
-.portrait-placeholder img{width:100%;height:100%;object-fit:cover;display:block;}
 .portrait-caption{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-text-dim);text-align:center;margin-top:.8rem;}
 .nosotros-story p{margin-top:1.1rem;color:var(--ink-text-dim);max-width:54ch;}
 .nosotros-story .firma{margin-top:1.4rem;font-family:var(--display);font-style:italic;font-size:1.2rem;color:var(--ink-text);}
@@ -503,58 +497,24 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 }
 
 /* ============================================================
-   CREA TU MANILLA — ahora un tutorial interactivo, no un formulario
+   CREA TU MANILLA
    ============================================================ */
 .crear-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:3rem;align-items:start;}
 .crear-preview{position:sticky;top:7rem;}
-
-/* CTA directo a WhatsApp — atajo antes del tutorial, para quien ya sabe qué quiere */
-@keyframes crearQuickGlow{
-  0%,100%{box-shadow:0 0 0 0 rgba(196,152,94,.35);}
-  50%{box-shadow:0 0 0 10px rgba(196,152,94,0);}
-}
-.crear-quick{
-  display:flex;align-items:center;gap:1.2rem;
-  background:var(--ink);border:1px solid var(--brass);border-radius:var(--radius);
-  padding:1.3rem 1.6rem;margin-bottom:2rem;text-decoration:none;
-  animation:crearQuickGlow 2.6s ease-in-out infinite;
-  will-change:transform;
-}
-.crear-quick-icon{
-  width:48px;height:48px;flex:none;border-radius:50%;
-  background:var(--brass);color:var(--ink);
-  display:flex;align-items:center;justify-content:center;
-}
-.crear-quick-icon svg{width:24px;height:24px;}
-.crear-quick-copy{display:flex;flex-direction:column;gap:.15rem;flex:1;}
-.crear-quick-copy strong{font-family:var(--display);font-size:1.15rem;color:var(--bone);font-weight:600;}
-.crear-quick-copy span{font-family:var(--mono);font-size:.76rem;letter-spacing:.04em;color:var(--ink-text-dim);}
-.crear-quick-arrow{width:20px;height:20px;flex:none;color:var(--brass-light);transition:transform .3s var(--ease);}
-.crear-quick:hover .crear-quick-arrow{transform:translateX(5px);}
-.crear-divider{display:flex;align-items:center;gap:1rem;margin-bottom:2.2rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--bone-text-dim);}
-.crear-divider::before,.crear-divider::after{content:"";flex:1;height:1px;background:var(--bone-line);}
-
-/* Vista previa — se queda fija mientras el usuario explora los pasos, con su propio botón de WhatsApp siempre activo */
 .preview-card{background:var(--bone-soft);border:1px solid var(--bone-line);padding:2rem;}
 .preview-card .bracelet-svg{margin:1.2rem 0;}
 .preview-meta{font-family:var(--mono);font-size:.76rem;color:var(--bone-text-dim);display:flex;justify-content:space-between;border-top:1px solid var(--bone-line);padding-top:1rem;margin-top:1rem;flex-wrap:wrap;gap:.4rem;}
 .preview-swatches-label{font-size:.85rem;color:var(--bone-text-dim);margin-top:.4rem;}
-.preview-wa-btn{width:100%;justify-content:center;margin-top:1.4rem;}
-.preview-wa-btn svg{width:1.1em;height:1.1em;}
 
-/* Pasos del tutorial */
-.crear-step{display:flex;gap:1.4rem;padding:2rem 0;border-top:1px solid var(--bone-line);}
-.crear-step:first-child{border-top:none;padding-top:0;}
-.crear-step-num{
-  font-family:var(--display);font-style:italic;font-size:2.2rem;line-height:1;
-  color:var(--brass);flex:none;width:2ch;
+.field{margin-bottom:1.6rem;}
+.field label{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-text-dim);margin-bottom:.6rem;}
+.field input[type=text],.field input[type=tel],.field textarea,.field select{
+  width:100%;border-bottom:1px solid var(--bone-line);padding:.7em .2em;font-size:1rem;
+  transition:border-color .25s;background:transparent;
 }
-.crear-step-body{flex:1;}
-.crear-step-body h3{font-size:1.2rem;margin-bottom:.3rem;}
-.crear-step-body>p{font-size:.92rem;color:var(--bone-text-dim);margin-bottom:1rem;max-width:48ch;}
-.sub-row{margin-top:.9rem;}
-.sub-row.is-hidden{display:none;}
-.swatch-sublabel{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-text-dim);margin-bottom:.6rem;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--clay);}
+.field textarea{resize:vertical;min-height:90px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
 
 .chips{display:flex;flex-wrap:wrap;gap:.6rem;}
 .chip{
@@ -564,6 +524,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 }
 .chip .dot{width:.7em;height:.7em;border-radius:50%;flex:none;}
 .chip.is-active{background:var(--bone-text);color:var(--bone);border-color:var(--bone-text);}
+.sub-row{margin-top:.9rem;}
+.sub-row.is-hidden{display:none;}
 
 .swatches{display:flex;flex-wrap:wrap;gap:.7rem;}
 .swatch{
@@ -580,33 +542,22 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .toggle.is-on{background:var(--clay);border-color:var(--clay);}
 .toggle.is-on::after{transform:translateX(17px);background:var(--bone);}
 
+.upload-box{border:1px dashed var(--bone-line);padding:1.6rem;text-align:center;cursor:pointer;transition:border-color .25s,background .25s;}
+.upload-box:hover{border-color:var(--clay);background:rgba(122,34,48,.04);}
+.upload-box svg{width:28px;height:28px;margin:0 auto .6rem;}
+.upload-box p{font-size:.85rem;color:var(--bone-text-dim);}
+.thumbs{display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;}
+.thumbs img{width:56px;height:56px;object-fit:cover;border:1px solid var(--bone-line);}
+
 .form-note{font-size:.8rem;color:var(--bone-text-dim);margin-top:1rem;display:flex;gap:.6em;align-items:flex-start;}
 .form-note svg{width:1.1em;height:1.1em;flex:none;margin-top:.15em;color:var(--clay);}
-
-.crear-sticky-cta{display:none;}
+.confirm-note{display:none;margin-top:1rem;font-size:.85rem;color:var(--clay);font-weight:700;}
+.confirm-note.is-visible{display:block;}
 
 @media (max-width:900px){
   .crear-grid{grid-template-columns:1fr;}
   .crear-preview{position:static;}
-  .chip{padding:.85em 1.2em;min-height:44px;}
-  .swatch{width:44px;height:44px;}
-  .preview-wa-btn{min-height:48px;}
-  .toggle{width:48px;height:28px;}
-  .toggle::after{width:22px;height:22px;}
-  .toggle.is-on::after{transform:translateX(20px);}
-
-  .crear-sticky-cta{
-    display:flex;align-items:center;justify-content:center;gap:.6em;
-    position:fixed;left:1rem;right:1rem;bottom:1rem;z-index:60;
-    background:var(--ink);color:var(--bone);border:1px solid var(--brass);border-radius:999px;
-    padding:1em 1.2em;font-family:var(--mono);font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;
-    text-decoration:none;box-shadow:0 16px 32px -12px rgba(8,16,12,.45);
-    transform:translateY(120%);opacity:0;transition:transform .35s var(--ease),opacity .35s var(--ease);
-    pointer-events:none;
-  }
-  .crear-sticky-cta svg{width:1.2em;height:1.2em;flex:none;color:var(--brass-light);}
-  .crear-sticky-cta.is-visible{transform:translateY(0);opacity:1;pointer-events:auto;}
-  body.crear-sticky-active .wa-float{opacity:0;pointer-events:none;transition:opacity .3s var(--ease);}
+  .field-row{grid-template-columns:1fr;}
 }
 
 /* ============================================================
@@ -790,10 +741,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 <section class="section section--ink" id="nosotros">
   <div class="container nosotros-grid">
     <div class="reveal">
-      <div class="portrait-placeholder">
-        <img src="foto-taller.jpg" alt="Manos tejiendo una manilla HEBRA en el taller" loading="lazy">
-      </div>
-      <p class="portrait-caption">El taller de HEBRA</p>
+      <div class="portrait-placeholder"><span>H</span></div>
+      <p class="portrait-caption">Foto del taller — próximamente</p>
     </div>
     <div class="nosotros-story reveal">
       <p class="eyebrow">Quién hace tus manillas</p>
@@ -888,21 +837,9 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Diseño personalizado</p>
-      <h2>Diseña tu propia manilla</h2>
-      <p>Material, estilo, color, dije — tú eliges. Explora las opciones aquí mismo y escríbenos cuando quieras: no hay que llenar nada.</p>
+      <h2>Crea tu propia manilla</h2>
+      <p>Elige el material, el estilo, las piedras y el dije. Verás una vista previa aquí mismo antes de escribirnos — con foto de inspiración si quieres.</p>
     </div>
-
-    <a href="#" id="crearQuickBtn" class="crear-quick reveal" target="_blank" rel="noopener">
-      <span class="crear-quick-icon">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-      </span>
-      <span class="crear-quick-copy">
-        <strong>¿Ya sabes qué quieres?</strong>
-        <span>Escríbenos directo por WhatsApp, sin llenar nada</span>
-      </span>
-      <svg class="crear-quick-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </a>
-    <p class="crear-divider reveal"><span>o descubre cómo se arma la tuya, paso a paso</span></p>
 
     <div class="crear-grid">
       <div class="crear-preview reveal">
@@ -912,76 +849,107 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
           <p class="preview-swatches-label" id="previewColorsLabel">Elige hasta 2 tonos →</p>
           <div class="preview-meta">
             <span id="previewMaterial">Material: Acero</span>
-            <span id="previewEstilo">Estilo: Tejida</span>
+            <span id="previewOcasion">Ocasión: —</span>
+            <span id="previewTalla">Talla: —</span>
           </div>
-          <a href="#" id="submitCustom" class="btn btn--solid preview-wa-btn" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-            Enviar esta idea por WhatsApp
-          </a>
-          <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con exactamente lo que ves aquí.</p>
         </div>
       </div>
 
       <div class="crear-form reveal">
-
-        <div class="crear-step">
-          <span class="crear-step-num">01</span>
-          <div class="crear-step-body">
-            <h3>Elige tu material</h3>
-            <p>Acero, oro laminado, rodio o piedras — el que más te guste, sin ningún compromiso todavía.</p>
-            <div class="chips" id="materialPicker"></div>
+        <div class="field-row">
+          <div class="field">
+            <label for="ftName">Tu nombre</label>
+            <input type="text" id="ftName" placeholder="¿Cómo te llamas?">
+          </div>
+          <div class="field">
+            <label for="ftPhone">Tu número (opcional)</label>
+            <input type="tel" id="ftPhone" placeholder="Por si queremos confirmar algo">
           </div>
         </div>
 
-        <div class="crear-step">
-          <span class="crear-step-num">02</span>
-          <div class="crear-step-body">
-            <h3>Elige tu estilo</h3>
-            <div class="sub-row" id="estiloRow">
-              <div class="chips" id="estiloPicker"></div>
-            </div>
-            <div class="sub-row is-hidden" id="engasteRow">
-              <p style="font-size:.85rem;color:var(--bone-text-dim);">Nuestra línea de piedras va engastada en <strong style="color:var(--bone-text);">rodio</strong>.</p>
-            </div>
-            <div class="sub-row is-hidden" id="rodioNote">
-              <p class="form-note" style="margin-top:0;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-                El rodio es muy brillante, pero con el uso diario puede perder color o brillo con el tiempo. Te recomendamos evitar perfumes, cremas y agua salada.
-              </p>
-            </div>
+        <div class="field">
+          <label>Material</label>
+          <div class="chips" id="materialPicker"></div>
+        </div>
+
+        <div class="field sub-row" id="estiloRow">
+          <label>Estilo</label>
+          <div class="chips" id="estiloPicker"></div>
+        </div>
+
+        <div class="field sub-row is-hidden" id="engasteRow">
+          <label>Engaste de las piedras</label>
+          <p style="font-size:.85rem;color:var(--bone-text-dim);">Nuestra línea de piedras va engastada en <strong style="color:var(--bone-text);">rodio</strong>.</p>
+        </div>
+
+        <div class="field sub-row is-hidden" id="rodioNote">
+          <p class="form-note" style="margin-top:0;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+            El rodio es muy brillante, pero con el uso diario puede perder color o brillo con el tiempo. Te recomendamos evitar perfumes, cremas y agua salada.
+          </p>
+        </div>
+
+        <div class="field">
+          <label id="swatchLabel">Elige tus tonos o piedras (máx. 2)</label>
+          <div class="swatches" id="swatchPicker"></div>
+          <p class="swatch-help" id="swatchHelp">0 de 2 seleccionados</p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="ftOcasion">Ocasión</label>
+            <select id="ftOcasion">
+              <option value="">Selecciona...</option>
+              <option>Para regalar</option>
+              <option>Para mí</option>
+              <option>En pareja</option>
+              <option>Amistad</option>
+              <option>Carnaval</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ftTalla">Talla de muñeca</label>
+            <select id="ftTalla">
+              <option value="">Selecciona...</option>
+              <option>Niño/a</option>
+              <option>Pequeña (14–16 cm)</option>
+              <option>Mediana (17–19 cm)</option>
+              <option>Grande (20–22 cm)</option>
+            </select>
           </div>
         </div>
 
-        <div class="crear-step">
-          <span class="crear-step-num">03</span>
-          <div class="crear-step-body">
-            <h3>Suma color, piedra o dije</h3>
-            <p>Totalmente opcional — pero es la parte más divertida.</p>
-            <p class="swatch-sublabel" id="swatchLabel">Elige tus tonos (máx. 2)</p>
-            <div class="swatches" id="swatchPicker"></div>
-            <p class="swatch-help" id="swatchHelp">0 de 2 seleccionados</p>
-            <div class="toggle-row" style="margin-top:1.4rem;">
-              <button class="toggle" id="charmToggle" type="button" aria-pressed="false"></button>
-              <label style="margin:0;text-transform:none;font-family:var(--body);font-size:.95rem;color:var(--bone-text);">Agregar dije o piedra central</label>
-            </div>
+        <div class="field">
+          <div class="toggle-row">
+            <button class="toggle" id="charmToggle" type="button" aria-pressed="false"></button>
+            <label style="margin:0;text-transform:none;font-family:var(--body);font-size:.95rem;color:var(--bone-text);">Agregar dije o piedra central</label>
           </div>
         </div>
 
+        <div class="field">
+          <label for="ftMensaje">Cuéntanos tu idea</label>
+          <textarea id="ftMensaje" placeholder="Ej: la quiero con mi inicial, para regalo de cumpleaños..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Fotos de inspiración (opcional)</label>
+          <div class="upload-box" id="uploadBox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4M12 4l-4 4M12 4l4 4M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
+            <p>Haz clic para subir imágenes</p>
+          </div>
+          <input type="file" id="ftFiles" accept="image/*" multiple hidden>
+          <div class="thumbs" id="thumbs"></div>
+        </div>
+
+        <button class="btn btn--solid" id="submitCustom" type="button" disabled>Enviar por WhatsApp</button>
         <p class="form-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          ¿No sabes tu talla, o tienes una foto de inspiración? No hace falta traer nada listo — lo resolvemos juntos por WhatsApp.
+          Al enviar se abrirá WhatsApp con tu pedido ya escrito. Si subiste fotos, adjúntalas también ahí mismo: por ahora no podemos enviarlas automáticamente desde la web.
         </p>
+        <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con tu idea. Si tienes fotos, ¡no olvides adjuntarlas en el chat!</p>
       </div>
     </div>
   </div>
-
-  <!-- Barra fija solo en móvil: la vista previa deja de ser sticky en pantallas
-       chicas, así que esto reemplaza esa función mientras el usuario explora
-       los 3 pasos — siempre a la vista, siempre con el mensaje actualizado. -->
-  <a href="#" id="crearStickyBtn" class="crear-sticky-cta" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-    <span>Enviar esta idea por WhatsApp</span>
-  </a>
 </section>
 
 <!-- ============================================================
@@ -1185,40 +1153,8 @@ function braceletSVG(p){
 // Si el producto trae foto_url (desde el Sheet o editada a mano), se usa
 // la foto real. Si no, se dibuja el ícono ilustrado como hasta ahora.
 function productVisual(p){
-  if (p.foto) return `<img src="${p.foto}" alt="${p.name}" loading="lazy" decoding="async" data-ref="${p.ref}">`;
+  if (p.foto) return `<img src="${p.foto}" alt="${p.name}" loading="lazy" decoding="async">`;
   return braceletSVG(p);
-}
-
-// Algunos hosts de imágenes gratuitos (ya nos pasó con Google Drive, y ahora con
-// postimg.cc) bloquean o limitan de forma intermitente las peticiones de <img>
-// "hotlinked" — la foto existe y es válida, pero a veces el navegador la recibe
-// vacía. Por eso nunca confiamos en un solo intento: si falla, reintentamos con
-// una URL "distinta" (mismo archivo + parámetro random) hasta 2 veces con una
-// pequeña espera; si sigue sin cargar, en vez de dejar el espacio en blanco
-// mostramos el ícono ilustrado de la manilla — nunca un hueco vacío.
-function attachPhotoFallback(img, product, opts = {}){
-  if (!img || !product) return;
-  const replaceParent = opts.replaceParent !== false;
-  let retries = 0;
-  img.addEventListener("error", () => {
-    retries++;
-    if (retries <= 2){
-      setTimeout(() => {
-        const base = img.src.split("?")[0];
-        img.src = base + "?retry=" + retries + "-" + Date.now();
-      }, 700 * retries);
-    } else if (replaceParent) {
-      // caso grid: la tarjeta entera cae de vuelta al ícono ilustrado, igual que un producto sin foto
-      const holder = img.parentElement;
-      if (!holder) return;
-      holder.classList.remove("card-frame--photo", "lightbox-art--photo");
-      holder.innerHTML = braceletSVG(product);
-    } else {
-      // caso carrusel del lightbox: solo se reemplaza esta foto puntual, sin tocar
-      // flechas/dots — las otras fotos del mismo producto pueden seguir funcionando
-      img.outerHTML = `<div class="carousel-photo-fallback">${braceletSVG(product)}</div>`;
-    }
-  });
 }
 
 function braidSVG(p){
@@ -1512,14 +1448,46 @@ function renderGrid(){
         <span class="card-cta">Pedir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
     </article>`).join("");
-  gridEl.querySelectorAll(".bracelet-card").forEach(card => {
+  gridEl.querySelectorAll(".bracelet-card").forEach((card, idx) => {
+    const product = list[idx]; // por posición, no por ref: dos productos con la misma ref no se confunden
+    const img = card.querySelector(".card-frame--photo img");
+    bindImgResilience(img, product);
     card.addEventListener("click", () => {
-      const img = card.querySelector(".card-frame--photo img");
-      openLightboxFromCard(card.dataset.ref, img);
+      openLightboxFromCard(product, img);
     });
     attachCardTilt(card);
-    const photoImg = card.querySelector(".card-frame--photo img");
-    if (photoImg) attachPhotoFallback(photoImg, PRODUCTS.find(x => x.ref === card.dataset.ref));
+  });
+}
+
+// Blindaje de fotos de producto: evita que una foto rota o lenta se quede
+// en blanco para siempre.
+// - Mientras carga: opacity 0 con transición suave (así "cargando" nunca se
+//   confunde a simple vista con "roto").
+// - Si falla (link caído, bloqueo temporal del host de imágenes): reintenta
+//   una vez a los 1.2s con un parámetro anti-caché, por si fue un problema
+//   pasajero de red o del host.
+// - Si vuelve a fallar: cae al ícono ilustrado (el mismo que ya se usa cuando
+//   un producto no tiene foto) en vez de dejar un hueco vacío o el ícono roto
+//   del navegador.
+function bindImgResilience(img, product){
+  if (!img || !product) return;
+  const originalSrc = img.getAttribute("src");
+  let retried = false;
+  img.addEventListener("load", () => img.classList.add("is-loaded"));
+  img.addEventListener("error", () => {
+    if (!retried && originalSrc){
+      retried = true;
+      setTimeout(() => {
+        const sep = originalSrc.includes("?") ? "&" : "?";
+        img.src = originalSrc + sep + "retry=" + Date.now();
+      }, 1200);
+      return;
+    }
+    const frame = img.closest(".card-frame, .lightbox-art");
+    if (frame){
+      frame.classList.remove("card-frame--photo", "lightbox-art--photo");
+      frame.innerHTML = braceletSVG(product);
+    }
   });
 }
 
@@ -1595,7 +1563,7 @@ function renderCarousel(){
       ${fotos.map((_,i)=>`<button class="carousel-dot ${i===carouselIndex?'is-active':''}" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join("")}
     </div>` : "";
   art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" loading="lazy" style="transition:opacity .18s var(--ease)">${arrows}`;
-  attachPhotoFallback(document.getElementById("carouselImg"), p, { replaceParent:false });
+  bindImgResilience(document.getElementById("carouselImg"), p);
 
   if (fotos.length > 1){
     document.getElementById("carouselPrev").addEventListener("click", (e)=>{ e.stopPropagation(); goToSlide((carouselIndex-1+fotos.length)%fotos.length, fotos); });
@@ -1605,26 +1573,6 @@ function renderCarousel(){
     });
   }
 }
-
-// Swipe real en el carrusel del lightbox — el público navega mayormente desde
-// el celular, y hasta ahora solo había flechas de 30px. Un solo listener basta:
-// el mismo <div id="lightboxArt"> se reutiliza en cada apertura, solo cambia
-// su contenido interno.
-const lightboxArtEl = document.getElementById("lightboxArt");
-let swipeStartX = 0, swipeStartY = 0;
-lightboxArtEl.addEventListener("touchstart", (e) => {
-  if (carouselFotos.length < 2) return;
-  swipeStartX = e.touches[0].clientX;
-  swipeStartY = e.touches[0].clientY;
-}, { passive:true });
-lightboxArtEl.addEventListener("touchend", (e) => {
-  if (carouselFotos.length < 2) return;
-  const dx = e.changedTouches[0].clientX - swipeStartX;
-  const dy = e.changedTouches[0].clientY - swipeStartY;
-  if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return; // gesto muy corto o vertical (scroll): ignorar
-  if (dx < 0) goToSlide((carouselIndex+1)%carouselFotos.length, carouselFotos);
-  else goToSlide((carouselIndex-1+carouselFotos.length)%carouselFotos.length, carouselFotos);
-}, { passive:true });
 
 function fillLightboxContent(p){
   carouselProduct = p;
@@ -1641,8 +1589,11 @@ function fillLightboxContent(p){
   document.getElementById("lightboxWa").href = waLink(msg);
 }
 
-function openLightbox(ref){
-  const p = PRODUCTS.find(x=>x.ref===ref);
+// Recibe el producto directamente (no su ref) a propósito: si el Sheet llegara
+// a tener dos filas con la misma referencia por error de captura, buscar por
+// ref abriría siempre la primera coincidencia. Usando el objeto ya resuelto
+// desde el grid, cada tarjeta abre exactamente el producto que muestra.
+function openLightbox(p){
   fillLightboxContent(p);
   lightboxLastFocused = document.activeElement;
   lightboxOverlay.classList.add("is-open");
@@ -1653,12 +1604,11 @@ function openLightbox(ref){
 // desde su posición real en la tarjeta hasta su lugar en el lightbox (FLIP:
 // First-Last-Invert-Play), en vez del corte seco anterior. Si la tarjeta no
 // tiene foto (SVG de respaldo) o hay reduced-motion, cae de vuelta al open normal.
-function openLightboxFromCard(ref, imgEl){
-  const p = PRODUCTS.find(x=>x.ref===ref);
-  if (!imgEl || prefersReducedMotion){ openLightbox(ref); return; }
+function openLightboxFromCard(p, imgEl){
+  if (!imgEl || prefersReducedMotion){ openLightbox(p); return; }
 
   const startRect = imgEl.getBoundingClientRect();
-  if (!startRect.width || !startRect.height){ openLightbox(ref); return; }
+  if (!startRect.width || !startRect.height){ openLightbox(p); return; }
   const startSrc = imgEl.currentSrc || imgEl.src;
 
   fillLightboxContent(p);
@@ -1787,6 +1737,7 @@ const customState = {
   metal:"rodio",
   colors:[], colorNames:[],
   charm:false,
+  files:[],
 };
 
 // Material chips
@@ -1801,7 +1752,6 @@ function syncCustomUI(){
   document.getElementById("engasteRow").classList.toggle("is-hidden", !esPiedrasMaterial);
   document.getElementById("rodioNote").classList.toggle("is-hidden", !(esPiedrasMaterial || esRodio));
   document.getElementById("previewMaterial").textContent = "Material: " + MATERIALS[customState.material].label;
-  document.getElementById("previewEstilo").textContent = "Estilo: " + (esEstiloPiedras ? "Con piedras" : "Tejida");
   document.getElementById("swatchLabel").textContent = esEstiloPiedras ? "Elige tus piedras (máx. 2)" : "Elige tus tonos (máx. 2)";
   // el engaste de las piedras es el material elegido (o rodio si "Piedras" es el material de base)
   customState.metal = esPiedrasMaterial ? "rodio" : customState.material;
@@ -1835,19 +1785,6 @@ estiloPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("clic
 const swatchPicker = document.getElementById("swatchPicker");
 swatchPicker.innerHTML = SWATCHES.map(s => `<button class="swatch" style="background:${s.hex}" data-hex="${s.hex}" data-name="${s.name}" title="${s.name}" type="button"></button>`).join("");
 
-// Arma el mensaje de WhatsApp con exactamente lo que la persona ha tocado hasta
-// ahora — nunca pide nombre, teléfono ni ningún dato: eso se resuelve en el chat.
-function buildCrearMessage(){
-  let text = `Hola HEBRA, vi las opciones en su web y quiero una manilla así:\n`;
-  text += `Material: ${MATERIALS[customState.material].label}\n`;
-  text += `Estilo: ${customState.texture === "piedras" ? "Con piedras" : "Tejida"}\n`;
-  if (customState.texture === "piedras") text += `Engaste: ${MATERIALS[customState.metal].label}\n`;
-  if (customState.colorNames.length) text += `Tonos / piedras: ${customState.colorNames.join(", ")}\n`;
-  text += `Dije o piedra central: ${customState.charm ? "Sí" : "No"}\n`;
-  text += `¿Me ayudan a definir el resto? 🙂`;
-  return text;
-}
-
 function updatePreview(){
   const tones = customState.colors.length ? customState.colors : MATERIAL_DEFAULT_TONES[customState.material];
   const pseudo = { texture:customState.texture, tones, metal:customState.metal, charm:customState.charm };
@@ -1855,9 +1792,7 @@ function updatePreview(){
   document.getElementById("previewColorsLabel").textContent = customState.colors.length
     ? "Tonos: " + customState.colorNames.join(" + ")
     : "Elige hasta 2 tonos →";
-  document.getElementById("submitCustom").href = waLink(buildCrearMessage());
-  const stickyBtn = document.getElementById("crearStickyBtn");
-  if (stickyBtn) stickyBtn.href = waLink(buildCrearMessage());
+  validateForm();
 }
 
 swatchPicker.querySelectorAll(".swatch").forEach(sw => {
@@ -1887,17 +1822,66 @@ charmToggle.addEventListener("click", () => {
   updatePreview();
 });
 
+document.getElementById("ftOcasion").addEventListener("change", (e) => {
+  document.getElementById("previewOcasion").textContent = "Ocasión: " + (e.target.value || "—");
+  validateForm();
+});
+document.getElementById("ftTalla").addEventListener("change", (e) => {
+  document.getElementById("previewTalla").textContent = "Talla: " + (e.target.value || "—");
+  validateForm();
+});
+document.getElementById("ftName").addEventListener("input", validateForm);
 syncCustomUI();
-updatePreview(); // vista previa y mensaje de WhatsApp por defecto al cargar
+updatePreview(); // vista previa por defecto al cargar
 
-// la etiqueta de colores en la vista previa lleva directo al paso 03
-const previewColorsLabel = document.getElementById("previewColorsLabel");
-previewColorsLabel.style.cursor = "pointer";
-previewColorsLabel.addEventListener("click", () => {
-  document.getElementById("swatchPicker").scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "center" });
+// uploads (solo vista previa local — ver nota en el formulario)
+const uploadBox = document.getElementById("uploadBox");
+const ftFiles = document.getElementById("ftFiles");
+const thumbsEl = document.getElementById("thumbs");
+uploadBox.addEventListener("click", () => ftFiles.click());
+ftFiles.addEventListener("change", () => {
+  thumbsEl.innerHTML = "";
+  customState.files = Array.from(ftFiles.files).slice(0,6);
+  customState.files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = document.createElement("img");
+      img.src = ev.target.result;
+      thumbsEl.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
 });
 
+function validateForm(){
+  const name = document.getElementById("ftName").value.trim();
+  const ocasion = document.getElementById("ftOcasion").value;
+  const ok = name.length>0 && ocasion.length>0;
+  document.getElementById("submitCustom").disabled = !ok;
+}
+
 document.getElementById("submitCustom").addEventListener("click", () => {
+  const name = document.getElementById("ftName").value.trim();
+  const phone = document.getElementById("ftPhone").value.trim();
+  const ocasion = document.getElementById("ftOcasion").value;
+  const talla = document.getElementById("ftTalla").value;
+  const mensaje = document.getElementById("ftMensaje").value.trim();
+  const fotos = customState.files.length;
+
+  let text = `Hola HEBRA, quiero diseñar mi propia manilla.\n`;
+  text += `Nombre: ${name}\n`;
+  if (phone) text += `Teléfono: ${phone}\n`;
+  text += `Material: ${MATERIALS[customState.material].label}\n`;
+  text += `Estilo: ${customState.texture === "piedras" ? "Con piedras" : "Tejida"}\n`;
+  if (customState.texture === "piedras") text += `Engaste: ${MATERIALS[customState.metal].label}\n`;
+  if (customState.colorNames.length) text += `Tonos / piedras: ${customState.colorNames.join(", ")}\n`;
+  text += `Dije o piedra central: ${customState.charm ? "Sí" : "No"}\n`;
+  if (ocasion) text += `Ocasión: ${ocasion}\n`;
+  if (talla) text += `Talla: ${talla}\n`;
+  if (mensaje) text += `Idea: ${mensaje}\n`;
+  if (fotos) text += `(Tengo ${fotos} foto(s) de inspiración para enviarte aquí mismo)\n`;
+
+  window.open(waLink(text), "_blank");
   document.getElementById("confirmNote").classList.add("is-visible");
 });
 
@@ -1932,13 +1916,6 @@ const reviewMsg = `Hola HEBRA, ya tengo mi manilla y quiero dejarles mi opinión
 const reviewBtn = document.getElementById("testimonioWaBtn");
 if (reviewBtn) reviewBtn.href = waLink(reviewMsg);
 
-const crearQuickMsg = `Hola HEBRA, quiero una manilla personalizada. ¿Me ayudan a armar la idea?`;
-const crearQuickBtn = document.getElementById("crearQuickBtn");
-if (crearQuickBtn){
-  crearQuickBtn.href = waLink(crearQuickMsg);
-  attachCardTilt(crearQuickBtn);
-}
-
 /* ============================================================
    SCROLL REVEAL
    ============================================================ */
@@ -1947,20 +1924,6 @@ const io = new IntersectionObserver((entries) => {
   entries.forEach(en => { if(en.isIntersecting) en.target.classList.add("is-visible"); });
 }, { threshold:.15 });
 revealEls.forEach(el => io.observe(el));
-
-// Barra fija de WhatsApp (solo móvil, ver CSS): visible mientras la sección
-// "Diseña tu manilla" está en pantalla, sin importar en qué paso vaya el usuario.
-const crearSection = document.getElementById("crear");
-const crearStickyCta = document.getElementById("crearStickyBtn");
-if (crearSection && crearStickyCta){
-  const crearIo = new IntersectionObserver((entries) => {
-    entries.forEach(en => {
-      crearStickyCta.classList.toggle("is-visible", en.isIntersecting);
-      document.body.classList.toggle("crear-sticky-active", en.isIntersecting);
-    });
-  }, { threshold:.05 });
-  crearIo.observe(crearSection);
-}
 
 document.getElementById("footerYear").textContent = "© " + new Date().getFullYear();
 
