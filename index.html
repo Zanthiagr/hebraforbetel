@@ -838,7 +838,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
     <div class="section-head reveal">
       <p class="eyebrow">Diseño personalizado</p>
       <h2>Crea tu propia manilla</h2>
-      <p>Elige el material, el estilo, las piedras y el dije. Verás una vista previa aquí mismo antes de escribirnos — con foto de inspiración si quieres.</p>
+      <p>Tejidas a mano, pensadas para ti. Cada manilla está elaborada artesanalmente, principalmente en acero inoxidable, cuidando cada detalle. Puedes elegir un diseño del catálogo tal cual, o crear el tuyo desde cero: hilo, color, balines y dije, a tu gusto. Las fotos del catálogo son referencia — si la quieres igual, la hacemos igual; si prefieres algo distinto, la diseñamos contigo.</p>
     </div>
 
     <div class="crear-grid">
@@ -846,7 +846,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
         <div class="preview-card">
           <p class="eyebrow">Vista previa</p>
           <div id="previewSvg"></div>
-          <p class="preview-swatches-label" id="previewColorsLabel">Elige hasta 2 tonos →</p>
+          <p class="preview-swatches-label" id="previewColorsLabel">Elige hasta 2 colores de hilo →</p>
           <div class="preview-meta">
             <span id="previewMaterial">Material: Acero</span>
             <span id="previewOcasion">Ocasión: —</span>
@@ -890,9 +890,25 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
         </div>
 
         <div class="field">
-          <label id="swatchLabel">Elige tus tonos o piedras (máx. 2)</label>
+          <label>Grosor del hilo</label>
+          <div class="chips" id="grosorPicker"></div>
+        </div>
+
+        <div class="field">
+          <label id="swatchLabel">Elige tus colores de hilo (máx. 2)</label>
           <div class="swatches" id="swatchPicker"></div>
           <p class="swatch-help" id="swatchHelp">0 de 2 seleccionados</p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Tamaño de balín</label>
+            <div class="chips" id="balinTamanoPicker"></div>
+          </div>
+          <div class="field">
+            <label>Tipo de balín</label>
+            <div class="chips" id="balinTipoPicker"></div>
+          </div>
         </div>
 
         <div class="field-row">
@@ -928,11 +944,11 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 
         <div class="field">
           <label for="ftMensaje">Cuéntanos tu idea</label>
-          <textarea id="ftMensaje" placeholder="Ej: la quiero con mi inicial, para regalo de cumpleaños..."></textarea>
+          <textarea id="ftMensaje" placeholder="Ej: quiero el dije de una letra M, para regalo de cumpleaños... Puedes pedirnos el dije que quieras, así no esté en el catálogo."></textarea>
         </div>
 
         <div class="field">
-          <label>Fotos de inspiración (opcional)</label>
+          <label>Foto del dije que quieres, o de una manilla que te guste (opcional)</label>
           <div class="upload-box" id="uploadBox">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4M12 4l-4 4M12 4l4 4M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
             <p>Haz clic para subir imágenes</p>
@@ -942,6 +958,10 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
         </div>
 
         <button class="btn btn--solid" id="submitCustom" type="button" disabled>Enviar por WhatsApp</button>
+        <p class="form-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          El precio puede variar según los materiales y especificaciones que elijas. Si prefieres un diseño tal cual está en el catálogo, conserva el precio indicado ahí.
+        </p>
         <p class="form-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
           Al enviar se abrirá WhatsApp con tu pedido ya escrito. Si subiste fotos, adjúntalas también ahí mismo: por ahora no podemos enviarlas automáticamente desde la web.
@@ -1070,17 +1090,15 @@ const PRODUCTS = [
   { ref:"HB-10", name:"Cumbia Eterna",    material:"piedras",      texture:"piedras",tones:["#7A2230","#D9B97B","#16171A"], metal:"rodio", charm:true,  parejas:false, price:168000, badge:"Exclusiva", desc:"La pieza de piedras más elaborada del taller, con dije central." },
 ];
 
+// Colores reales de hilo chino que Leidy trabaja — antes esto tenía nombres
+// de fantasía (Turquesa, Cuarzo Rosa...) que ella no podía producir de verdad.
 const SWATCHES = [
-  {name:"Onyx",        hex:"#16171A"},
-  {name:"Marfil",      hex:"#F2EDE3"},
-  {name:"Turquesa",    hex:"#2E9A93"},
-  {name:"Coral",       hex:"#C76B4A"},
-  {name:"Esmeralda",   hex:"#2F5E45"},
-  {name:"Zafiro",      hex:"#2F4F7A"},
-  {name:"Granate",     hex:"#7A2230"},
-  {name:"Cuarzo Rosa", hex:"#C77B8C"},
-  {name:"Champagne",   hex:"#D9B97B"},
-  {name:"Perla",       hex:"#C7CBCE"},
+  {name:"Morado", hex:"#6B3FA0"},
+  {name:"Azul",   hex:"#2F4F9E"},
+  {name:"Negro",  hex:"#16171A"},
+  {name:"Rojo",   hex:"#A5222E"},
+  {name:"Dorado", hex:"#C4985E"},
+  {name:"Verde",  hex:"#2F6E45"},
 ];
 
 /* ============================================================
@@ -1736,6 +1754,9 @@ const customState = {
   texture:"tejida",
   metal:"rodio",
   colors:[], colorNames:[],
+  hiloGrosor:"0.8",
+  balinTamano:"#4",
+  balinTipo:"Liso",
   charm:false,
   files:[],
 };
@@ -1747,12 +1768,10 @@ materialPicker.innerHTML = MATERIAL_ORDER.map(id => `<button class="chip ${id===
 function syncCustomUI(){
   const esPiedrasMaterial = customState.material === "piedras";
   const esRodio = customState.material === "rodio";
-  const esEstiloPiedras = customState.texture === "piedras";
   document.getElementById("estiloRow").classList.toggle("is-hidden", esPiedrasMaterial);
   document.getElementById("engasteRow").classList.toggle("is-hidden", !esPiedrasMaterial);
   document.getElementById("rodioNote").classList.toggle("is-hidden", !(esPiedrasMaterial || esRodio));
   document.getElementById("previewMaterial").textContent = "Material: " + MATERIALS[customState.material].label;
-  document.getElementById("swatchLabel").textContent = esEstiloPiedras ? "Elige tus piedras (máx. 2)" : "Elige tus tonos (máx. 2)";
   // el engaste de las piedras es el material elegido (o rodio si "Piedras" es el material de base)
   customState.metal = esPiedrasMaterial ? "rodio" : customState.material;
 }
@@ -1785,13 +1804,40 @@ estiloPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("clic
 const swatchPicker = document.getElementById("swatchPicker");
 swatchPicker.innerHTML = SWATCHES.map(s => `<button class="swatch" style="background:${s.hex}" data-hex="${s.hex}" data-name="${s.name}" title="${s.name}" type="button"></button>`).join("");
 
+// Grosor del hilo — 0.8mm (delgado) o 1.0mm (grueso)
+const grosorPicker = document.getElementById("grosorPicker");
+const GROSORES = [{id:"0.8", label:"0.8 mm · Delgado"}, {id:"1.0", label:"1.0 mm · Grueso"}];
+grosorPicker.innerHTML = GROSORES.map(g => `<button class="chip ${g.id===customState.hiloGrosor?'is-active':''}" data-id="${g.id}" type="button">${g.label}</button>`).join("");
+grosorPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
+  customState.hiloGrosor = btn.dataset.id;
+  grosorPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
+}));
+
+// Tamaño de balín — del #3 (más pequeño) al #8 (más grande)
+const balinTamanoPicker = document.getElementById("balinTamanoPicker");
+const BALIN_TAMANOS = ["#3","#4","#5","#6","#8"];
+balinTamanoPicker.innerHTML = BALIN_TAMANOS.map(t => `<button class="chip ${t===customState.balinTamano?'is-active':''}" data-id="${t}" type="button">${t}</button>`).join("");
+balinTamanoPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
+  customState.balinTamano = btn.dataset.id;
+  balinTamanoPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
+}));
+
+// Tipo de balín — liso (clásico) o diamantado/cilíndrico (más llamativo)
+const balinTipoPicker = document.getElementById("balinTipoPicker");
+const BALIN_TIPOS = ["Liso","Diamantado"];
+balinTipoPicker.innerHTML = BALIN_TIPOS.map(t => `<button class="chip ${t===customState.balinTipo?'is-active':''}" data-id="${t}" type="button">${t}</button>`).join("");
+balinTipoPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
+  customState.balinTipo = btn.dataset.id;
+  balinTipoPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
+}));
+
 function updatePreview(){
   const tones = customState.colors.length ? customState.colors : MATERIAL_DEFAULT_TONES[customState.material];
   const pseudo = { texture:customState.texture, tones, metal:customState.metal, charm:customState.charm };
   document.getElementById("previewSvg").innerHTML = braceletSVG(pseudo);
   document.getElementById("previewColorsLabel").textContent = customState.colors.length
-    ? "Tonos: " + customState.colorNames.join(" + ")
-    : "Elige hasta 2 tonos →";
+    ? "Hilo: " + customState.colorNames.join(" + ")
+    : "Elige hasta 2 colores de hilo →";
   validateForm();
 }
 
@@ -1874,7 +1920,9 @@ document.getElementById("submitCustom").addEventListener("click", () => {
   text += `Material: ${MATERIALS[customState.material].label}\n`;
   text += `Estilo: ${customState.texture === "piedras" ? "Con piedras" : "Tejida"}\n`;
   if (customState.texture === "piedras") text += `Engaste: ${MATERIALS[customState.metal].label}\n`;
-  if (customState.colorNames.length) text += `Tonos / piedras: ${customState.colorNames.join(", ")}\n`;
+  text += `Grosor del hilo: ${customState.hiloGrosor} mm\n`;
+  if (customState.colorNames.length) text += `Colores de hilo: ${customState.colorNames.join(", ")}\n`;
+  text += `Balín: tamaño ${customState.balinTamano}, ${customState.balinTipo}\n`;
   text += `Dije o piedra central: ${customState.charm ? "Sí" : "No"}\n`;
   if (ocasion) text += `Ocasión: ${ocasion}\n`;
   if (talla) text += `Talla: ${talla}\n`;
