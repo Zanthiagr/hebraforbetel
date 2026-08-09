@@ -539,11 +539,11 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .balin-preview{background:var(--bone-soft);border:1px solid var(--bone-line);padding:1rem .5rem .4rem;}
 .balin-svg{width:100%;height:auto;display:block;overflow:visible;}
 .balin-preview-caption{font-size:.78rem;color:var(--bone-text-dim);margin-top:.6rem;}
-.balin-dot{cursor:pointer;transition:transform .25s var(--ease);transform-box:fill-box;transform-origin:center;}
-.balin-dot:hover{transform:scale(1.08);}
+.balin-dot{cursor:pointer;transform:translate(calc(var(--tx)*1px),calc(var(--ty)*1px));transform-origin:0 0;transition:transform .25s var(--ease);}
+.balin-dot:hover{transform:translate(calc(var(--tx)*1px),calc(var(--ty)*1px)) scale(1.08);}
 .balin-dot:focus-visible{outline:2px solid var(--clay);outline-offset:4px;border-radius:50%;}
-.balin-dot.is-selected{transform:scale(1.12);}
-.balin-dot.is-selected:hover{transform:scale(1.18);}
+.balin-dot.is-selected{transform:translate(calc(var(--tx)*1px),calc(var(--ty)*1px)) scale(1.12);}
+.balin-dot.is-selected:hover{transform:translate(calc(var(--tx)*1px),calc(var(--ty)*1px)) scale(1.18);}
 
 .toggle-row{display:flex;align-items:center;gap:.7rem;}
 .toggle{width:42px;height:24px;border:1px solid var(--bone-line);border-radius:999px;position:relative;flex:none;transition:background .25s;}
@@ -1245,19 +1245,17 @@ const BALIN_SIZES = [
   {id:"#8", r:24},
 ];
 
-// Patrón de facetado "diamantado": rejilla de cortes cruzados en 3
-// direcciones (0°, 60°, 120°), como un corte brillante real — no líneas
-// radiales desde el centro, que se veían planas y poco creíbles.
+// Patrón de facetado "diamantado": grabado de líneas paralelas en una sola
+// dirección diagonal, como el corte real de un balín diamantado (no una
+// rejilla triangulada, que se veía más como una malla que como un facetado).
 function balinFacets(r, uid){
   const clipId = "balinClip" + uid;
-  const step = Math.max(2.2, r/3.4);
-  const w = Math.max(.35, r*0.045);
+  const step = Math.max(1.8, r/4.2);
+  const w = Math.max(.4, r*0.06);
   let lines = "";
-  [0,60,120].forEach(angle => {
-    for (let o=-r; o<=r; o+=step){
-      lines += `<line x1="${-r*1.3}" y1="${o.toFixed(1)}" x2="${(r*1.3).toFixed(1)}" y2="${o.toFixed(1)}" transform="rotate(${angle})" stroke="#5B431F" stroke-width="${w.toFixed(2)}" opacity=".4"/>`;
-    }
-  });
+  for (let o=-r*1.4; o<=r*1.4; o+=step){
+    lines += `<line x1="${-r*1.3}" y1="${o.toFixed(1)}" x2="${(r*1.3).toFixed(1)}" y2="${o.toFixed(1)}" transform="rotate(-38)" stroke="#5B431F" stroke-width="${w.toFixed(2)}" opacity=".4"/>`;
+  }
   const glint1 = `${-r*0.28},${-r*0.5} ${r*0.02},${-r*0.32} ${-r*0.12},${-r*0.12}`;
   const glint2 = `${r*0.1},${r*0.02} ${r*0.4},${r*0.14} ${r*0.18},${r*0.36}`;
   return `<clipPath id="${clipId}"><circle r="${r}"/></clipPath>
@@ -1276,7 +1274,7 @@ function balinSVG(selTamano, tipo){
     x += s.r;
     const isSel = s.id === selTamano;
     dots += `
-      <g class="balin-dot ${isSel ? 'is-selected' : ''}" data-tamano="${s.id}" tabindex="0" role="button" aria-pressed="${isSel}" aria-label="Balín tamaño ${s.id}" transform="translate(${x},${cy})">
+      <g class="balin-dot ${isSel ? 'is-selected' : ''}" data-tamano="${s.id}" tabindex="0" role="button" aria-pressed="${isSel}" aria-label="Balín tamaño ${s.id}" style="--tx:${x};--ty:${cy}">
         ${isSel ? `<circle r="${s.r+6}" fill="none" stroke="var(--clay)" stroke-width="1.4" stroke-dasharray="2 3"/>` : ""}
         <circle r="${s.r}" fill="${tipo === 'Diamantado' ? 'url(#balinFacetFill)' : 'url(#balinSmoothFill)'}" stroke="#8C6A34" stroke-width=".7"/>
         ${tipo === "Diamantado" ? balinFacets(s.r, s.id.replace('#','')) : `<circle cx="${-s.r*0.32}" cy="${-s.r*0.32}" r="${s.r*0.22}" fill="#fff" opacity=".35"/>`}
