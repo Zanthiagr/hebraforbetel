@@ -465,6 +465,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .talla-table td{padding:.8rem 0;border-bottom:1px solid var(--bone-line);}
 .talla-tip{margin-top:1.3rem;font-size:.85rem;color:var(--bone-text-dim);display:flex;gap:.6em;align-items:flex-start;}
 .talla-tip svg{width:1.2em;height:1.2em;flex:none;color:var(--clay);margin-top:.1em;}
+.talla-wa-cta{margin-top:1.6rem;}
 @media (max-width:900px){.talla-grid{grid-template-columns:1fr;}}
 
 /* ============================================================
@@ -835,6 +836,10 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
         ¿Tu medida queda entre dos tallas? Elige la más grande — siempre es más fácil ajustar una manilla un poco holgada.
       </p>
+      <a href="#" id="tallasWaBtn" class="btn btn--wa talla-wa-cta" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+        ¿Ya sabes qué quieres? Escríbenos directo por WhatsApp
+      </a>
     </div>
   </div>
 </section>
@@ -1192,10 +1197,15 @@ function productVisual(p){
 function braidSVG(p){
   const c = (p.tones && p.tones.length) ? p.tones : ["#B6904B","#17181A"];
   const c0=c[0], c1=c[1]||c[0], c2=c[2];
+  // El grosor real del hilo (0.8mm delgado / 1.0mm grueso) cambia el grosor
+  // visual de las hebras tejidas. Se fuerza por "style" inline porque la
+  // clase .strand ya trae su propio stroke-width en el CSS, que tiene más
+  // especificidad que un atributo suelto y lo ignoraría.
+  const w = p.hiloGrosor === "1.0" ? 11.5 : (p.hiloGrosor === "0.8" ? 6.5 : 9);
   return `<svg viewBox="0 0 160 70" class="bracelet-svg" preserveAspectRatio="xMidYMid meet">
-    <path class="strand" d="M5,35 C25,10 45,60 65,35 C85,10 105,60 125,35 C140,20 150,45 155,35" stroke="${c0}"/>
-    <path class="strand" d="M5,38 C25,55 45,15 65,38 C85,55 105,15 125,38 C140,48 150,22 155,38" stroke="${c1}"/>
-    ${c2 ? `<path class="strand" d="M5,32 C25,18 45,52 65,32 C85,18 105,52 125,32 C140,28 150,40 155,32" stroke="${c2}"/>` : ""}
+    <path class="strand" style="stroke-width:${w}" d="M5,35 C25,10 45,60 65,35 C85,10 105,60 125,35 C140,20 150,45 155,35" stroke="${c0}"/>
+    <path class="strand" style="stroke-width:${w}" d="M5,38 C25,55 45,15 65,38 C85,55 105,15 125,38 C140,48 150,22 155,38" stroke="${c1}"/>
+    ${c2 ? `<path class="strand" style="stroke-width:${w}" d="M5,32 C25,18 45,52 65,32 C85,18 105,52 125,32 C140,28 150,40 155,32" stroke="${c2}"/>` : ""}
     <g class="knots">
       <circle cx="25" cy="33"/><circle cx="45" cy="38"/><circle cx="65" cy="33"/>
       <circle cx="85" cy="38"/><circle cx="105" cy="33"/><circle cx="125" cy="38"/>
@@ -1291,7 +1301,9 @@ function balinSVG(selTamano, tipo){
         <stop offset="0%" stop-color="#F1DDA8"/><stop offset="45%" stop-color="#C4985E"/><stop offset="100%" stop-color="#7A5A2C"/>
       </radialGradient>
     </defs>
-    <path d="M8,${cy+4} Q180,${cy+20} 352,${cy+4}" fill="none" stroke="#2D2418" stroke-width="3" stroke-linecap="round" opacity=".3"/>
+    <!-- cordón tejido de dos hebras entrelazadas, como el hilo real sobre el que van montados los balines -->
+    <path d="M8,${cy+6} C48,${cy} 88,${cy+11} 128,${cy+5} C168,${cy-1} 208,${cy+10} 248,${cy+4} C288,${cy-2} 328,${cy+9} 352,${cy+5}" fill="none" stroke="#151109" stroke-width="4.2" stroke-linecap="round" opacity=".85"/>
+    <path d="M8,${cy+9} C48,${cy+15} 88,${cy+3} 128,${cy+9} C168,${cy+15} 208,${cy+2} 248,${cy+8} C288,${cy+14} 328,${cy+2} 352,${cy+8}" fill="none" stroke="#3A2E1C" stroke-width="4.2" stroke-linecap="round" opacity=".8"/>
     ${dots}
   </svg>`;
 }
@@ -1903,6 +1915,7 @@ grosorPicker.innerHTML = GROSORES.map(g => `<button class="chip ${g.id===customS
 grosorPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
   customState.hiloGrosor = btn.dataset.id;
   grosorPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
+  updatePreview();
 }));
 
 // Tamaño de balín — del #3 (más pequeño) al #8 (más grande)
@@ -1928,7 +1941,7 @@ renderBalinPreview(); // dibuja el comparador con la selección por defecto al c
 
 function updatePreview(){
   const tones = customState.colors.length ? customState.colors : MATERIAL_DEFAULT_TONES[customState.material];
-  const pseudo = { texture:customState.texture, tones, metal:customState.metal, charm:customState.charm };
+  const pseudo = { texture:customState.texture, tones, metal:customState.metal, charm:customState.charm, hiloGrosor:customState.hiloGrosor };
   document.getElementById("previewSvg").innerHTML = braceletSVG(pseudo);
   document.getElementById("previewColorsLabel").textContent = customState.colors.length
     ? "Hilo: " + customState.colorNames.join(" + ")
@@ -2051,7 +2064,7 @@ document.getElementById("testimoniosGrid").innerHTML = TESTIMONIALS.map(t => `
    ENLACES WHATSAPP GENERALES
    ============================================================ */
 const generalMsg = `Hola HEBRA, vi su catálogo en la página web y quiero más información.`;
-["navWaBtn","footerWaBtn","footerWaLink","floatWaBtn"].forEach(id => {
+["navWaBtn","footerWaBtn","footerWaLink","floatWaBtn","tallasWaBtn"].forEach(id => {
   const el = document.getElementById(id);
   if (el) el.href = waLink(generalMsg);
 });
