@@ -391,6 +391,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .lightbox-art--photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease),opacity .3s var(--ease);}
 .lightbox-art--photo:hover img{transform:scale(1.045);}
 .lightbox-art--photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,16,12,.22),transparent 42%);pointer-events:none;}
+.carousel-photo-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bone-soft);}
+.carousel-photo-fallback svg{width:70%;height:auto;}
 .carousel-arrow{
   position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;
   background:rgba(8,16,12,.55);color:#fff;display:flex;align-items:center;justify-content:center;
@@ -1163,6 +1165,35 @@ function braceletSVG(p){
 
 // Si el producto trae foto_url (desde el Sheet o editada a mano), se usa
 // la foto real. Si no, se dibuja el ícono ilustrado como hasta ahora.
+// Google Drive, imgbb, postimg.cc, etc. a veces bloquean o limitan de forma
+// intermitente las peticiones "hotlinked" — la foto existe y es válida, pero
+// a veces el navegador la recibe como error. Por eso reintentamos un par de
+// veces (con cache-busting) antes de darla por rota de verdad.
+function attachPhotoFallback(img, product, opts = {}){
+  if (!img || !product) return;
+  const replaceParent = opts.replaceParent !== false;
+  img.addEventListener("error", () => {
+    const retries = parseInt(img.dataset.retries || "0", 10) + 1;
+    img.dataset.retries = String(retries);
+    if (retries <= 2){
+      setTimeout(() => {
+        const base = img.src.split("?")[0];
+        img.src = base + "?retry=" + retries + "-" + Date.now();
+      }, 700 * retries);
+    } else if (replaceParent) {
+      // caso tarjeta del grid: la tarjeta entera cae de vuelta al ícono ilustrado, igual que un producto sin foto
+      const holder = img.parentElement;
+      if (!holder) return;
+      holder.classList.remove("card-frame--photo", "lightbox-art--photo");
+      holder.innerHTML = braceletSVG(product);
+    } else {
+      // caso carrusel del lightbox: solo se reemplaza esta foto puntual, sin tocar
+      // flechas/dots — las otras fotos del mismo producto pueden seguir funcionando
+      img.outerHTML = `<div class="carousel-photo-fallback">${braceletSVG(product)}</div>`;
+    }
+  });
+}
+
 function productVisual(p){
   if (p.foto) return `<img src="${p.foto}" alt="${p.name}" loading="lazy" decoding="async">`;
   return braceletSVG(p);
@@ -1459,12 +1490,14 @@ function renderGrid(){
         <span class="card-cta">Pedir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
     </article>`).join("");
-  gridEl.querySelectorAll(".bracelet-card").forEach(card => {
+  gridEl.querySelectorAll(".bracelet-card").forEach((card, i) => {
     card.addEventListener("click", () => {
       const img = card.querySelector(".card-frame--photo img");
       openLightboxFromCard(card.dataset.ref, img);
     });
     attachCardTilt(card);
+    const img = card.querySelector(".card-frame--photo img");
+    if (img) attachPhotoFallback(img, list[i], { replaceParent:true });
   });
 }
 
@@ -1504,6 +1537,7 @@ function goToSlide(i, fotos){
     const swap = () => {
       if (swapped) return;
       swapped = true;
+      img.dataset.retries = "0"; // foto nueva y distinta: el contador de reintentos no debe arrastrarse de la anterior
       img.src = nextSrc;
       img.style.opacity = "1";
     };
@@ -1539,7 +1573,8 @@ function renderCarousel(){
     <div class="carousel-dots" id="carouselDots">
       ${fotos.map((_,i)=>`<button class="carousel-dot ${i===carouselIndex?'is-active':''}" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join("")}
     </div>` : "";
-  art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" loading="lazy" style="transition:opacity .18s var(--ease)">${arrows}`;
+  art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" loading="eager" fetchpriority="high" style="transition:opacity .18s var(--ease)">${arrows}`;
+  attachPhotoFallback(document.getElementById("carouselImg"), p, { replaceParent:false });
 
   if (fotos.length > 1){
     document.getElementById("carouselPrev").addEventListener("click", (e)=>{ e.stopPropagation(); goToSlide((carouselIndex-1+fotos.length)%fotos.length, fotos); });
