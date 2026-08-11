@@ -1248,11 +1248,13 @@ function braceletSVG(p){
 
 // Si el producto trae foto_url (desde el Sheet o editada a mano), se usa
 // la foto real. Si no, se dibuja el ícono ilustrado como hasta ahora.
-// Sin loading="lazy": son solo ~10 fotos, y esperar el trigger de scroll
-// sumaba a la sensación de "queda en blanco" al entrar — mejor que empiecen
-// a descargar de inmediato.
+// Sin loading="lazy" ni decoding="async": son solo ~10 fotos, y ambos
+// atributos le dicen al navegador "no hay apuro" — con pocas imágenes eso
+// puede hacer que retrase decodificar/pintar algunas hasta que algo fuerce
+// un repaint (cambiar de pestaña, hacer clic), que es justo lo que se
+// reportó: fotos que "aparecen" solo al interactuar.
 function productVisual(p){
-  if (p.foto) return `<img src="${p.foto}" alt="${p.name}" decoding="async">`;
+  if (p.foto) return `<img src="${p.foto}" alt="${p.name}">`;
   return braceletSVG(p);
 }
 
@@ -1693,8 +1695,17 @@ function bindImgResilience(img, product){
 
   img.addEventListener("load", () => {
     settled = true;
-    img.classList.add("is-loaded");
-    frame?.classList.add("img-ready");
+    // Doble requestAnimationFrame: fuerza a que el navegador complete un
+    // ciclo real de layout+pintura antes de aplicar la transición de
+    // opacidad. Sin esto, en algunos navegadores la imagen queda "cargada"
+    // pero sin pintarse hasta que algo más fuerza un repaint (cambiar de
+    // pestaña, hacer clic) — que es exactamente el síntoma reportado.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        img.classList.add("is-loaded");
+        frame?.classList.add("img-ready");
+      });
+    });
   });
   img.addEventListener("error", fail);
   armTimeout();
