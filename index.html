@@ -532,6 +532,11 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .crear-quick:hover .crear-quick-arrow{transform:translateX(5px);}
 .crear-divider{display:flex;align-items:center;gap:1rem;margin-bottom:2.2rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--bone-text-dim);}
 .crear-divider::before,.crear-divider::after{content:"";flex:1;height:1px;background:var(--bone-line);}
+
+/* Barra fija de WhatsApp (solo móvil): reemplaza la función de la vista
+   previa sticky mientras el usuario explora el formulario en pantallas
+   chicas, donde la preview deja de ser sticky. */
+.crear-sticky-cta{display:none;}
 .preview-card{background:var(--bone-soft);border:1px solid var(--bone-line);padding:2rem;}
 .preview-card .bracelet-svg{margin:1.2rem 0;}
 .preview-meta{font-family:var(--mono);font-size:.76rem;color:var(--bone-text-dim);display:flex;justify-content:space-between;border-top:1px solid var(--bone-line);padding-top:1rem;margin-top:1rem;flex-wrap:wrap;gap:.4rem;}
@@ -605,6 +610,19 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
   .crear-grid{grid-template-columns:1fr;}
   .crear-preview{position:static;}
   .field-row{grid-template-columns:1fr;}
+
+  .crear-sticky-cta{
+    display:flex;align-items:center;justify-content:center;gap:.6em;
+    position:fixed;left:1rem;right:1rem;bottom:1rem;z-index:60;
+    background:var(--ink);color:var(--bone);border:1px solid var(--brass);border-radius:999px;
+    padding:1em 1.2em;font-family:var(--mono);font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;
+    text-decoration:none;box-shadow:0 16px 32px -12px rgba(8,16,12,.45);
+    transform:translateY(120%);opacity:0;transition:transform .35s var(--ease),opacity .35s var(--ease);
+    pointer-events:none;
+  }
+  .crear-sticky-cta svg{width:1.2em;height:1.2em;flex:none;color:var(--brass-light);}
+  .crear-sticky-cta.is-visible{transform:translateY(0);opacity:1;pointer-events:auto;}
+  body.crear-sticky-active .wa-float{opacity:0;pointer-events:none;transition:opacity .3s var(--ease);}
 }
 
 /* ============================================================
@@ -1040,6 +1058,14 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
       </div>
     </div>
   </div>
+
+  <!-- Barra fija solo en móvil: la vista previa deja de ser sticky en pantallas
+       chicas, así que esto reemplaza esa función mientras el usuario explora
+       el formulario — siempre a la vista, siempre con el mensaje actualizado. -->
+  <a href="#" id="crearStickyBtn" class="crear-sticky-cta" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+    <span>Enviar esta idea por WhatsApp</span>
+  </a>
 </section>
 
 <!-- ============================================================
@@ -2173,6 +2199,26 @@ const io = new IntersectionObserver((entries) => {
   entries.forEach(en => { if(en.isIntersecting) en.target.classList.add("is-visible"); });
 }, { threshold:.15 });
 revealEls.forEach(el => io.observe(el));
+
+// Barra fija de WhatsApp (solo móvil, ver CSS): visible mientras la sección
+// "Crea tu manilla" está en pantalla, sin importar en qué parte del
+// formulario vaya el usuario. Usa el mismo mensaje armado que los otros
+// botones de pedir (sendCustomOrder), no un href fijo.
+const crearSection = document.getElementById("crear");
+const crearStickyCta = document.getElementById("crearStickyBtn");
+if (crearSection && crearStickyCta){
+  crearStickyCta.addEventListener("click", (e) => {
+    e.preventDefault();
+    sendCustomOrder();
+  });
+  const crearIo = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      crearStickyCta.classList.toggle("is-visible", en.isIntersecting);
+      document.body.classList.toggle("crear-sticky-active", en.isIntersecting);
+    });
+  }, { threshold:.05 });
+  crearIo.observe(crearSection);
+}
 
 document.getElementById("footerYear").textContent = "© " + new Date().getFullYear();
 
