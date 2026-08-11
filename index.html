@@ -467,6 +467,9 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .talla-tip{margin-top:1.3rem;font-size:.85rem;color:var(--bone-text-dim);display:flex;gap:.6em;align-items:flex-start;}
 .talla-tip svg{width:1.2em;height:1.2em;flex:none;color:var(--clay);margin-top:.1em;}
 .talla-wa-cta{margin-top:1.6rem;}
+@media (max-width:900px){
+  .talla-wa-cta{white-space:normal;width:100%;justify-content:center;text-align:center;line-height:1.4;}
+}
 @media (max-width:900px){.talla-grid{grid-template-columns:1fr;}}
 
 /* ============================================================
@@ -1636,6 +1639,12 @@ function renderGrid(){
 // - Si falla (link caído, bloqueo temporal del host de imágenes): reintenta
 //   una vez a los 1.2s con un parámetro anti-caché, por si fue un problema
 //   pasajero de red o del host.
+// - Timeout de seguridad (6s): algunos hosts (ej. copiar el link de la
+//   página de imgbb en vez del link directo a la imagen) no disparan ni
+//   "load" ni "error" — el navegador se queda esperando indefinidamente y
+//   la tarjeta se ve en blanco para siempre. Si a los 6s no ha cargado, se
+//   trata igual que un error: se reintenta, y si sigue sin cargar, cae al
+//   ícono ilustrado.
 // - Si vuelve a fallar: cae al ícono ilustrado (el mismo que ya se usa cuando
 //   un producto no tiene foto) en vez de dejar un hueco vacío o el ícono roto
 //   del navegador.
@@ -1643,22 +1652,35 @@ function bindImgResilience(img, product){
   if (!img || !product) return;
   const originalSrc = img.getAttribute("src");
   let retried = false;
-  img.addEventListener("load", () => img.classList.add("is-loaded"));
-  img.addEventListener("error", () => {
+  let settled = false; // evita que el timeout dispare después de que ya cargó o ya fue reemplazada
+
+  function fail(){
+    if (settled) return;
     if (!retried && originalSrc){
       retried = true;
       setTimeout(() => {
+        if (settled) return;
         const sep = originalSrc.includes("?") ? "&" : "?";
         img.src = originalSrc + sep + "retry=" + Date.now();
+        armTimeout(); // el reintento también necesita su propio límite de espera
       }, 1200);
       return;
     }
+    settled = true;
     const frame = img.closest(".card-frame, .lightbox-art");
     if (frame){
       frame.classList.remove("card-frame--photo", "lightbox-art--photo");
       frame.innerHTML = braceletSVG(product);
     }
-  });
+  }
+
+  function armTimeout(){
+    setTimeout(() => { if (!settled && !img.classList.contains("is-loaded")) fail(); }, 6000);
+  }
+
+  img.addEventListener("load", () => { settled = true; img.classList.add("is-loaded"); });
+  img.addEventListener("error", fail);
+  armTimeout();
 }
 
 // Tilt 3D real sobre la tarjeta (solo desktop con mouse fino, respeta reduced-motion):
