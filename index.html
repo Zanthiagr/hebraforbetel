@@ -322,7 +322,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .card-stagger{animation:cardIn .55s var(--ease) backwards;}
 .card-frame{background:var(--bone);border:1px solid var(--bone-line);padding:1.6rem .8rem;margin-bottom:1.2rem;overflow:hidden;}
 .card-frame--photo{padding:0;}
-.card-frame--photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .5s var(--ease);will-change:transform;}
+.card-frame--photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;opacity:0;transition:transform .5s var(--ease),opacity .4s var(--ease);will-change:transform;}
+.card-frame--photo img.is-loaded{opacity:1;}
 /* la imagen escala y se desplaza distinto al marco al inclinar la tarjeta: eso es lo que da la sensación de profundidad, no solo la sombra */
 .bracelet-card:hover .card-frame--photo img{transform:scale(1.07);}
 
@@ -374,6 +375,12 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
   opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s;
 }
 .lightbox-overlay.is-open{opacity:1;visibility:visible;}
+/* Mientras la foto "vuela" del grid al lightbox, se quita el backdrop-filter:
+   animar opacity con blur detrás es de lo más caro que hay en CSS y era la
+   causa principal de que el vuelo se sintiera pesado/trabado. Se restaura
+   de golpe (sin transición) apenas termina el vuelo, cuando ya no compite
+   con ninguna otra animación en curso. */
+.lightbox-overlay.is-flying{backdrop-filter:none;}
 .lightbox{
   background:var(--bone);max-width:840px;width:100%;display:grid;grid-template-columns:1.05fr 1fr;
   transform:translateY(20px) scale(.98);transition:transform .4s var(--ease);
@@ -386,7 +393,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .lightbox-art--photo{padding:0;aspect-ratio:1/1;align-self:center;}
 .lightbox-art--flipping{opacity:0;}
 .lightbox-flip-clone{position:fixed;top:0;left:0;object-fit:cover;z-index:300;pointer-events:none;will-change:transform;transform-origin:top left;transition:transform .38s var(--ease);}
-.lightbox-art--photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease),opacity .3s var(--ease);}
+.lightbox-art--photo img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:transform .5s var(--ease),opacity .3s var(--ease);}
+.lightbox-art--photo img.is-loaded{opacity:1;}
 .lightbox-art--photo:hover img{transform:scale(1.045);}
 .lightbox-art--photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,16,12,.22),transparent 42%);pointer-events:none;}
 .carousel-arrow{
@@ -1440,12 +1448,46 @@ function renderGrid(){
         <span class="card-cta">Pedir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
     </article>`).join("");
-  gridEl.querySelectorAll(".bracelet-card").forEach(card => {
+  gridEl.querySelectorAll(".bracelet-card").forEach((card, idx) => {
+    const product = list[idx]; // por posición, no por ref: dos productos con la misma ref no se confunden
+    const img = card.querySelector(".card-frame--photo img");
+    bindImgResilience(img, product);
     card.addEventListener("click", () => {
-      const img = card.querySelector(".card-frame--photo img");
-      openLightboxFromCard(card.dataset.ref, img);
+      openLightboxFromCard(product, img);
     });
     attachCardTilt(card);
+  });
+}
+
+// Blindaje de fotos de producto: evita que una foto rota o lenta se quede
+// en blanco para siempre.
+// - Mientras carga: opacity 0 con transición suave (así "cargando" nunca se
+//   confunde a simple vista con "roto").
+// - Si falla (link caído, bloqueo temporal del host de imágenes): reintenta
+//   una vez a los 1.2s con un parámetro anti-caché, por si fue un problema
+//   pasajero de red o del host.
+// - Si vuelve a fallar: cae al ícono ilustrado (el mismo que ya se usa cuando
+//   un producto no tiene foto) en vez de dejar un hueco vacío o el ícono roto
+//   del navegador.
+function bindImgResilience(img, product){
+  if (!img || !product) return;
+  const originalSrc = img.getAttribute("src");
+  let retried = false;
+  img.addEventListener("load", () => img.classList.add("is-loaded"));
+  img.addEventListener("error", () => {
+    if (!retried && originalSrc){
+      retried = true;
+      setTimeout(() => {
+        const sep = originalSrc.includes("?") ? "&" : "?";
+        img.src = originalSrc + sep + "retry=" + Date.now();
+      }, 1200);
+      return;
+    }
+    const frame = img.closest(".card-frame, .lightbox-art");
+    if (frame){
+      frame.classList.remove("card-frame--photo", "lightbox-art--photo");
+      frame.innerHTML = braceletSVG(product);
+    }
   });
 }
 
@@ -1521,6 +1563,7 @@ function renderCarousel(){
       ${fotos.map((_,i)=>`<button class="carousel-dot ${i===carouselIndex?'is-active':''}" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join("")}
     </div>` : "";
   art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" loading="lazy" style="transition:opacity .18s var(--ease)">${arrows}`;
+  bindImgResilience(document.getElementById("carouselImg"), p);
 
   if (fotos.length > 1){
     document.getElementById("carouselPrev").addEventListener("click", (e)=>{ e.stopPropagation(); goToSlide((carouselIndex-1+fotos.length)%fotos.length, fotos); });
@@ -1546,8 +1589,11 @@ function fillLightboxContent(p){
   document.getElementById("lightboxWa").href = waLink(msg);
 }
 
-function openLightbox(ref){
-  const p = PRODUCTS.find(x=>x.ref===ref);
+// Recibe el producto directamente (no su ref) a propósito: si el Sheet llegara
+// a tener dos filas con la misma referencia por error de captura, buscar por
+// ref abriría siempre la primera coincidencia. Usando el objeto ya resuelto
+// desde el grid, cada tarjeta abre exactamente el producto que muestra.
+function openLightbox(p){
   fillLightboxContent(p);
   lightboxLastFocused = document.activeElement;
   lightboxOverlay.classList.add("is-open");
@@ -1558,12 +1604,11 @@ function openLightbox(ref){
 // desde su posición real en la tarjeta hasta su lugar en el lightbox (FLIP:
 // First-Last-Invert-Play), en vez del corte seco anterior. Si la tarjeta no
 // tiene foto (SVG de respaldo) o hay reduced-motion, cae de vuelta al open normal.
-function openLightboxFromCard(ref, imgEl){
-  const p = PRODUCTS.find(x=>x.ref===ref);
-  if (!imgEl || prefersReducedMotion){ openLightbox(ref); return; }
+function openLightboxFromCard(p, imgEl){
+  if (!imgEl || prefersReducedMotion){ openLightbox(p); return; }
 
   const startRect = imgEl.getBoundingClientRect();
-  if (!startRect.width || !startRect.height){ openLightbox(ref); return; }
+  if (!startRect.width || !startRect.height){ openLightbox(p); return; }
   const startSrc = imgEl.currentSrc || imgEl.src;
 
   fillLightboxContent(p);
@@ -1571,8 +1616,11 @@ function openLightboxFromCard(ref, imgEl){
   art.classList.add("lightbox-art--flipping"); // oculta el arte real mientras viaja el clon
 
   lightboxLastFocused = document.activeElement;
-  lightboxOverlay.classList.add("is-priming", "is-open"); // congela el transform del panel para poder medir su posición final
-  void lightboxOverlay.offsetHeight; // fuerza reflow antes de medir (única lectura de layout que necesitamos)
+  // is-flying quita el backdrop-filter del overlay mientras dura el vuelo (ver CSS).
+  lightboxOverlay.classList.add("is-priming", "is-flying", "is-open"); // congela el transform del panel para poder medir su posición final
+  // getBoundingClientRect ya fuerza por sí sola el reflow que necesitamos leer;
+  // el "void offsetHeight" que había antes aquí era un reflow síncrono duplicado
+  // (mismo costo, ningún dato nuevo) y se quitó.
   const targetRect = art.getBoundingClientRect();
   lightboxOverlay.classList.remove("is-priming");
 
@@ -1580,8 +1628,12 @@ function openLightboxFromCard(ref, imgEl){
   // la foto real) y solo anima "transform" (translate + scale) para volver a
   // su tamaño identidad. Es compositor puro: no dispara layout en cada frame,
   // por eso deja de sentirse pesado o tardío como con top/left/width/height.
-  const clone = document.createElement("img");
-  clone.src = startSrc;
+  // Se clona el <img> real (no uno nuevo con el mismo src) para heredar el
+  // bitmap ya decodificado por el navegador y no pagar una decodificación
+  // extra justo en el instante más sensible de la animación.
+  const clone = imgEl.cloneNode(true);
+  clone.removeAttribute("loading");
+  clone.removeAttribute("sizes");
   clone.alt = "";
   clone.className = "lightbox-flip-clone";
   clone.style.top = targetRect.top + "px";
@@ -1595,12 +1647,21 @@ function openLightboxFromCard(ref, imgEl){
   clone.style.transition = "none";
   clone.style.transform = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
   document.body.appendChild(clone);
-  void clone.offsetWidth; // aplica el transform inicial antes de animar (sin esperar frames)
-  clone.style.transition = "transform .38s var(--ease)";
-  clone.style.transform = "translate(0,0) scale(1,1)";
+  // Doble rAF en vez de "void clone.offsetWidth": se deja que el navegador
+  // pinte el estado inicial del clon dentro de su ciclo normal de frame y
+  // solo entonces se activa la transición, sin forzar un reflow síncrono
+  // a mano. El segundo rAF es el patrón estándar para garantizar que el
+  // primer frame ya se pintó antes de animar.
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      clone.style.transition = "transform .38s var(--ease)";
+      clone.style.transform = "translate(0,0) scale(1,1)";
+    });
+  });
 
   const revealArt = () => {
     art.classList.remove("lightbox-art--flipping");
+    lightboxOverlay.classList.remove("is-flying"); // el backdrop-filter vuelve, ya no compite con ninguna animación
     clone.remove();
   };
   let flightDone = false;
