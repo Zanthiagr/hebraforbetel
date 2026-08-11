@@ -111,6 +111,13 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .section--bone .section-head p{color:var(--bone-text-dim);}
 .section--ink .section-head p{color:var(--ink-text-dim);}
 
+/* Frase destacada opcional dentro del section-head: para el mensaje que
+   debe leerse primero (ej. "puedes pedir lo que imagines"), no como una
+   nota más entre el resto del texto atenuado. */
+.section-head .section-lead{font-family:var(--display);font-size:1.3rem;font-style:italic;line-height:1.45;max-width:48ch;}
+.section--bone .section-head .section-lead{color:var(--bone-text);}
+.section--ink .section-head .section-lead{color:var(--ink-text);}
+
 /* ---------- BUTTONS ---------- */
 .btn{
   display:inline-flex;align-items:center;gap:.6em;
@@ -917,7 +924,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
     <div class="section-head reveal">
       <p class="eyebrow">Diseño personalizado</p>
       <h2>Crea tu propia manilla</h2>
-      <p>Tejidas a mano, pensadas para ti. Cada manilla está elaborada artesanalmente, principalmente en acero inoxidable, cuidando cada detalle para ofrecer piezas duraderas, elegantes y únicas. Puedes elegir un diseño del catálogo tal cual, o crear el tuyo desde cero: hilo, color, balines y dije, a tu gusto. Las fotos del catálogo son referencia — si la quieres igual, la hacemos igual; si prefieres algo distinto, la diseñamos contigo.</p>
+      <p class="section-lead">Puedes pedir lo que imagines: desde una tejida clásica hasta una cadena, con el dije que quieras o sin él. Mándanos tu idea, tu inspiración o una foto de referencia — y la hacemos realidad.</p>
+      <p>Trabajamos principalmente en acero inoxidable, cuidando cada detalle para ofrecer piezas duraderas, elegantes y únicas. Puedes elegir un diseño del catálogo tal cual, o crear el tuyo desde cero: hilo, color, balines y dije, a tu gusto. Las fotos del catálogo son referencia — si la quieres igual, la hacemos igual; si prefieres algo distinto, la diseñamos contigo.</p>
     </div>
 
     <a href="#" id="crearQuickBtn" class="crear-quick reveal" target="_blank" rel="noopener">
@@ -1993,9 +2001,11 @@ materialPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("cl
   updatePreview();
 }));
 
-// Estilo chips (tejida / piedras) — solo para materiales que no sean "Piedras"
+// Estilo chips (tejida / cadena / piedras) — solo para materiales que no sean "Piedras".
+// "Cadena" se agregó para que la vista previa cumpla lo que dice el texto
+// principal de la sección: no solo tejidas, también cadenas.
 const estiloPicker = document.getElementById("estiloPicker");
-estiloPicker.innerHTML = `<button class="chip is-active" data-id="tejida" type="button">Tejida</button><button class="chip" data-id="piedras" type="button">Piedras</button>`;
+estiloPicker.innerHTML = `<button class="chip is-active" data-id="tejida" type="button">Tejida</button><button class="chip" data-id="cadena" type="button">Cadena</button><button class="chip" data-id="piedras" type="button">Piedras</button>`;
 estiloPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
   customState.texture = btn.dataset.id;
   estiloPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
@@ -2097,7 +2107,8 @@ updatePreview(); // vista previa por defecto al cargar
 function sendCustomOrder(){
   let text = `Hola HEBRA, quiero diseñar mi propia manilla.\n`;
   text += `Material: ${MATERIALS[customState.material].label}\n`;
-  text += `Estilo: ${customState.texture === "piedras" ? "Con piedras" : "Tejida"}\n`;
+  const ESTILO_LABELS = { tejida:"Tejida", cadena:"Cadena", piedras:"Con piedras" };
+  text += `Estilo: ${ESTILO_LABELS[customState.texture] || customState.texture}\n`;
   if (customState.texture === "piedras") text += `Engaste: ${MATERIALS[customState.metal].label}\n`;
   text += `Grosor del hilo: ${customState.hiloGrosor} mm\n`;
   if (customState.colorNames.length) text += `Colores de hilo: ${customState.colorNames.join(", ")}\n`;
