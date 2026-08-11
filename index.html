@@ -533,6 +533,25 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .crear-divider{display:flex;align-items:center;gap:1rem;margin-bottom:2.2rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--bone-text-dim);}
 .crear-divider::before,.crear-divider::after{content:"";flex:1;height:1px;background:var(--bone-line);}
 
+/* Tarjetas de opción con descripción — para decisiones donde el "por qué"
+   importa tanto como el "qué" (grosor de hilo, tipo de balín). Igual de
+   rápidas de tocar que un chip normal, pero llevan el texto explicativo
+   incrustado en vez de dejarlo en un párrafo aparte que nadie lee. */
+.choice-cards{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+.choice-card{
+  text-align:left;border:1px solid var(--bone-line);border-radius:var(--radius);
+  background:var(--bone);padding:.9rem 1rem;display:flex;flex-direction:column;gap:.35rem;
+  transition:background .25s var(--ease),border-color .25s var(--ease);
+}
+.choice-card-title{font-family:var(--mono);font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;font-weight:700;color:var(--bone-text);}
+.choice-card-desc{font-size:.82rem;line-height:1.45;color:var(--bone-text-dim);}
+.choice-card:hover:not(.is-active){border-color:var(--clay);}
+.choice-card.is-active{background:var(--bone-text);border-color:var(--bone-text);}
+.choice-card.is-active .choice-card-title,.choice-card.is-active .choice-card-desc{color:var(--bone);}
+@media (max-width:520px){.choice-cards{grid-template-columns:1fr;}}
+
+.crear-tagline{font-family:var(--display);font-size:1.2rem;font-style:italic;color:var(--bone-text);margin:1.8rem 0 1.4rem;padding-top:1.4rem;border-top:1px solid var(--bone-line);}
+
 /* Barra fija de WhatsApp (solo móvil): reemplaza la función de la vista
    previa sticky mientras el usuario explora el formulario en pantallas
    chicas, donde la preview deja de ser sticky. */
@@ -545,19 +564,11 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .preview-cta-note{font-size:.76rem;color:var(--bone-text-dim);margin-top:.7rem;text-align:center;}
 
 .crear-subhead{margin-bottom:1.4rem;}
-.crear-subhead--action{margin-top:2.4rem;padding-top:2rem;border-top:1px solid var(--bone-line);}
 .crear-subhead h3{font-family:var(--display);font-size:1.4rem;margin-top:.3em;}
 .crear-subhead-note{font-size:.88rem;color:var(--bone-text-dim);margin-top:.5rem;max-width:48ch;}
 
 .field{margin-bottom:1.6rem;}
 .field label{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-text-dim);margin-bottom:.6rem;}
-.field input[type=text],.field input[type=tel],.field textarea,.field select{
-  width:100%;border-bottom:1px solid var(--bone-line);padding:.7em .2em;font-size:1rem;
-  transition:border-color .25s;background:transparent;
-}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--clay);}
-.field textarea{resize:vertical;min-height:90px;}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
 
 .chips{display:flex;flex-wrap:wrap;gap:.6rem;}
 .chip{
@@ -594,12 +605,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .toggle.is-on{background:var(--clay);border-color:var(--clay);}
 .toggle.is-on::after{transform:translateX(17px);background:var(--bone);}
 
-.upload-box{border:1px dashed var(--bone-line);padding:1.6rem;text-align:center;cursor:pointer;transition:border-color .25s,background .25s;}
-.upload-box:hover{border-color:var(--clay);background:rgba(122,34,48,.04);}
-.upload-box svg{width:28px;height:28px;margin:0 auto .6rem;}
-.upload-box p{font-size:.85rem;color:var(--bone-text-dim);}
-.thumbs{display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;}
-.thumbs img{width:56px;height:56px;object-fit:cover;border:1px solid var(--bone-line);}
 
 .form-note{font-size:.8rem;color:var(--bone-text-dim);margin-top:1rem;display:flex;gap:.6em;align-items:flex-start;}
 .form-note svg{width:1.1em;height:1.1em;flex:none;margin-top:.15em;color:var(--clay);}
@@ -609,7 +614,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 @media (max-width:900px){
   .crear-grid{grid-template-columns:1fr;}
   .crear-preview{position:static;}
-  .field-row{grid-template-columns:1fr;}
 
   .crear-sticky-cta{
     display:flex;align-items:center;justify-content:center;gap:.6em;
@@ -932,8 +936,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
           <p class="preview-swatches-label" id="previewColorsLabel">Elige hasta 2 colores de hilo →</p>
           <div class="preview-meta">
             <span id="previewMaterial">Material: Acero</span>
-            <span id="previewOcasion">Ocasión: —</span>
-            <span id="previewTalla">Talla: —</span>
+            <span id="previewHilo">Hilo: 0.8 mm</span>
+            <span id="previewBalin">Balín: #4 · Liso</span>
           </div>
           <button class="btn btn--solid preview-cta" id="submitCustomPreview" type="button">Pedir por WhatsApp</button>
           <p class="preview-cta-note">No tienes que elegir todo — cuéntanos lo que sí sabes y resolvemos el resto por chat.</p>
@@ -942,13 +946,11 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 
       <div class="crear-form reveal">
         <div class="crear-subhead">
-          <p class="eyebrow">Paso 1 · opcional</p>
-          <h3>Explora los materiales</h3>
-          <p class="crear-subhead-note">Toca lo que te guste para verlo en la vista previa. No tienes que elegir todo — es solo para darte una idea antes de escribirnos.</p>
+          <p class="eyebrow">Paso 1</p>
+          <h3>Material</h3>
         </div>
 
         <div class="field">
-          <label>Material</label>
           <div class="chips" id="materialPicker"></div>
         </div>
 
@@ -969,47 +971,43 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
           </p>
         </div>
 
-        <div class="field">
-          <label>Grosor del hilo</label>
-          <div class="chips" id="grosorPicker"></div>
+        <div class="crear-subhead">
+          <p class="eyebrow">Paso 2</p>
+          <h3>Hilo chino</h3>
+          <p class="crear-subhead-note">Hilo chino resistente y de excelente acabado, en dos grosores.</p>
         </div>
 
         <div class="field">
-          <label id="swatchLabel">Elige tus colores de hilo (máx. 2)</label>
+          <div class="choice-cards" id="grosorPicker"></div>
+        </div>
+
+        <div class="field">
+          <label id="swatchLabel">Color del hilo (máx. 2)</label>
           <div class="swatches" id="swatchPicker"></div>
           <p class="swatch-help" id="swatchHelp">0 de 2 seleccionados</p>
         </div>
 
-        <div class="field-row">
-          <div class="field">
-            <label>Tamaño de balín</label>
-            <div class="chips" id="balinTamanoPicker"></div>
-          </div>
-          <div class="field">
-            <label>Tipo de balín</label>
-            <div class="chips" id="balinTipoPicker"></div>
-          </div>
+        <div class="crear-subhead">
+          <p class="eyebrow">Paso 3</p>
+          <h3>Balines</h3>
+          <p class="crear-subhead-note">Varían en tamaño y estilo, para combinaciones únicas.</p>
         </div>
 
         <div class="field">
+          <label>Tamaño</label>
+          <div class="chips" id="balinTamanoPicker"></div>
           <div class="balin-preview" id="balinPreview"></div>
           <p class="balin-preview-caption">Comparación a escala real entre los 5 tamaños — toca cualquiera para elegirlo.</p>
         </div>
 
-        <div class="crear-subhead crear-subhead--action">
-          <p class="eyebrow">Paso 2</p>
-          <h3>Cuéntanos y pide</h3>
+        <div class="field">
+          <label>Tipo</label>
+          <div class="choice-cards" id="balinTipoPicker"></div>
         </div>
 
-        <div class="field-row">
-          <div class="field">
-            <label>Ocasión (opcional)</label>
-            <div class="chips" id="ocasionPicker"></div>
-          </div>
-          <div class="field">
-            <label>Talla (opcional)</label>
-            <div class="chips" id="tallaPicker"></div>
-          </div>
+        <div class="crear-subhead">
+          <p class="eyebrow">Paso 4 · opcional</p>
+          <h3>Dije o piedra central</h3>
         </div>
 
         <div class="field">
@@ -1019,31 +1017,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
           </div>
         </div>
 
-        <div class="field">
-          <label for="ftMensaje">Cuéntanos tu idea</label>
-          <textarea id="ftMensaje" placeholder="Ej: quiero el dije de una letra M, para regalo de cumpleaños... Puedes pedirnos el dije que quieras, así no esté en el catálogo."></textarea>
-        </div>
-
-        <div class="field">
-          <label>Foto del dije que quieres, o de una manilla que te guste (opcional)</label>
-          <div class="upload-box" id="uploadBox">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4M12 4l-4 4M12 4l4 4M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
-            <p>Haz clic para subir imágenes</p>
-          </div>
-          <input type="file" id="ftFiles" accept="image/*" multiple hidden>
-          <div class="thumbs" id="thumbs"></div>
-        </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label for="ftName">Tu nombre (opcional)</label>
-            <input type="text" id="ftName" placeholder="¿Cómo te llamas?">
-          </div>
-          <div class="field">
-            <label for="ftPhone">Tu número (opcional)</label>
-            <input type="tel" id="ftPhone" placeholder="Por si queremos confirmar algo">
-          </div>
-        </div>
+        <p class="crear-tagline">Personalización total — tú eliges, nosotros lo hacemos realidad.</p>
 
         <button class="btn btn--solid" id="submitCustom" type="button">Pedir por WhatsApp</button>
         <p class="form-note">
@@ -1052,9 +1026,9 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
         </p>
         <p class="form-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          Al enviar se abrirá WhatsApp con tu pedido ya escrito. Si subiste fotos, adjúntalas también ahí mismo: por ahora no podemos enviarlas automáticamente desde la web.
+          ¿Tienes una foto de inspiración o del dije que quieres? Cuéntanoslo por WhatsApp y la usamos para armar tu manilla juntos.
         </p>
-        <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con tu idea. Si tienes fotos, ¡no olvides adjuntarlas en el chat!</p>
+        <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con tu idea. ¡No olvides adjuntar tus fotos de referencia en el chat!</p>
       </div>
     </div>
   </div>
@@ -1394,6 +1368,7 @@ function renderBalinPreview(){
       customState.balinTamano = dot.dataset.tamano;
       balinTamanoPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b.dataset.id===customState.balinTamano));
       renderBalinPreview();
+      updatePreview();
     };
     dot.addEventListener("click", pick);
     dot.addEventListener("keydown", (e) => { if (e.key==="Enter" || e.key===" "){ e.preventDefault(); pick(); } });
@@ -1957,10 +1932,7 @@ const customState = {
   hiloGrosor:"0.8",
   balinTamano:"#4",
   balinTipo:"Liso",
-  ocasion:"",
-  talla:"",
   charm:false,
-  files:[],
 };
 
 // Material chips
@@ -2006,13 +1978,18 @@ estiloPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("clic
 const swatchPicker = document.getElementById("swatchPicker");
 swatchPicker.innerHTML = SWATCHES.map(s => `<button class="swatch" style="background:${s.hex}" data-hex="${s.hex}" data-name="${s.name}" title="${s.name}" type="button"></button>`).join("");
 
-// Grosor del hilo — 0.8mm (delgado) o 1.0mm (grueso)
+// Grosor del hilo — 0.8mm (delgado) o 1.0mm (grueso). Tarjetas con el texto
+// explicativo real de la clienta, no solo la medida: así la persona entiende
+// qué implica cada opción sin tener que preguntarlo por chat.
 const grosorPicker = document.getElementById("grosorPicker");
-const GROSORES = [{id:"0.8", label:"0.8 mm · Delgado"}, {id:"1.0", label:"1.0 mm · Grueso"}];
-grosorPicker.innerHTML = GROSORES.map(g => `<button class="chip ${g.id===customState.hiloGrosor?'is-active':''}" data-id="${g.id}" type="button">${g.label}</button>`).join("");
-grosorPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
+const GROSORES = [
+  { id:"0.8", label:"0.8 mm · Delgado", desc:"Ideal para diseños delicados, finos y detallados. Aporta elegancia y ligereza." },
+  { id:"1.0", label:"1.0 mm · Grueso",  desc:"Perfecto para manillas más firmes y llamativas, con mayor presencia." },
+];
+grosorPicker.innerHTML = GROSORES.map(g => `<button class="choice-card ${g.id===customState.hiloGrosor?'is-active':''}" data-id="${g.id}" type="button"><span class="choice-card-title">${g.label}</span><span class="choice-card-desc">${g.desc}</span></button>`).join("");
+grosorPicker.querySelectorAll(".choice-card").forEach(btn => btn.addEventListener("click", () => {
   customState.hiloGrosor = btn.dataset.id;
-  grosorPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
+  grosorPicker.querySelectorAll(".choice-card").forEach(b=>b.classList.toggle("is-active", b===btn));
   updatePreview();
 }));
 
@@ -2024,43 +2001,24 @@ balinTamanoPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener(
   customState.balinTamano = btn.dataset.id;
   balinTamanoPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
   renderBalinPreview();
+  updatePreview();
 }));
 
-// Tipo de balín — liso (clásico) o diamantado/cilíndrico (más llamativo)
+// Tipo de balín — liso (clásico) o diamantado/cilíndrico (más llamativo).
+// Mismo patrón de tarjeta con descripción que el grosor del hilo.
 const balinTipoPicker = document.getElementById("balinTipoPicker");
-const BALIN_TIPOS = ["Liso","Diamantado"];
-balinTipoPicker.innerHTML = BALIN_TIPOS.map(t => `<button class="chip ${t===customState.balinTipo?'is-active':''}" data-id="${t}" type="button">${t}</button>`).join("");
-balinTipoPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
+const BALIN_TIPOS = [
+  { id:"Liso",       desc:"Superficie uniforme y brillante, estilo clásico." },
+  { id:"Diamantado", desc:"Con textura y forma cilíndrica que aporta un efecto más llamativo y moderno." },
+];
+balinTipoPicker.innerHTML = BALIN_TIPOS.map(t => `<button class="choice-card ${t.id===customState.balinTipo?'is-active':''}" data-id="${t.id}" type="button"><span class="choice-card-title">${t.id}</span><span class="choice-card-desc">${t.desc}</span></button>`).join("");
+balinTipoPicker.querySelectorAll(".choice-card").forEach(btn => btn.addEventListener("click", () => {
   customState.balinTipo = btn.dataset.id;
-  balinTipoPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
+  balinTipoPicker.querySelectorAll(".choice-card").forEach(b=>b.classList.toggle("is-active", b===btn));
   renderBalinPreview();
+  updatePreview();
 }));
 renderBalinPreview(); // dibuja el comparador con la selección por defecto al cargar
-
-// Ocasión y talla: opcionales de verdad — tocar el chip activo lo apaga.
-// A diferencia de material/estilo/grosor (que siempre tienen un valor),
-// aquí "nada seleccionado" es un estado válido y no bloquea el envío.
-const OCASIONES = ["Para regalar","Para mí","En pareja","Amistad","Carnaval"];
-const ocasionPicker = document.getElementById("ocasionPicker");
-ocasionPicker.innerHTML = OCASIONES.map(o => `<button class="chip" data-id="${o}" type="button">${o}</button>`).join("");
-ocasionPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
-  const wasActive = btn.classList.contains("is-active");
-  ocasionPicker.querySelectorAll(".chip").forEach(b=>b.classList.remove("is-active"));
-  customState.ocasion = wasActive ? "" : btn.dataset.id;
-  if (!wasActive) btn.classList.add("is-active");
-  updatePreview();
-}));
-
-const TALLAS = ["Niño/a","Pequeña","Mediana","Grande"];
-const tallaPicker = document.getElementById("tallaPicker");
-tallaPicker.innerHTML = TALLAS.map(t => `<button class="chip" data-id="${t}" type="button">${t}</button>`).join("");
-tallaPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
-  const wasActive = btn.classList.contains("is-active");
-  tallaPicker.querySelectorAll(".chip").forEach(b=>b.classList.remove("is-active"));
-  customState.talla = wasActive ? "" : btn.dataset.id;
-  if (!wasActive) btn.classList.add("is-active");
-  updatePreview();
-}));
 
 function updatePreview(){
   const tones = customState.colors.length ? customState.colors : MATERIAL_DEFAULT_TONES[customState.material];
@@ -2069,8 +2027,8 @@ function updatePreview(){
   document.getElementById("previewColorsLabel").textContent = customState.colors.length
     ? "Hilo: " + customState.colorNames.join(" + ")
     : "Elige hasta 2 colores de hilo →";
-  document.getElementById("previewOcasion").textContent = "Ocasión: " + (customState.ocasion || "—");
-  document.getElementById("previewTalla").textContent = "Talla: " + (customState.talla || "—");
+  document.getElementById("previewHilo").textContent = "Hilo: " + customState.hiloGrosor + " mm";
+  document.getElementById("previewBalin").textContent = "Balín: " + customState.balinTamano + " · " + customState.balinTipo;
 }
 
 swatchPicker.querySelectorAll(".swatch").forEach(sw => {
@@ -2103,38 +2061,13 @@ charmToggle.addEventListener("click", () => {
 syncCustomUI();
 updatePreview(); // vista previa por defecto al cargar
 
-// uploads (solo vista previa local — ver nota en el formulario)
-const uploadBox = document.getElementById("uploadBox");
-const ftFiles = document.getElementById("ftFiles");
-const thumbsEl = document.getElementById("thumbs");
-uploadBox.addEventListener("click", () => ftFiles.click());
-ftFiles.addEventListener("change", () => {
-  thumbsEl.innerHTML = "";
-  customState.files = Array.from(ftFiles.files).slice(0,6);
-  customState.files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const img = document.createElement("img");
-      img.src = ev.target.result;
-      thumbsEl.appendChild(img);
-    };
-    reader.readAsDataURL(file);
-  });
-});
-
 // El botón de pedir por WhatsApp ya no se bloquea por campos incompletos:
 // el negocio se cierra por chat, así que la web solo necesita abrir la
-// conversación con lo que la persona ya decidió — el resto se resuelve
-// hablando con Leidy, no llenando un formulario.
+// conversación con lo que la persona ya decidió — el resto (nombre,
+// teléfono, fotos de inspiración, dudas) se resuelve hablando con Leidy,
+// no llenando más campos en la web.
 function sendCustomOrder(){
-  const name = document.getElementById("ftName").value.trim();
-  const phone = document.getElementById("ftPhone").value.trim();
-  const mensaje = document.getElementById("ftMensaje").value.trim();
-  const fotos = customState.files.length;
-
   let text = `Hola HEBRA, quiero diseñar mi propia manilla.\n`;
-  if (name) text += `Nombre: ${name}\n`;
-  if (phone) text += `Teléfono: ${phone}\n`;
   text += `Material: ${MATERIALS[customState.material].label}\n`;
   text += `Estilo: ${customState.texture === "piedras" ? "Con piedras" : "Tejida"}\n`;
   if (customState.texture === "piedras") text += `Engaste: ${MATERIALS[customState.metal].label}\n`;
@@ -2142,10 +2075,6 @@ function sendCustomOrder(){
   if (customState.colorNames.length) text += `Colores de hilo: ${customState.colorNames.join(", ")}\n`;
   text += `Balín: tamaño ${customState.balinTamano}, ${customState.balinTipo}\n`;
   text += `Dije o piedra central: ${customState.charm ? "Sí" : "No"}\n`;
-  if (customState.ocasion) text += `Ocasión: ${customState.ocasion}\n`;
-  if (customState.talla) text += `Talla: ${customState.talla}\n`;
-  if (mensaje) text += `Idea: ${mensaje}\n`;
-  if (fotos) text += `(Tengo ${fotos} foto(s) de inspiración para enviarte aquí mismo)\n`;
 
   window.open(waLink(text), "_blank");
   document.getElementById("confirmNote").classList.add("is-visible");
