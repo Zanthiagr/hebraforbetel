@@ -327,7 +327,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .bracelet-card:active{transform:translateY(-2px) scale(.99) !important;box-shadow:0 12px 20px -12px rgba(23,24,26,.3);}
 @keyframes cardIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 .card-stagger{animation:cardIn .55s var(--ease) backwards;}
-.card-frame{background:var(--bone);border:1px solid var(--bone-line);padding:1.6rem .8rem;margin-bottom:1.2rem;overflow:hidden;}
+.card-frame{position:relative;background:var(--bone);border:1px solid var(--bone-line);padding:1.6rem .8rem;margin-bottom:1.2rem;overflow:hidden;}
 .card-frame--photo{padding:0;background:linear-gradient(100deg,var(--bone-line) 8%,var(--bone-soft) 28%,var(--bone-line) 42%);background-size:200% 100%;animation:skelShimmer 1.5s ease-in-out infinite;}
 .card-frame--photo.img-ready{animation:none;background:var(--bone);}
 @media (prefers-reduced-motion: reduce){.card-frame--photo{animation:none;}}
@@ -335,6 +335,12 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .card-frame--photo img.is-loaded{opacity:1;}
 /* la imagen escala y se desplaza distinto al marco al inclinar la tarjeta: eso es lo que da la sensación de profundidad, no solo la sombra */
 .bracelet-card:hover .card-frame--photo img{transform:scale(1.07);}
+
+/* Mini carrusel dentro de la tarjeta: puntos táctiles para cambiar de foto
+   sin abrir el detalle. Solo aparecen si el producto tiene más de una foto. */
+.card-dots{position:absolute;left:0;right:0;bottom:.5rem;display:flex;justify-content:center;gap:.35rem;z-index:2;}
+.card-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);border:1px solid rgba(23,24,26,.2);transition:background .2s,transform .2s;padding:0;cursor:pointer;}
+.card-dot.is-active{background:var(--bone);transform:scale(1.35);}
 
 .bracelet-svg{width:100%;height:auto;}
 .bracelet-svg .strand{fill:none;stroke-width:9;stroke-linecap:round;}
@@ -363,7 +369,24 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .card-cta svg{width:1em;height:1em;}
 
 @media (max-width:1000px){.catalog-grid{grid-template-columns:repeat(2,1fr);}}
-@media (max-width:620px){.catalog-grid{grid-template-columns:1fr;}}
+
+/* Tarjeta compacta para 2 columnas en móvil: sin descripción (se ve al
+   abrir la tarjeta), solo la etiqueta de material, fuentes más chicas y
+   menos relleno — a este ancho la tarjeta original se ve apretada. */
+@media (max-width:620px){
+  .catalog-grid{gap:.85rem;}
+  .bracelet-card{padding:.85rem;}
+  .card-frame{padding:0;margin-bottom:.7rem;}
+  .card-top{margin-bottom:.15rem;}
+  .card-ref{font-size:.6rem;}
+  .card-tags .tag{font-size:.55rem;padding:.22em .5em;}
+  .card-tags .tag:not(:first-child){display:none;}
+  .card-name{font-size:.92rem;line-height:1.25;margin-top:.3rem;}
+  .card-desc,.care-note{display:none;}
+  .card-bottom{margin-top:.6rem;padding-top:.6rem;}
+  .card-price{font-size:.8rem;}
+  .card-cta-label{display:none;}
+}
 
 /* ---------- SKELETON (mientras carga el Sheet) ---------- */
 .skel-card{background:var(--bone-soft);border:1px solid var(--bone-line);padding:1.6rem;display:flex;flex-direction:column;}
@@ -1737,13 +1760,14 @@ function renderGrid(){
       ${careNote(p)}
       <div class="card-bottom">
         <span class="card-price">${fmtCOP(p.price)}</span>
-        <span class="card-cta">Pedir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="card-cta"><span class="card-cta-label">Pedir</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
     </article>`).join("");
   gridEl.querySelectorAll(".bracelet-card").forEach((card, idx) => {
     const product = list[idx]; // por posición, no por ref: dos productos con la misma ref no se confunden
     const img = card.querySelector(".card-frame--photo img");
     bindImgResilience(img, product);
+    bindCardCarousel(card, product);
     card.addEventListener("click", () => {
       openLightboxFromCard(product, img);
     });
@@ -1814,6 +1838,65 @@ function bindImgResilience(img, product){
   });
   img.addEventListener("error", fail);
   armTimeout();
+}
+
+// Mini carrusel dentro de la tarjeta del catálogo: deslizar sobre la foto
+// (o tocar los puntos) cambia entre las fotos del producto sin abrir el
+// detalle. Un toque simple, sin deslizar, sigue abriendo el lightbox como
+// siempre — solo un swipe real cancela ese click.
+function bindCardCarousel(card, product){
+  if (!product.fotos || product.fotos.length < 2) return;
+  const frame = card.querySelector(".card-frame--photo");
+  const img = frame?.querySelector("img");
+  if (!frame || !img) return;
+
+  let idx = 0;
+  let startX = 0, startY = 0, swiped = false;
+
+  const dotsEl = document.createElement("div");
+  dotsEl.className = "card-dots";
+  dotsEl.innerHTML = product.fotos.map((_, i) => `<button class="card-dot ${i===0?'is-active':''}" data-i="${i}" type="button" aria-label="Ver foto ${i+1}"></button>`).join("");
+  frame.appendChild(dotsEl);
+
+  function goTo(next){
+    idx = (next + product.fotos.length) % product.fotos.length;
+    img.classList.remove("is-loaded");
+    img.src = product.fotos[idx];
+    dotsEl.querySelectorAll(".card-dot").forEach((d,j) => d.classList.toggle("is-active", j===idx));
+  }
+
+  dotsEl.querySelectorAll(".card-dot").forEach(dot => {
+    dot.addEventListener("click", (e) => {
+      e.stopPropagation();
+      goTo(parseInt(dot.dataset.i, 10));
+    });
+  });
+
+  frame.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    swiped = false;
+  }, { passive:true });
+
+  frame.addEventListener("touchmove", (e) => {
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) swiped = true;
+  }, { passive:true });
+
+  frame.addEventListener("touchend", (e) => {
+    if (!swiped) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 30) goTo(idx + (dx < 0 ? 1 : -1));
+  });
+
+  // Si hubo un deslizamiento real, el "click" sintético que el navegador
+  // dispara justo después del touchend no debe abrir el lightbox — un
+  // swipe no es un tap. Se captura en fase de captura para adelantarse
+  // al listener de click de la tarjeta.
+  frame.addEventListener("click", (e) => {
+    if (swiped){ e.stopPropagation(); swiped = false; }
+  }, true);
 }
 
 // Tilt 3D real sobre la tarjeta (solo desktop con mouse fino, respeta reduced-motion):
