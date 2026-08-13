@@ -452,6 +452,25 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 @media (max-width:560px){.trust-grid{grid-template-columns:1fr;}}
 
 /* ============================================================
+   ANZUELO — CREA TU PROPIA MANILLA
+   ============================================================ */
+.crear-teaser{
+  display:block;background:var(--brass);color:var(--ink);text-decoration:none;
+  padding:1.1rem 0;transition:background .3s var(--ease);
+}
+.crear-teaser:hover{background:var(--brass-light);}
+.crear-teaser-inner{display:flex;align-items:center;gap:1rem;}
+.crear-teaser-icon{width:22px;height:22px;flex:none;}
+.crear-teaser p{margin:0;font-size:.92rem;line-height:1.4;flex:1;}
+.crear-teaser p strong{font-family:var(--display);font-style:italic;font-weight:600;}
+.crear-teaser-arrow{width:20px;height:20px;flex:none;transition:transform .3s var(--ease);}
+.crear-teaser:hover .crear-teaser-arrow{transform:translateX(5px);}
+@media (max-width:640px){
+  .crear-teaser p{font-size:.85rem;}
+  .crear-teaser-icon{display:none;}
+}
+
+/* ============================================================
    NOSOTROS
    ============================================================ */
 .nosotros-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:3rem;align-items:center;}
@@ -724,7 +743,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
     <div class="hero-copy">
       <p class="eyebrow hero-reveal" style="animation-delay:.1s">Manillas exclusivas · para él y para ella</p>
       <h1 class="hero-reveal" style="animation-delay:.25s">El lujo<br>también <em>se teje</em>.</h1>
-      <p class="hero-reveal" style="animation-delay:.5s">Tejidas a mano y trabajadas en oro laminado, acero o rodio — con o sin piedras. Piezas exclusivas con un precio para cada quien: tú eliges el material, nosotros el detalle.</p>
+      <p class="hero-reveal" style="animation-delay:.5s">Trabajamos principalmente en acero inoxidable, cuidando cada detalle para ofrecer piezas duraderas, elegantes y únicas. Puedes elegir un diseño del catálogo tal cual, o crear el tuyo desde cero: hilo, color, balines y dije, a tu gusto. Las fotos del catálogo son referencia — si la quieres igual, la hacemos igual; si prefieres algo distinto, la diseñamos contigo.</p>
       <div class="hero-cta hero-reveal" style="animation-delay:.68s">
         <a href="#catalogo" class="btn btn--solid">Ver catálogo completo</a>
         <a href="#crear" class="btn btn--ghost ink-ctx">Crea la tuya</a>
@@ -779,6 +798,23 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 </section>
 
 <!-- ============================================================
+     ANZUELO — CREA TU PROPIA MANILLA
+     Franja corta y visible entre el Hero y el Catálogo: adelanta el
+     mensaje de libertad total de diseño (que antes solo vivía 5
+     secciones más abajo) sin romper el orden real del embudo de venta
+     (catálogo primero, personalizar como ruta alterna).
+     ============================================================ -->
+<a href="#crear" class="crear-teaser reveal">
+  <div class="container crear-teaser-inner">
+    <svg class="crear-teaser-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
+    <p><strong>¿No ves lo que buscas?</strong> Puedes pedir lo que imagines — desde una tejida clásica hasta una cadena, con el dije que quieras. Crea tu propia manilla.</p>
+    <span class="crear-teaser-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </div>
+</a>
+
+<!-- ============================================================
      CATÁLOGO
      ============================================================ -->
 <section class="section section--bone" id="catalogo">
@@ -797,6 +833,22 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
     <p class="catalog-empty" id="catalogEmpty" hidden>Por ahora no hay sets de pareja en este material. Mira otra opción arriba o escríbenos y te ayudamos a armar uno a tu gusto.</p>
   </div>
 </section>
+
+<!-- ============================================================
+     ANZUELO — CREA TU PROPIA MANILLA (2)
+     Misma franja repetida justo al cerrar el catálogo: es el momento
+     exacto en que alguien que no encontró lo que buscaba está más
+     receptivo a la opción de personalizar.
+     ============================================================ -->
+<a href="#crear" class="crear-teaser reveal">
+  <div class="container crear-teaser-inner">
+    <svg class="crear-teaser-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
+    <p><strong>¿No ves lo que buscas?</strong> Puedes pedir lo que imagines — desde una tejida clásica hasta una cadena, con el dije que quieras. Crea tu propia manilla.</p>
+    <span class="crear-teaser-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </div>
+</a>
 
 <!-- LIGHTBOX -->
 <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-labelledby="lightboxName">
@@ -925,7 +977,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
       <p class="eyebrow">Diseño personalizado</p>
       <h2>Crea tu propia manilla</h2>
       <p class="section-lead">Puedes pedir lo que imagines: desde una tejida clásica hasta una cadena, con el dije que quieras o sin él. Mándanos tu idea, tu inspiración o una foto de referencia — y la hacemos realidad.</p>
-      <p>Trabajamos principalmente en acero inoxidable, cuidando cada detalle para ofrecer piezas duraderas, elegantes y únicas. Puedes elegir un diseño del catálogo tal cual, o crear el tuyo desde cero: hilo, color, balines y dije, a tu gusto. Las fotos del catálogo son referencia — si la quieres igual, la hacemos igual; si prefieres algo distinto, la diseñamos contigo.</p>
     </div>
 
     <a href="#" id="crearQuickBtn" class="crear-quick reveal" target="_blank" rel="noopener">
