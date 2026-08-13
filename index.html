@@ -342,26 +342,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .card-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);border:1px solid rgba(23,24,26,.2);transition:background .2s,transform .2s;padding:0;cursor:pointer;}
 .card-dot.is-active{background:var(--bone);transform:scale(1.35);}
 
-/* Flechas de navegación sobre la foto: en táctil no hay "hover" para
-   descubrirlas, así que quedan siempre visibles (a media opacidad) en vez
-   de depender de que alguien adivine que puede deslizar. En mouse (desktop)
-   aparecen al pasar sobre la tarjeta — ahí el hover mismo ya es la pista. */
-.card-nav{
-  position:absolute;top:50%;transform:translateY(-50%);z-index:2;
-  width:26px;height:26px;border-radius:50%;
-  background:rgba(23,24,26,.55);color:var(--bone);
-  display:flex;align-items:center;justify-content:center;
-  opacity:.85;transition:background .2s,opacity .2s;
-}
-.card-nav:hover{background:rgba(23,24,26,.8);}
-.card-nav svg{width:15px;height:15px;}
-.card-nav--prev{left:6px;}
-.card-nav--next{right:6px;}
-@media (pointer:fine){
-  .card-nav{opacity:0;}
-  .bracelet-card:hover .card-nav{opacity:.85;}
-}
-
 .bracelet-svg{width:100%;height:auto;}
 .bracelet-svg .strand{fill:none;stroke-width:9;stroke-linecap:round;}
 .bracelet-svg .link{fill:none;stroke-width:5;}
@@ -1865,11 +1845,11 @@ function bindImgResilience(img, product){
   armTimeout();
 }
 
-// Mini carrusel dentro de la tarjeta del catálogo: flechas visibles (siempre
-// en táctil, al hover en desktop) y puntos para cambiar de foto sin abrir el
-// detalle. En táctil también se puede deslizar sobre la foto. Un toque
-// simple, sin deslizar, sigue abriendo el lightbox como siempre — solo un
-// swipe real cancela ese click.
+// Mini carrusel dentro de la tarjeta del catálogo: puntos (clic en
+// cualquier dispositivo) y deslizar sobre la foto en táctil cambian de foto
+// sin abrir el detalle. Un toque simple, sin deslizar, sigue abriendo el
+// lightbox como siempre — solo un swipe real cancela ese click. Sin flechas
+// superpuestas: tapaban la imagen.
 function bindCardCarousel(card, product){
   if (!product.fotos || product.fotos.length < 2) return;
   const frame = card.querySelector(".card-frame--photo");
@@ -1883,20 +1863,6 @@ function bindCardCarousel(card, product){
   dotsEl.className = "card-dots";
   dotsEl.innerHTML = product.fotos.map((_, i) => `<button class="card-dot ${i===0?'is-active':''}" data-i="${i}" type="button" aria-label="Ver foto ${i+1}"></button>`).join("");
   frame.appendChild(dotsEl);
-
-  const prevBtn = document.createElement("button");
-  prevBtn.type = "button";
-  prevBtn.className = "card-nav card-nav--prev";
-  prevBtn.setAttribute("aria-label", "Foto anterior");
-  prevBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>`;
-  const nextBtn = document.createElement("button");
-  nextBtn.type = "button";
-  nextBtn.className = "card-nav card-nav--next";
-  nextBtn.setAttribute("aria-label", "Foto siguiente");
-  nextBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>`;
-  frame.append(prevBtn, nextBtn);
-  prevBtn.addEventListener("click", (e) => { e.stopPropagation(); goTo(idx - 1); });
-  nextBtn.addEventListener("click", (e) => { e.stopPropagation(); goTo(idx + 1); });
 
   function goTo(next){
     idx = (next + product.fotos.length) % product.fotos.length;
