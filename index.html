@@ -453,21 +453,48 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 
 /* ============================================================
    ANZUELO — CREA TU PROPIA MANILLA
+   Panel oscuro con acento de latón (mismo lenguaje visual que crear-quick),
+   una vista previa mini que rota sola entre estilos, y un CTA en forma de
+   píldora. Todo pensado para entenderse de un vistazo, sin leer el párrafo.
    ============================================================ */
-.crear-teaser{
-  display:block;background:var(--brass);color:var(--ink);text-decoration:none;
-  padding:1.1rem 0;transition:background .3s var(--ease);
+.crear-showcase{
+  display:block;background:var(--ink);color:var(--ink-text);text-decoration:none;
+  border-top:1px solid var(--brass);border-bottom:1px solid var(--brass);
+  transition:background .3s var(--ease);
 }
-.crear-teaser:hover{background:var(--brass-light);}
-.crear-teaser-inner{display:flex;align-items:center;gap:1rem;}
-.crear-teaser-icon{width:22px;height:22px;flex:none;}
-.crear-teaser p{margin:0;font-size:.92rem;line-height:1.4;flex:1;}
-.crear-teaser p strong{font-family:var(--display);font-style:italic;font-weight:600;}
-.crear-teaser-arrow{width:20px;height:20px;flex:none;transition:transform .3s var(--ease);}
-.crear-teaser:hover .crear-teaser-arrow{transform:translateX(5px);}
-@media (max-width:640px){
-  .crear-teaser p{font-size:.85rem;}
-  .crear-teaser-icon{display:none;}
+.crear-showcase:hover{background:var(--ink-soft);}
+.crear-showcase-inner{display:flex;align-items:center;gap:1.6rem;padding:1.6rem 0;}
+
+.crear-showcase-art{
+  width:76px;height:76px;flex:none;border-radius:50%;
+  background:var(--ink-soft);border:1px solid var(--ink-line);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  padding:14px;
+}
+.crear-showcase-art svg{width:100%;height:100%;opacity:0;transition:opacity .5s ease;}
+.crear-showcase-art svg.is-visible{opacity:1;}
+@media (prefers-reduced-motion: reduce){.crear-showcase-art svg{transition:none;}}
+
+.crear-showcase-copy{flex:1;min-width:0;}
+.crear-showcase-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--brass-light);margin-bottom:.3rem;}
+.crear-showcase-copy h3{font-family:var(--display);font-size:1.5rem;color:var(--bone);margin-bottom:.3rem;}
+.crear-showcase-copy p{margin:0;font-size:.88rem;color:var(--ink-text-dim);max-width:44ch;}
+
+.crear-showcase-cta{
+  flex:none;display:flex;align-items:center;gap:.5em;
+  background:var(--brass);color:var(--ink);border-radius:999px;
+  padding:.8em 1.3em;font-family:var(--mono);font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;
+  transition:background .25s var(--ease),transform .25s var(--ease);
+}
+.crear-showcase-cta svg{width:16px;height:16px;transition:transform .3s var(--ease);}
+.crear-showcase:hover .crear-showcase-cta{background:var(--brass-light);}
+.crear-showcase:hover .crear-showcase-cta svg{transform:translateX(4px);}
+
+@media (max-width:700px){
+  .crear-showcase-inner{flex-wrap:wrap;padding:1.4rem 0;}
+  .crear-showcase-art{width:60px;height:60px;padding:10px;}
+  .crear-showcase-copy h3{font-size:1.25rem;}
+  .crear-showcase-cta{width:100%;justify-content:center;order:3;}
 }
 
 /* ============================================================
@@ -798,23 +825,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 </section>
 
 <!-- ============================================================
-     ANZUELO — CREA TU PROPIA MANILLA
-     Franja corta y visible entre el Hero y el Catálogo: adelanta el
-     mensaje de libertad total de diseño (que antes solo vivía 5
-     secciones más abajo) sin romper el orden real del embudo de venta
-     (catálogo primero, personalizar como ruta alterna).
-     ============================================================ -->
-<a href="#crear" class="crear-teaser reveal">
-  <div class="container crear-teaser-inner">
-    <svg class="crear-teaser-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
-    <p><strong>¿No ves lo que buscas?</strong> Puedes pedir lo que imagines — desde una tejida clásica hasta una cadena, con el dije que quieras. Crea tu propia manilla.</p>
-    <span class="crear-teaser-arrow">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </span>
-  </div>
-</a>
-
-<!-- ============================================================
      CATÁLOGO
      ============================================================ -->
 <section class="section section--bone" id="catalogo">
@@ -835,16 +845,22 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 </section>
 
 <!-- ============================================================
-     ANZUELO — CREA TU PROPIA MANILLA (2)
-     Misma franja repetida justo al cerrar el catálogo: es el momento
-     exacto en que alguien que no encontró lo que buscaba está más
-     receptivo a la opción de personalizar.
+     ANZUELO — CREA TU PROPIA MANILLA
+     Justo al cerrar el catálogo: es el momento exacto en que alguien que
+     no encontró lo que buscaba está más receptivo a personalizar. La
+     vista previa mini rota sola entre tejida / cadena / piedras, para que
+     se entienda de un vistazo qué se puede hacer, sin tener que leer nada.
      ============================================================ -->
-<a href="#crear" class="crear-teaser reveal">
-  <div class="container crear-teaser-inner">
-    <svg class="crear-teaser-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
-    <p><strong>¿No ves lo que buscas?</strong> Puedes pedir lo que imagines — desde una tejida clásica hasta una cadena, con el dije que quieras. Crea tu propia manilla.</p>
-    <span class="crear-teaser-arrow">
+<a href="#crear" class="crear-showcase reveal">
+  <div class="container crear-showcase-inner">
+    <div class="crear-showcase-art" id="teaserArt" aria-hidden="true"></div>
+    <div class="crear-showcase-copy">
+      <p class="crear-showcase-eyebrow">¿No ves lo que buscas?</p>
+      <h3>Crea tu propia manilla</h3>
+      <p>Tejida, cadena o con piedras — con el dije que quieras. Tú la imaginas, nosotros la hacemos.</p>
+    </div>
+    <span class="crear-showcase-cta">
+      Diseñarla
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </span>
   </div>
@@ -1455,6 +1471,36 @@ const heroArt = document.querySelector(".hero-art");
 const heroSection = document.getElementById("inicio");
 const scrollCue = document.getElementById("scrollCue");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Vista previa mini del anzuelo "Crea tu propia manilla": rota sola entre
+// tejida / cadena / piedras para comunicar de un vistazo qué se puede
+// personalizar, sin que la persona tenga que leer el párrafo. Se detiene
+// en el primer estado si el usuario prefiere menos movimiento.
+const teaserArt = document.getElementById("teaserArt");
+if (teaserArt){
+  const TEASER_STATES = [
+    { texture:"tejida",  tones:MATERIAL_DEFAULT_TONES.acero,         metal:"rodio" },
+    { texture:"cadena",  tones:MATERIAL_DEFAULT_TONES.oro_laminado,  metal:"oro_laminado" },
+    { texture:"piedras", tones:MATERIAL_DEFAULT_TONES.piedras,       metal:"rodio" },
+  ];
+  let teaserIndex = 0;
+  function renderTeaserArt(){
+    teaserArt.innerHTML = braceletSVG(TEASER_STATES[teaserIndex]);
+    const svg = teaserArt.querySelector("svg");
+    if (svg) requestAnimationFrame(() => requestAnimationFrame(() => svg.classList.add("is-visible")));
+  }
+  renderTeaserArt();
+  if (!prefersReducedMotion){
+    setInterval(() => {
+      const svg = teaserArt.querySelector("svg");
+      if (svg) svg.classList.remove("is-visible");
+      setTimeout(() => {
+        teaserIndex = (teaserIndex + 1) % TEASER_STATES.length;
+        renderTeaserArt();
+      }, 500);
+    }, 2600);
+  }
+}
 
 // Estado combinado del hero-art: el scroll aporta traslado/escala/rotación de
 // "salida", el mouse aporta un tilt 3D sutil. Se combinan en una sola cadena
