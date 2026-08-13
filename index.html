@@ -342,6 +342,26 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .card-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);border:1px solid rgba(23,24,26,.2);transition:background .2s,transform .2s;padding:0;cursor:pointer;}
 .card-dot.is-active{background:var(--bone);transform:scale(1.35);}
 
+/* Flechas de navegación sobre la foto: en táctil no hay "hover" para
+   descubrirlas, así que quedan siempre visibles (a media opacidad) en vez
+   de depender de que alguien adivine que puede deslizar. En mouse (desktop)
+   aparecen al pasar sobre la tarjeta — ahí el hover mismo ya es la pista. */
+.card-nav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(23,24,26,.55);color:var(--bone);
+  display:flex;align-items:center;justify-content:center;
+  opacity:.85;transition:background .2s,opacity .2s;
+}
+.card-nav:hover{background:rgba(23,24,26,.8);}
+.card-nav svg{width:15px;height:15px;}
+.card-nav--prev{left:6px;}
+.card-nav--next{right:6px;}
+@media (pointer:fine){
+  .card-nav{opacity:0;}
+  .bracelet-card:hover .card-nav{opacity:.85;}
+}
+
 .bracelet-svg{width:100%;height:auto;}
 .bracelet-svg .strand{fill:none;stroke-width:9;stroke-linecap:round;}
 .bracelet-svg .link{fill:none;stroke-width:5;}
@@ -476,21 +496,23 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 
 /* ============================================================
    ANZUELO — CREA TU PROPIA MANILLA
-   Panel oscuro con acento de latón (mismo lenguaje visual que crear-quick),
-   una vista previa mini que rota sola entre estilos, y un CTA en forma de
-   píldora. Todo pensado para entenderse de un vistazo, sin leer el párrafo.
+   Antes era una franja de ancho completo pegada directo a "Nosotros" — como
+   ambas usan fondo oscuro, se veían como una sola sección y el botón se
+   perdía. Ahora es una tarjeta flotante con su propio fondo y borde
+   completo, con espacio real (el fondo base de la página) alrededor.
    ============================================================ */
-.crear-showcase{
-  display:block;background:var(--ink);color:var(--ink-text);text-decoration:none;
-  border-top:1px solid var(--brass);border-bottom:1px solid var(--brass);
-  transition:background .3s var(--ease);
+.crear-showcase{display:block;padding:2.6rem 0;text-decoration:none;color:var(--ink-text);}
+.crear-showcase-card{
+  display:flex;align-items:center;gap:1.6rem;
+  background:var(--ink-soft);border:1px solid var(--brass);border-radius:var(--radius);
+  padding:1.6rem 1.8rem;
+  transition:background .3s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease);
 }
-.crear-showcase:hover{background:var(--ink-soft);}
-.crear-showcase-inner{display:flex;align-items:center;gap:1.6rem;padding:1.6rem 0;}
+.crear-showcase:hover .crear-showcase-card{background:var(--ink-line);transform:translateY(-3px);box-shadow:0 22px 38px -20px rgba(8,9,10,.55);}
 
 .crear-showcase-art{
   width:76px;height:76px;flex:none;border-radius:50%;
-  background:var(--ink-soft);border:1px solid var(--ink-line);
+  background:var(--ink);border:1px solid var(--ink-line);
   display:flex;align-items:center;justify-content:center;overflow:hidden;
   padding:14px;
 }
@@ -514,7 +536,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .crear-showcase:hover .crear-showcase-cta svg{transform:translateX(4px);}
 
 @media (max-width:700px){
-  .crear-showcase-inner{flex-wrap:wrap;padding:1.4rem 0;}
+  .crear-showcase{padding:2rem 0;}
+  .crear-showcase-card{flex-wrap:wrap;padding:1.4rem;}
   .crear-showcase-art{width:60px;height:60px;padding:10px;}
   .crear-showcase-copy h3{font-size:1.25rem;}
   .crear-showcase-cta{width:100%;justify-content:center;order:3;}
@@ -875,17 +898,19 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
      se entienda de un vistazo qué se puede hacer, sin tener que leer nada.
      ============================================================ -->
 <a href="#crear" class="crear-showcase reveal">
-  <div class="container crear-showcase-inner">
-    <div class="crear-showcase-art" id="teaserArt" aria-hidden="true"></div>
-    <div class="crear-showcase-copy">
-      <p class="crear-showcase-eyebrow">¿No ves lo que buscas?</p>
-      <h3>Crea tu propia manilla</h3>
-      <p>Tejida, cadena o con piedras — con el dije que quieras. Tú la imaginas, nosotros la hacemos.</p>
+  <div class="container">
+    <div class="crear-showcase-card">
+      <div class="crear-showcase-art" id="teaserArt" aria-hidden="true"></div>
+      <div class="crear-showcase-copy">
+        <p class="crear-showcase-eyebrow">¿No ves lo que buscas?</p>
+        <h3>Crea tu propia manilla</h3>
+        <p>Tejida, cadena o con piedras — con el dije que quieras. Tú la imaginas, nosotros la hacemos.</p>
+      </div>
+      <span class="crear-showcase-cta">
+        Diseñarla
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
     </div>
-    <span class="crear-showcase-cta">
-      Diseñarla
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </span>
   </div>
 </a>
 
@@ -1840,10 +1865,11 @@ function bindImgResilience(img, product){
   armTimeout();
 }
 
-// Mini carrusel dentro de la tarjeta del catálogo: deslizar sobre la foto
-// (o tocar los puntos) cambia entre las fotos del producto sin abrir el
-// detalle. Un toque simple, sin deslizar, sigue abriendo el lightbox como
-// siempre — solo un swipe real cancela ese click.
+// Mini carrusel dentro de la tarjeta del catálogo: flechas visibles (siempre
+// en táctil, al hover en desktop) y puntos para cambiar de foto sin abrir el
+// detalle. En táctil también se puede deslizar sobre la foto. Un toque
+// simple, sin deslizar, sigue abriendo el lightbox como siempre — solo un
+// swipe real cancela ese click.
 function bindCardCarousel(card, product){
   if (!product.fotos || product.fotos.length < 2) return;
   const frame = card.querySelector(".card-frame--photo");
@@ -1857,6 +1883,20 @@ function bindCardCarousel(card, product){
   dotsEl.className = "card-dots";
   dotsEl.innerHTML = product.fotos.map((_, i) => `<button class="card-dot ${i===0?'is-active':''}" data-i="${i}" type="button" aria-label="Ver foto ${i+1}"></button>`).join("");
   frame.appendChild(dotsEl);
+
+  const prevBtn = document.createElement("button");
+  prevBtn.type = "button";
+  prevBtn.className = "card-nav card-nav--prev";
+  prevBtn.setAttribute("aria-label", "Foto anterior");
+  prevBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>`;
+  const nextBtn = document.createElement("button");
+  nextBtn.type = "button";
+  nextBtn.className = "card-nav card-nav--next";
+  nextBtn.setAttribute("aria-label", "Foto siguiente");
+  nextBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>`;
+  frame.append(prevBtn, nextBtn);
+  prevBtn.addEventListener("click", (e) => { e.stopPropagation(); goTo(idx - 1); });
+  nextBtn.addEventListener("click", (e) => { e.stopPropagation(); goTo(idx + 1); });
 
   function goTo(next){
     idx = (next + product.fotos.length) % product.fotos.length;
