@@ -1180,8 +1180,9 @@ function braceletSVG(p){
 // Si la versión optimizada falla, attachPhotoFallback vuelve a la original.
 // Los hosts de fotos permitidos deben coincidir con vercel.json y netlify.toml.
 const IMG_CDN_HOSTS = /^https:\/\/(i\.postimg\.cc|i\.ibb\.co)\//i;
+const IMG_OPTIMIZE = false; // INTERRUPTOR: false = fotos originales directas; true = usar el optimizador del hosting
 const IMG_ENDPOINT = (() => {
-  if (!/^https?:$/.test(location.protocol)) return null;
+  if (!IMG_OPTIMIZE || !/^https?:$/.test(location.protocol)) return null;
   const h = location.hostname;
   if (/\.vercel\.app$/i.test(h))  return { path:"/_vercel/image",   extra:"&q=75" };
   if (/\.netlify\.app$/i.test(h)) return { path:"/.netlify/images", extra:"" };

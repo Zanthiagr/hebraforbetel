@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Diagnóstico de fotos · HEBRA</title>
+<style>
+body{font:15px/1.45 system-ui,sans-serif;margin:0;padding:16px;background:#FAF6EE;color:#17181A}
+h1{font-size:1.15rem;margin:0 0 .4rem} p{margin:.3rem 0} .mono{font-family:ui-monospace,Menlo,monospace;font-size:.78rem}
+button{font:inherit;padding:.7em 1.1em;border:0;border-radius:8px;background:#0D211A;color:#FAF6EE;margin:.6rem .4rem .6rem 0}
+.box{background:#fff;border:1px solid #DDD6C8;border-radius:10px;padding:10px 12px;margin:.6rem 0}
+.ok{color:#1a7f37;font-weight:700}.bad{color:#b42318;font-weight:700}.warn{color:#b26a00;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:.78rem} td,th{border-bottom:1px solid #DDD6C8;padding:5px 4px;text-align:left;vertical-align:top}
+</style></head><body>
+<h1>Diagnóstico de fotos — HEBRA</h1>
+<p>Prueba cada foto del catálogo por dos vías: <b>original</b> (como carga hoy) y <b>optimizada</b> (Vercel). Puede tardar 1–2 minutos. No cierres la pestaña.</p>
+<div class="box mono" id="env"></div>
+<div class="box" id="sum">Preparando…</div>
+<button id="copy" hidden>Copiar resultado</button>
+<textarea id="ta" class="mono" style="width:100%;height:120px" hidden></textarea>
+<div class="box" style="overflow-x:auto"><table id="tb"><thead><tr><th>Foto</th><th>Original</th><th>Optimizada</th></tr></thead><tbody></tbody></table></div>
+<script>
+const SHEET="https://docs.google.com/spreadsheets/d/e/2PACX-1vRSJlO7-qJgcxnLUWsWzbp6gtLNFdAe2Lb82YcQz59TohAaasPo5MTPtoztC0Pte_OYkUuSLHzdQOlE/pub?output=csv";
+const W=720, TMO=30000, CONC=3;
+const $=id=>document.getElementById(id), tb=document.querySelector("#tb tbody");
+const c=navigator.connection||{};
+$("env").textContent=[location.host,"red: "+(c.effectiveType||"?")+" · bajada ~"+(c.downlink||"?")+" Mbps · rtt "+(c.rtt||"?")+"ms"+(c.saveData?" · AHORRO DE DATOS ON":""),navigator.userAgent.slice(0,110)].join("\n");
+$("env").style.whiteSpace="pre-wrap";
+
+function parseCSV(t){const rows=[];let row=[],cur="",q=false;for(let i=0;i<t.length;i++){const ch=t[i];
+ if(q){if(ch=='"'){if(t[i+1]=='"'){cur+='"';i++}else q=false}else cur+=ch}
+ else if(ch=='"')q=true; else if(ch==","){row.push(cur);cur=""} else if(ch=="\n"){row.push(cur);rows.push(row);row=[];cur=""} else if(ch!="\r")cur+=ch}
+ if(cur||row.length){row.push(cur);rows.push(row)} return rows}
+
+function testOriginal(url){return new Promise(res=>{const t0=performance.now();const im=new Image();im.referrerPolicy="no-referrer";let done=false;
+ const fin=o=>{if(done)return;done=true;clearTimeout(to);im.onload=im.onerror=null;res(Object.assign({ms:Math.round(performance.now()-t0)},o))};
+ const to=setTimeout(()=>fin({ok:false,err:"TIMEOUT "+TMO/1000+"s"}),TMO);
+ im.onload=()=>fin({ok:true,dim:im.naturalWidth+"×"+im.naturalHeight});
+ im.onerror=()=>fin({ok:false,err:"ERROR de carga"});
+ im.src=url})}
+
+async function testOpt(url){const u="/_vercel/image?url="+encodeURIComponent(url)+"&w="+W+"&q=75";
+ const t0=performance.now(),ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),TMO);
+ try{const r=await fetch(u,{signal:ctl.signal,cache:"no-store"});const ct=r.headers.get("content-type")||"";
+  const b=await r.blob();clearTimeout(to);const ms=Math.round(performance.now()-t0);
+  const isImg=r.ok&&ct.startsWith("image");
+  let err="";if(!isImg){try{err=(await b.text()).replace(/\s+/g," ").slice(0,90)}catch(e){}}
+  return {ok:isImg,status:r.status,ct:ct.split(";")[0],kb:Math.round(b.size/1024),ms,cache:r.headers.get("x-vercel-cache")||"",verr:r.headers.get("x-vercel-error")||"",err}
+ }catch(e){clearTimeout(to);return {ok:false,status:0,ms:Math.round(performance.now()-t0),err:e.name==="AbortError"?"TIMEOUT "+TMO/1000+"s":String(e).slice(0,60)}}}
+
+const fmtO=o=>o.ok?`OK ${o.ms}ms ${o.dim}`:`FALLA ${o.ms}ms ${o.err}`;
+const fmtP=o=>o.ok?`OK ${o.ms}ms ${o.kb}KB ${o.ct} ${o.cache}`:`FALLA ${o.status||""} ${o.ms}ms ${o.verr||""} ${o.err||""}`.trim();
+const results=[];
+function addRow(name,o,p){const tr=document.createElement("tr");
+ [name,fmtO(o),fmtP(p)].forEach((t,i)=>{const td=document.createElement("td");td.textContent=t;
+  if(i>0){td.className=(i==1?o:p).ok?"ok":"bad"}tr.appendChild(td)});tb.appendChild(tr);results.push({name,o,p})}
+const med=a=>{a=a.slice().sort((x,y)=>x-y);return a.length?a[Math.floor(a.length/2)]:0};
+function summary(done,total){const os=results.filter(r=>r.o.ok),ps=results.filter(r=>r.p.ok);
+ $("sum").innerHTML=`Progreso: <b>${done}/${total}</b><br>Originales: <span class="ok">${os.length} OK</span> · <span class="bad">${results.length-os.length} fallan</span> · mediana ${med(os.map(r=>r.o.ms))}ms<br>Optimizadas: <span class="ok">${ps.length} OK</span> · <span class="bad">${results.length-ps.length} fallan</span> · mediana ${med(ps.map(r=>r.p.ms))}ms · peso mediano ${med(ps.map(r=>r.p.kb))}KB`}
+(async()=>{
+ let urls=[];
+ try{const rows=parseCSV(await (await fetch(SHEET,{cache:"no-store"})).text());const h=rows[0].map(x=>x.trim());
+  const idx=["foto_url","foto_url_2","foto_url_3"].map(k=>h.indexOf(k)).filter(i=>i>=0);
+  rows.slice(1).forEach(r=>idx.forEach((i,n)=>{const u=(r[i]||"").trim();if(u)urls.push({name:(r[h.indexOf("ref")]||"?")+" #"+(n+1),u})}));
+ }catch(e){$("sum").textContent="No pude leer el Sheet: "+e;return}
+ // CONTROL: foto propia del sitio, para separar "el optimizador no funciona" de "postimg no responde"
+ urls.unshift({name:"CONTROL (foto del sitio)",u:location.origin+"/foto-taller.jpg",local:true});
+ let i=0,done=0;const total=urls.length;
+ async function worker(){while(i<urls.length){const it=urls[i++];const o=await testOriginal(it.u);
+   const p=it.local?await (async()=>{const t0=performance.now();try{const r=await fetch("/_vercel/image?url="+encodeURIComponent("/foto-taller.jpg")+"&w="+W+"&q=75",{cache:"no-store"});const b=await r.blob();const ct=(r.headers.get("content-type")||"").split(";")[0];return {ok:r.ok&&ct.startsWith("image"),status:r.status,ct,kb:Math.round(b.size/1024),ms:Math.round(performance.now()-t0),cache:r.headers.get("x-vercel-cache")||"",verr:r.headers.get("x-vercel-error")||"",err:r.ok?"":(await b.text()).slice(0,90)}}catch(e){return {ok:false,status:0,ms:0,err:String(e)}}})():await testOpt(it.u);
+   addRow(it.name,o,p);done++;summary(done,total)}}
+ await Promise.all(Array.from({length:CONC},worker));
+ const lines=["DIAGNOSTICO HEBRA — "+$("env").textContent.replace(/\n/g," | "),$("sum").innerText.replace(/\n/g," | "),""];
+ results.forEach(r=>lines.push(r.name+" || ORIG: "+fmtO(r.o)+" || OPT: "+fmtP(r.p)));
+ $("ta").value=lines.join("\n");$("ta").hidden=false;$("copy").hidden=false;
+ $("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("ta").value);$("copy").textContent="¡Copiado!"}catch(e){$("ta").select();$("copy").textContent="Selecciona y copia el texto de abajo"}};
+})();
+</script></body></html>
