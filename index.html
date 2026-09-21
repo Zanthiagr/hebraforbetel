@@ -8,10 +8,10 @@
 
 <!-- Open Graph: vista previa al compartir en WhatsApp, Facebook, Instagram -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://gentle-halva-e154be.netlify.app/">
+<meta property="og:url" content="https://hebraforbetel.vercel.app/">
 <meta property="og:title" content="HEBRA — Manillas Hechas a Mano">
 <meta property="og:description" content="Manillas en acero, oro laminado, rodio y piedras. Catálogo completo, individuales y sets de pareja. Pide la tuya por WhatsApp.">
-<meta property="og:image" content="https://gentle-halva-e154be.netlify.app/og-image.png">
+<meta property="og:image" content="https://hebraforbetel.vercel.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="es_CO">
@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="HEBRA — Manillas Hechas a Mano">
 <meta name="twitter:description" content="Manillas en acero, oro laminado, rodio y piedras. Catálogo completo, individuales y sets de pareja.">
-<meta name="twitter:image" content="https://gentle-halva-e154be.netlify.app/og-image.png">
+<meta name="twitter:image" content="https://hebraforbetel.vercel.app/og-image.png">
 
 <!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -325,6 +325,13 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .card-frame--photo{background:var(--bone-soft);}
 .card-frame--photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;opacity:0;transition:transform .5s var(--ease),opacity .45s var(--ease);will-change:transform;}
 .card-frame--photo img.is-loaded{opacity:1;}
+/* Marcador: el dibujo de la manilla se ve mientras la foto carga (o si nunca llega) y la foto entra encima con fundido */
+.card-frame--photo{position:relative;}
+.card-frame--photo img{position:relative;z-index:1;}
+.photo-ph{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;padding:1.6rem .8rem;background:var(--bone);}
+.photo-ph svg{width:100%;height:auto;max-height:100%;}
+.lightbox-art--photo .photo-ph{padding:2.4rem;background:var(--bone-soft);}
+.lightbox-art--photo #carouselImg{position:relative;z-index:1;}
 /* la imagen escala y se desplaza distinto al marco al inclinar la tarjeta: eso es lo que da la sensación de profundidad, no solo la sombra */
 .bracelet-card:hover .card-frame--photo img{transform:scale(1.07);}
 
@@ -392,7 +399,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .lightbox-flip-clone{position:fixed;top:0;left:0;object-fit:cover;z-index:300;pointer-events:none;will-change:transform;transform-origin:top left;transition:transform .28s cubic-bezier(.22,.61,.36,1);}
 .lightbox-art--photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease),opacity .3s var(--ease);}
 .lightbox-art--photo:hover img{transform:scale(1.045);}
-.lightbox-art--photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,16,12,.22),transparent 42%);pointer-events:none;}
+.lightbox-art--photo::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(8,16,12,.22),transparent 42%);pointer-events:none;}
 .carousel-photo-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bone-soft);}
 .carousel-photo-fallback svg{width:70%;height:auto;}
 .carousel-arrow{
@@ -1180,7 +1187,7 @@ function braceletSVG(p){
 // Si la versión optimizada falla, attachPhotoFallback vuelve a la original.
 // Los hosts de fotos permitidos deben coincidir con vercel.json y netlify.toml.
 const IMG_CDN_HOSTS = /^https:\/\/(i\.postimg\.cc|i\.ibb\.co)\//i;
-const IMG_OPTIMIZE = false; // INTERRUPTOR: false = fotos originales directas; true = usar el optimizador del hosting
+const IMG_OPTIMIZE = true; // INTERRUPTOR: false = fotos originales directas; true = optimizador del hosting (con vigilante de 7 s)
 const IMG_ENDPOINT = (() => {
   if (!IMG_OPTIMIZE || !/^https?:$/.test(location.protocol)) return null;
   const h = location.hostname;
@@ -1192,6 +1199,29 @@ const IMG_W_CARD = 720, IMG_W_LIGHTBOX = 1100; // deben estar en "sizes" de verc
 function photoUrl(src, w){
   if (!IMG_ENDPOINT || !src || !IMG_CDN_HOSTS.test(src)) return src;
   return IMG_ENDPOINT.path + "?url=" + encodeURIComponent(src) + "&w=" + w + IMG_ENDPOINT.extra;
+}
+
+// Vigilante: el fallback por "error" no cubre el caso en que la foto optimizada se CUELGA
+// (el optimizador no logra bajar la original y la petición queda pendiente sin fallar).
+// Si a los 7 s de estar la foto en pantalla (o cerca) no ha cargado, se pide la original.
+function armPhotoWatchdog(img){
+  const orig = img.dataset.orig;
+  if (!orig || img.dataset.usedOrig === "1" || img.getAttribute("src") === orig) return;
+  const token = img.dataset.wd = String(Math.random());
+  const fire = () => setTimeout(() => {
+    if (img.dataset.wd !== token) return; // cambió de foto mientras esperaba
+    const stillOptimized = img.dataset.usedOrig !== "1" && img.getAttribute("src") !== orig;
+    if (stillOptimized && !(img.complete && img.naturalWidth > 0)){
+      img.dataset.usedOrig = "1";
+      img.src = orig;
+    }
+  }, 7000);
+  if ("IntersectionObserver" in window){
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)){ io.disconnect(); fire(); }
+    }, { rootMargin:"200px" });
+    io.observe(img);
+  } else { fire(); }
 }
 
 function attachPhotoFallback(img, product, opts = {}){
@@ -1230,10 +1260,11 @@ function attachPhotoFallback(img, product, opts = {}){
       img.outerHTML = `<div class="carousel-photo-fallback">${braceletSVG(product)}</div>`;
     }
   });
+  armPhotoWatchdog(img);
 }
 
 function productVisual(p){
-  if (p.foto) return `<img src="${photoUrl(p.foto, IMG_W_CARD)}" data-orig="${p.foto}" alt="${p.name}" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
+  if (p.foto) return `<div class="photo-ph" aria-hidden="true">${braceletSVG(p)}</div><img src="${photoUrl(p.foto, IMG_W_CARD)}" data-orig="${p.foto}" alt="${p.name}" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
   return braceletSVG(p);
 }
 
@@ -1579,6 +1610,7 @@ function goToSlide(i, fotos){
       img.dataset.orig = nextOrig; img.dataset.usedOrig = "0";
       img.dataset.retries = "0"; // foto nueva y distinta: el contador de reintentos no debe arrastrarse de la anterior
       img.src = nextSrc;
+      armPhotoWatchdog(img);
       img.style.opacity = "1";
     };
     img.style.opacity = "0";
@@ -1614,7 +1646,7 @@ function renderCarousel(){
     <div class="carousel-dots" id="carouselDots">
       ${fotos.map((_,i)=>`<button class="carousel-dot ${i===carouselIndex?'is-active':''}" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join("")}
     </div>` : "";
-  art.innerHTML = `<img id="carouselImg" src="${photoUrl(fotos[carouselIndex], IMG_W_LIGHTBOX)}" data-orig="${fotos[carouselIndex]}" alt="${p.name}" loading="eager" fetchpriority="high" referrerpolicy="no-referrer" style="transition:opacity .18s var(--ease)">${arrows}`;
+  art.innerHTML = `<div class="photo-ph" aria-hidden="true">${braceletSVG(p)}</div><img id="carouselImg" src="${photoUrl(fotos[carouselIndex], IMG_W_LIGHTBOX)}" data-orig="${fotos[carouselIndex]}" alt="${p.name}" loading="eager" fetchpriority="high" referrerpolicy="no-referrer" style="transition:opacity .18s var(--ease)">${arrows}`;
   attachPhotoFallback(document.getElementById("carouselImg"), p, { replaceParent:false });
 
   if (fotos.length > 1){
