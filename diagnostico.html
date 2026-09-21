@@ -20,6 +20,8 @@ table{width:100%;border-collapse:collapse;font-size:.78rem} td,th{border-bottom:
 <script>
 const SHEET="https://docs.google.com/spreadsheets/d/e/2PACX-1vRSJlO7-qJgcxnLUWsWzbp6gtLNFdAe2Lb82YcQz59TohAaasPo5MTPtoztC0Pte_OYkUuSLHzdQOlE/pub?output=csv";
 const W=720, TMO=30000, CONC=3;
+// Igual que un <img> real: acepta WebP/AVIF (sin esto fetch() pide "*/*" y Vercel devuelve PNG, más pesado)
+const ACC="image/webp,image/avif,image/*,*/*;q=0.8";
 const $=id=>document.getElementById(id), tb=document.querySelector("#tb tbody");
 const c=navigator.connection||{};
 $("env").textContent=[location.host,"red: "+(c.effectiveType||"?")+" · bajada ~"+(c.downlink||"?")+" Mbps · rtt "+(c.rtt||"?")+"ms"+(c.saveData?" · AHORRO DE DATOS ON":""),navigator.userAgent.slice(0,110)].join("\n");
@@ -39,7 +41,7 @@ function testOriginal(url){return new Promise(res=>{const t0=performance.now();c
 
 async function testOpt(url){const u="/_vercel/image?url="+encodeURIComponent(url)+"&w="+W+"&q=75";
  const t0=performance.now(),ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),TMO);
- try{const r=await fetch(u,{signal:ctl.signal,cache:"no-store"});const ct=r.headers.get("content-type")||"";
+ try{const r=await fetch(u,{signal:ctl.signal,cache:"no-store",headers:{Accept:ACC}});const ct=r.headers.get("content-type")||"";
   const b=await r.blob();clearTimeout(to);const ms=Math.round(performance.now()-t0);
   const isImg=r.ok&&ct.startsWith("image");
   let err="";if(!isImg){try{err=(await b.text()).replace(/\s+/g," ").slice(0,90)}catch(e){}}
@@ -65,7 +67,7 @@ function summary(done,total){const os=results.filter(r=>r.o.ok),ps=results.filte
  urls.unshift({name:"CONTROL (foto del sitio)",u:location.origin+"/foto-taller.jpg",local:true});
  let i=0,done=0;const total=urls.length;
  async function worker(){while(i<urls.length){const it=urls[i++];const o=await testOriginal(it.u);
-   const p=it.local?await (async()=>{const t0=performance.now();try{const r=await fetch("/_vercel/image?url="+encodeURIComponent("/foto-taller.jpg")+"&w="+W+"&q=75",{cache:"no-store"});const b=await r.blob();const ct=(r.headers.get("content-type")||"").split(";")[0];return {ok:r.ok&&ct.startsWith("image"),status:r.status,ct,kb:Math.round(b.size/1024),ms:Math.round(performance.now()-t0),cache:r.headers.get("x-vercel-cache")||"",verr:r.headers.get("x-vercel-error")||"",err:r.ok?"":(await b.text()).slice(0,90)}}catch(e){return {ok:false,status:0,ms:0,err:String(e)}}})():await testOpt(it.u);
+   const p=it.local?await (async()=>{const t0=performance.now();try{const r=await fetch("/_vercel/image?url="+encodeURIComponent("/foto-taller.jpg")+"&w="+W+"&q=75",{cache:"no-store",headers:{Accept:ACC}});const b=await r.blob();const ct=(r.headers.get("content-type")||"").split(";")[0];return {ok:r.ok&&ct.startsWith("image"),status:r.status,ct,kb:Math.round(b.size/1024),ms:Math.round(performance.now()-t0),cache:r.headers.get("x-vercel-cache")||"",verr:r.headers.get("x-vercel-error")||"",err:r.ok?"":(await b.text()).slice(0,90)}}catch(e){return {ok:false,status:0,ms:0,err:String(e)}}})():await testOpt(it.u);
    addRow(it.name,o,p);done++;summary(done,total)}}
  await Promise.all(Array.from({length:CONC},worker));
  const lines=["DIAGNOSTICO HEBRA — "+$("env").textContent.replace(/\n/g," | "),$("sum").innerText.replace(/\n/g," | "),""];
