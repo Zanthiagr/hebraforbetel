@@ -1174,6 +1174,7 @@ function attachPhotoFallback(img, product, opts = {}){
   const replaceParent = opts.replaceParent !== false;
   img.addEventListener("error", () => {
     const retries = parseInt(img.dataset.retries || "0", 10) + 1;
+    if (retries === 1) console.warn("HEBRA: falló la carga de foto →", img.src);
     img.dataset.retries = String(retries);
     if (retries <= 2){
       setTimeout(() => {
@@ -1195,7 +1196,7 @@ function attachPhotoFallback(img, product, opts = {}){
 }
 
 function productVisual(p){
-  if (p.foto) return `<img src="${p.foto}" alt="${p.name}" loading="lazy" decoding="async">`;
+  if (p.foto) return `<img src="${p.foto}" alt="${p.name}" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
   return braceletSVG(p);
 }
 
@@ -1543,6 +1544,7 @@ function goToSlide(i, fotos){
     };
     img.style.opacity = "0";
     const preload = new Image();
+    preload.referrerPolicy = "no-referrer";
     preload.onload = () => setTimeout(swap, 70);
     preload.onerror = swap;
     preload.src = nextSrc;
@@ -1566,14 +1568,14 @@ function renderCarousel(){
   }
 
   art.classList.add("lightbox-art--photo");
-  fotos.forEach(src => { const pre = new Image(); pre.src = src; }); // precarga silenciosa para que cambiar de foto sea instantáneo
+  fotos.forEach(src => { const pre = new Image(); pre.referrerPolicy = "no-referrer"; pre.src = src; }); // precarga silenciosa para que cambiar de foto sea instantáneo
   const arrows = fotos.length > 1 ? `
     <button class="carousel-arrow carousel-arrow--prev" id="carouselPrev" aria-label="Foto anterior">‹</button>
     <button class="carousel-arrow carousel-arrow--next" id="carouselNext" aria-label="Foto siguiente">›</button>
     <div class="carousel-dots" id="carouselDots">
       ${fotos.map((_,i)=>`<button class="carousel-dot ${i===carouselIndex?'is-active':''}" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join("")}
     </div>` : "";
-  art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" loading="eager" fetchpriority="high" style="transition:opacity .18s var(--ease)">${arrows}`;
+  art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" loading="eager" fetchpriority="high" referrerpolicy="no-referrer" style="transition:opacity .18s var(--ease)">${arrows}`;
   attachPhotoFallback(document.getElementById("carouselImg"), p, { replaceParent:false });
 
   if (fotos.length > 1){
@@ -1635,6 +1637,7 @@ function openLightboxFromCard(ref, imgEl){
   // su tamaño identidad. Es compositor puro: no dispara layout en cada frame,
   // por eso deja de sentirse pesado o tardío como con top/left/width/height.
   const clone = document.createElement("img");
+  clone.referrerPolicy = "no-referrer";
   clone.src = startSrc;
   clone.alt = "";
   clone.className = "lightbox-flip-clone";
