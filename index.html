@@ -322,7 +322,9 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .card-stagger{animation:cardIn .55s var(--ease) backwards;}
 .card-frame{background:var(--bone);border:1px solid var(--bone-line);padding:1.6rem .8rem;margin-bottom:1.2rem;overflow:hidden;}
 .card-frame--photo{padding:0;}
-.card-frame--photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .5s var(--ease);will-change:transform;}
+.card-frame--photo{background:var(--bone-soft);}
+.card-frame--photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;opacity:0;transition:transform .5s var(--ease),opacity .45s var(--ease);will-change:transform;}
+.card-frame--photo img.is-loaded{opacity:1;}
 /* la imagen escala y se desplaza distinto al marco al inclinar la tarjeta: eso es lo que da la sensación de profundidad, no solo la sombra */
 .bracelet-card:hover .card-frame--photo img{transform:scale(1.07);}
 
@@ -1169,22 +1171,36 @@ function braceletSVG(p){
 // intermitente las peticiones "hotlinked" — la foto existe y es válida, pero
 // a veces el navegador la recibe como error. Por eso reintentamos un par de
 // veces (con cache-busting) antes de darla por rota de verdad.
-// Optimizador de imágenes de Netlify (Image CDN): las fotos del Sheet suelen ser originales
-// de varios MB; por datos móviles quedaban "pendientes" y la tarjeta se veía gris. Netlify las
-// reduce y convierte a WebP/AVIF en su borde y las cachea. Solo aplica a hosts habilitados en
-// netlify.toml y solo cuando el sitio corre por http(s); en cualquier otro caso se usa la URL
-// original tal cual. Si la versión optimizada falla, attachPhotoFallback vuelve a la original.
+// Optimizador de imágenes del hosting. Las fotos del Sheet suelen ser originales de varios MB y
+// por datos móviles quedaban pendientes. El hosting las reduce, las convierte a WebP y las
+// cachea en su borde. El endpoint depende de dónde esté abierto el sitio:
+//   *.vercel.app  -> /_vercel/image   (se habilita en vercel.json)
+//   *.netlify.app -> /.netlify/images (se habilita en netlify.toml)
+//   otro dominio  -> fotos originales (sin optimizar)
+// Si la versión optimizada falla, attachPhotoFallback vuelve a la original.
+// Los hosts de fotos permitidos deben coincidir con vercel.json y netlify.toml.
 const IMG_CDN_HOSTS = /^https:\/\/(i\.postimg\.cc|i\.ibb\.co)\//i;
-const IMG_CDN_ON = /^https?:$/.test(location.protocol);
-const IMG_W_CARD = 720, IMG_W_LIGHTBOX = 1100;
+const IMG_ENDPOINT = (() => {
+  if (!/^https?:$/.test(location.protocol)) return null;
+  const h = location.hostname;
+  if (/\.vercel\.app$/i.test(h))  return { path:"/_vercel/image",   extra:"&q=75" };
+  if (/\.netlify\.app$/i.test(h)) return { path:"/.netlify/images", extra:"" };
+  return null;
+})();
+const IMG_W_CARD = 720, IMG_W_LIGHTBOX = 1100; // deben estar en "sizes" de vercel.json
 function photoUrl(src, w){
-  if (!IMG_CDN_ON || !src || !IMG_CDN_HOSTS.test(src)) return src;
-  return "/.netlify/images?url=" + encodeURIComponent(src) + "&w=" + w;
+  if (!IMG_ENDPOINT || !src || !IMG_CDN_HOSTS.test(src)) return src;
+  return IMG_ENDPOINT.path + "?url=" + encodeURIComponent(src) + "&w=" + w + IMG_ENDPOINT.extra;
 }
 
 function attachPhotoFallback(img, product, opts = {}){
   if (!img || !product) return;
   const replaceParent = opts.replaceParent !== false;
+  // La foto entra con fundido solo cuando terminó de cargar: mientras carga o reintenta no se
+  // ve el ícono de "imagen rota" del navegador, solo el cuadro liso de la tarjeta.
+  const markLoaded = () => img.classList.add("is-loaded");
+  img.addEventListener("load", markLoaded);
+  if (img.complete && img.naturalWidth > 0) markLoaded();
   img.addEventListener("error", () => {
     // Etapa 1: falló la versión optimizada → probar la foto original antes de reintentar.
     // (Sin esto, el reintento de abajo rompería la URL de Netlify al cortar el "?url=...")
