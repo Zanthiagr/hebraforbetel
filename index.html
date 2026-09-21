@@ -111,13 +111,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .section--bone .section-head p{color:var(--bone-text-dim);}
 .section--ink .section-head p{color:var(--ink-text-dim);}
 
-/* Frase destacada opcional dentro del section-head: para el mensaje que
-   debe leerse primero (ej. "puedes pedir lo que imagines"), no como una
-   nota más entre el resto del texto atenuado. */
-.section-head .section-lead{font-family:var(--display);font-size:1.3rem;font-style:italic;line-height:1.45;max-width:48ch;}
-.section--bone .section-head .section-lead{color:var(--bone-text);}
-.section--ink .section-head .section-lead{color:var(--ink-text);}
-
 /* ---------- BUTTONS ---------- */
 .btn{
   display:inline-flex;align-items:center;gap:.6em;
@@ -327,20 +320,11 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .bracelet-card:active{transform:translateY(-2px) scale(.99) !important;box-shadow:0 12px 20px -12px rgba(23,24,26,.3);}
 @keyframes cardIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 .card-stagger{animation:cardIn .55s var(--ease) backwards;}
-.card-frame{position:relative;background:var(--bone);border:1px solid var(--bone-line);padding:1.6rem .8rem;margin-bottom:1.2rem;overflow:hidden;}
-.card-frame--photo{padding:0;background:linear-gradient(100deg,var(--bone-line) 8%,var(--bone-soft) 28%,var(--bone-line) 42%);background-size:200% 100%;animation:skelShimmer 1.5s ease-in-out infinite;}
-.card-frame--photo.img-ready{animation:none;background:var(--bone);}
-@media (prefers-reduced-motion: reduce){.card-frame--photo{animation:none;}}
-.card-frame--photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;opacity:0;transition:transform .5s var(--ease),opacity .4s var(--ease);will-change:transform;}
-.card-frame--photo img.is-loaded{opacity:1;}
+.card-frame{background:var(--bone);border:1px solid var(--bone-line);padding:1.6rem .8rem;margin-bottom:1.2rem;overflow:hidden;}
+.card-frame--photo{padding:0;}
+.card-frame--photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .5s var(--ease);will-change:transform;}
 /* la imagen escala y se desplaza distinto al marco al inclinar la tarjeta: eso es lo que da la sensación de profundidad, no solo la sombra */
 .bracelet-card:hover .card-frame--photo img{transform:scale(1.07);}
-
-/* Mini carrusel dentro de la tarjeta: puntos táctiles para cambiar de foto
-   sin abrir el detalle. Solo aparecen si el producto tiene más de una foto. */
-.card-dots{position:absolute;left:0;right:0;bottom:.5rem;display:flex;justify-content:center;gap:.35rem;z-index:2;}
-.card-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);border:1px solid rgba(23,24,26,.2);transition:background .2s,transform .2s;padding:0;cursor:pointer;}
-.card-dot.is-active{background:var(--bone);transform:scale(1.35);}
 
 .bracelet-svg{width:100%;height:auto;}
 .bracelet-svg .strand{fill:none;stroke-width:9;stroke-linecap:round;}
@@ -369,24 +353,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .card-cta svg{width:1em;height:1em;}
 
 @media (max-width:1000px){.catalog-grid{grid-template-columns:repeat(2,1fr);}}
-
-/* Tarjeta compacta para 2 columnas en móvil: sin descripción (se ve al
-   abrir la tarjeta), solo la etiqueta de material, fuentes más chicas y
-   menos relleno — a este ancho la tarjeta original se ve apretada. */
-@media (max-width:620px){
-  .catalog-grid{gap:.85rem;}
-  .bracelet-card{padding:.85rem;}
-  .card-frame{padding:0;margin-bottom:.7rem;}
-  .card-top{margin-bottom:.15rem;}
-  .card-ref{font-size:.6rem;}
-  .card-tags .tag{font-size:.55rem;padding:.22em .5em;}
-  .card-tags .tag:not(:first-child){display:none;}
-  .card-name{font-size:.92rem;line-height:1.25;margin-top:.3rem;}
-  .card-desc,.care-note{display:none;}
-  .card-bottom{margin-top:.6rem;padding-top:.6rem;}
-  .card-price{font-size:.8rem;}
-  .card-cta-label{display:none;}
-}
+@media (max-width:620px){.catalog-grid{grid-template-columns:1fr;}}
 
 /* ---------- SKELETON (mientras carga el Sheet) ---------- */
 .skel-card{background:var(--bone-soft);border:1px solid var(--bone-line);padding:1.6rem;display:flex;flex-direction:column;}
@@ -407,30 +374,25 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
   opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s;
 }
 .lightbox-overlay.is-open{opacity:1;visibility:visible;}
-/* Mientras la foto "vuela" del grid al lightbox, se quita el backdrop-filter:
-   animar opacity con blur detrás es de lo más caro que hay en CSS y era la
-   causa principal de que el vuelo se sintiera pesado/trabado. Se restaura
-   de golpe (sin transición) apenas termina el vuelo, cuando ya no compite
-   con ninguna otra animación en curso. */
-.lightbox-overlay.is-flying{backdrop-filter:none;}
 .lightbox{
   background:var(--bone);max-width:840px;width:100%;display:grid;grid-template-columns:1.05fr 1fr;
-  transform:translateY(20px) scale(.98);transition:transform .4s var(--ease);
-  max-height:88vh;border-radius:20px;overflow:hidden;
-  box-shadow:0 40px 90px -20px rgba(8,16,12,.55),0 0 0 1px rgba(8,16,12,.05);
+  transform:translateY(20px) scale(.98);transition:transform .32s var(--ease);
+  max-height:88vh;border-radius:28px;overflow:hidden;
+  /* contra un fondo casi negro una sombra no se nota — lo que sí se nota es un
+     borde de luz sutil que separa la caja del overlay */
+  box-shadow:0 0 0 1px rgba(250,246,238,.14),0 30px 70px -15px rgba(0,0,0,.55);
 }
 .lightbox-overlay.is-open .lightbox{transform:translateY(0) scale(1);}
 .lightbox-overlay.is-priming .lightbox{transition:none !important;}
 .lightbox-art{background:var(--bone-soft);display:flex;align-items:center;justify-content:center;padding:2.4rem;border-right:1px solid var(--bone-line);position:relative;overflow:hidden;}
-.lightbox-art--photo{padding:0;aspect-ratio:1/1;align-self:center;background:linear-gradient(100deg,var(--bone-line) 8%,var(--bone-soft) 28%,var(--bone-line) 42%);background-size:200% 100%;animation:skelShimmer 1.5s ease-in-out infinite;}
-.lightbox-art--photo.img-ready{animation:none;background:var(--bone-soft);}
-@media (prefers-reduced-motion: reduce){.lightbox-art--photo{animation:none;}}
+.lightbox-art--photo{padding:0;aspect-ratio:1/1;align-self:center;}
 .lightbox-art--flipping{opacity:0;}
-.lightbox-flip-clone{position:fixed;top:0;left:0;object-fit:cover;z-index:300;pointer-events:none;will-change:transform;transform-origin:top left;transition:transform .38s var(--ease);}
-.lightbox-art--photo img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:transform .5s var(--ease),opacity .3s var(--ease);}
-.lightbox-art--photo img.is-loaded{opacity:1;}
+.lightbox-flip-clone{position:fixed;top:0;left:0;object-fit:cover;z-index:300;pointer-events:none;will-change:transform;transform-origin:top left;transition:transform .28s cubic-bezier(.22,.61,.36,1);}
+.lightbox-art--photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease),opacity .3s var(--ease);}
 .lightbox-art--photo:hover img{transform:scale(1.045);}
 .lightbox-art--photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(8,16,12,.22),transparent 42%);pointer-events:none;}
+.carousel-photo-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bone-soft);}
+.carousel-photo-fallback svg{width:70%;height:auto;}
 .carousel-arrow{
   position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;
   background:rgba(8,16,12,.55);color:#fff;display:flex;align-items:center;justify-content:center;
@@ -446,6 +408,15 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .carousel-dot:hover{background:rgba(255,255,255,.8);transform:scale(1.15);}
 .carousel-dot.is-active{background:#fff;transform:scale(1.25);}
 .lightbox-body{padding:2.6rem;color:var(--bone-text);position:relative;overflow-y:auto;max-height:88vh;min-height:0;}
+@keyframes lbBodyIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.lightbox-overlay.is-open .lightbox-body > *{animation:lbBodyIn .45s var(--ease) backwards;}
+.lightbox-overlay.is-open .lightbox-body > *:nth-child(2){animation-delay:.04s;}
+.lightbox-overlay.is-open .lightbox-body > *:nth-child(3){animation-delay:.08s;}
+.lightbox-overlay.is-open .lightbox-body > *:nth-child(4){animation-delay:.12s;}
+.lightbox-overlay.is-open .lightbox-body > *:nth-child(5){animation-delay:.16s;}
+.lightbox-overlay.is-open .lightbox-body > *:nth-child(6){animation-delay:.2s;}
+.lightbox-overlay.is-open .lightbox-body > *:nth-child(7){animation-delay:.24s;}
+@media (prefers-reduced-motion: reduce){.lightbox-overlay.is-open .lightbox-body > *{animation:none;}}
 .lightbox-close{position:absolute;top:1.2rem;right:1.2rem;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--bone-line);border-radius:50%;}
 .lightbox-body .card-ref{display:block;margin-bottom:.6rem;}
 .lightbox-body h3{font-size:2rem;}
@@ -475,55 +446,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 @media (max-width:560px){.trust-grid{grid-template-columns:1fr;}}
 
 /* ============================================================
-   ANZUELO — CREA TU PROPIA MANILLA
-   Antes era una franja de ancho completo pegada directo a "Nosotros" — como
-   ambas usan fondo oscuro, se veían como una sola sección y el botón se
-   perdía. Ahora es una tarjeta flotante con su propio fondo y borde
-   completo, con espacio real (el fondo base de la página) alrededor.
-   ============================================================ */
-.crear-showcase{display:block;padding:2.6rem 0;text-decoration:none;color:var(--ink-text);}
-.crear-showcase-card{
-  display:flex;align-items:center;gap:1.6rem;
-  background:var(--ink-soft);border:1px solid var(--brass);border-radius:var(--radius);
-  padding:1.6rem 1.8rem;
-  transition:background .3s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease);
-}
-.crear-showcase:hover .crear-showcase-card{background:var(--ink-line);transform:translateY(-3px);box-shadow:0 22px 38px -20px rgba(8,9,10,.55);}
-
-.crear-showcase-art{
-  width:76px;height:76px;flex:none;border-radius:50%;
-  background:var(--ink);border:1px solid var(--ink-line);
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-  padding:14px;
-}
-.crear-showcase-art svg{width:100%;height:100%;opacity:0;transition:opacity .5s ease;}
-.crear-showcase-art svg.is-visible{opacity:1;}
-@media (prefers-reduced-motion: reduce){.crear-showcase-art svg{transition:none;}}
-
-.crear-showcase-copy{flex:1;min-width:0;}
-.crear-showcase-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--brass-light);margin-bottom:.3rem;}
-.crear-showcase-copy h3{font-family:var(--display);font-size:1.5rem;color:var(--bone);margin-bottom:.3rem;}
-.crear-showcase-copy p{margin:0;font-size:.88rem;color:var(--ink-text-dim);max-width:44ch;}
-
-.crear-showcase-cta{
-  flex:none;display:flex;align-items:center;gap:.5em;
-  background:var(--brass);color:var(--ink);border-radius:999px;
-  padding:.8em 1.3em;font-family:var(--mono);font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;
-  transition:background .25s var(--ease),transform .25s var(--ease);
-}
-.crear-showcase-cta svg{width:16px;height:16px;transition:transform .3s var(--ease);}
-.crear-showcase:hover .crear-showcase-cta{background:var(--brass-light);}
-.crear-showcase:hover .crear-showcase-cta svg{transform:translateX(4px);}
-
-@media (max-width:700px){
-  .crear-showcase{padding:2rem 0;}
-  .crear-showcase-card{flex-wrap:wrap;padding:1.4rem;}
-  .crear-showcase-art{width:60px;height:60px;padding:10px;}
-  .crear-showcase-copy h3{font-size:1.25rem;}
-  .crear-showcase-cta{width:100%;justify-content:center;order:3;}
-}
-
-/* ============================================================
    NOSOTROS
    ============================================================ */
 .nosotros-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:3rem;align-items:center;}
@@ -549,10 +471,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .talla-table td{padding:.8rem 0;border-bottom:1px solid var(--bone-line);}
 .talla-tip{margin-top:1.3rem;font-size:.85rem;color:var(--bone-text-dim);display:flex;gap:.6em;align-items:flex-start;}
 .talla-tip svg{width:1.2em;height:1.2em;flex:none;color:var(--clay);margin-top:.1em;}
-.talla-wa-cta{margin-top:1.6rem;}
-@media (max-width:900px){
-  .talla-wa-cta{white-space:normal;width:100%;justify-content:center;text-align:center;line-height:1.4;}
-}
 @media (max-width:900px){.talla-grid{grid-template-columns:1fr;}}
 
 /* ============================================================
@@ -589,69 +507,22 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
    ============================================================ */
 .crear-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:3rem;align-items:start;}
 .crear-preview{position:sticky;top:7rem;}
-
-/* CTA directo a WhatsApp — atajo antes del tutorial, para quien ya sabe qué quiere */
-@keyframes crearQuickGlow{
-  0%,100%{box-shadow:0 0 0 0 rgba(196,152,94,.35);}
-  50%{box-shadow:0 0 0 10px rgba(196,152,94,0);}
-}
-.crear-quick{
-  display:flex;align-items:center;gap:1.2rem;
-  background:var(--ink);border:1px solid var(--brass);border-radius:var(--radius);
-  padding:1.3rem 1.6rem;margin-bottom:2rem;text-decoration:none;
-  animation:crearQuickGlow 2.6s ease-in-out infinite;
-  will-change:transform;
-}
-.crear-quick-icon{
-  width:48px;height:48px;flex:none;border-radius:50%;
-  background:var(--brass);color:var(--ink);
-  display:flex;align-items:center;justify-content:center;
-}
-.crear-quick-icon svg{width:24px;height:24px;}
-.crear-quick-copy{display:flex;flex-direction:column;gap:.15rem;flex:1;}
-.crear-quick-copy strong{font-family:var(--display);font-size:1.15rem;color:var(--bone);font-weight:600;}
-.crear-quick-copy span{font-family:var(--mono);font-size:.76rem;letter-spacing:.04em;color:var(--ink-text-dim);}
-.crear-quick-arrow{width:20px;height:20px;flex:none;color:var(--brass-light);transition:transform .3s var(--ease);}
-.crear-quick:hover .crear-quick-arrow{transform:translateX(5px);}
-.crear-divider{display:flex;align-items:center;gap:1rem;margin-bottom:2.2rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--bone-text-dim);}
-.crear-divider::before,.crear-divider::after{content:"";flex:1;height:1px;background:var(--bone-line);}
-
-/* Tarjetas de opción con descripción — para decisiones donde el "por qué"
-   importa tanto como el "qué" (grosor de hilo, tipo de balín). Igual de
-   rápidas de tocar que un chip normal, pero llevan el texto explicativo
-   incrustado en vez de dejarlo en un párrafo aparte que nadie lee. */
-.choice-cards{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
-.choice-card{
-  text-align:left;border:1px solid var(--bone-line);border-radius:var(--radius);
-  background:var(--bone);padding:.9rem 1rem;display:flex;flex-direction:column;gap:.35rem;
-  transition:background .25s var(--ease),border-color .25s var(--ease);
-}
-.choice-card-title{font-family:var(--mono);font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;font-weight:700;color:var(--bone-text);}
-.choice-card-desc{font-size:.82rem;line-height:1.45;color:var(--bone-text-dim);}
-.choice-card:hover:not(.is-active){border-color:var(--clay);}
-.choice-card.is-active{background:var(--bone-text);border-color:var(--bone-text);}
-.choice-card.is-active .choice-card-title,.choice-card.is-active .choice-card-desc{color:var(--bone);}
-@media (max-width:520px){.choice-cards{grid-template-columns:1fr;}}
-
-.crear-tagline{font-family:var(--display);font-size:1.2rem;font-style:italic;color:var(--bone-text);margin:1.8rem 0 1.4rem;padding-top:1.4rem;border-top:1px solid var(--bone-line);}
-
-/* Barra fija de WhatsApp (solo móvil): reemplaza la función de la vista
-   previa sticky mientras el usuario explora el formulario en pantallas
-   chicas, donde la preview deja de ser sticky. */
-.crear-sticky-cta{display:none;}
 .preview-card{background:var(--bone-soft);border:1px solid var(--bone-line);padding:2rem;}
 .preview-card .bracelet-svg{margin:1.2rem 0;}
+.preview-wa-btn{width:100%;justify-content:center;margin-top:1.4rem;}
+.preview-wa-btn svg{width:1.1em;height:1.1em;flex-shrink:0;}
 .preview-meta{font-family:var(--mono);font-size:.76rem;color:var(--bone-text-dim);display:flex;justify-content:space-between;border-top:1px solid var(--bone-line);padding-top:1rem;margin-top:1rem;flex-wrap:wrap;gap:.4rem;}
 .preview-swatches-label{font-size:.85rem;color:var(--bone-text-dim);margin-top:.4rem;}
-.preview-cta{width:100%;margin-top:1.4rem;}
-.preview-cta-note{font-size:.76rem;color:var(--bone-text-dim);margin-top:.7rem;text-align:center;}
-
-.crear-subhead{margin-bottom:1.4rem;}
-.crear-subhead h3{font-family:var(--display);font-size:1.4rem;margin-top:.3em;}
-.crear-subhead-note{font-size:.88rem;color:var(--bone-text-dim);margin-top:.5rem;max-width:48ch;}
 
 .field{margin-bottom:1.6rem;}
 .field label{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-text-dim);margin-bottom:.6rem;}
+.field input[type=text],.field input[type=tel],.field textarea,.field select{
+  width:100%;border-bottom:1px solid var(--bone-line);padding:.7em .2em;font-size:1rem;
+  transition:border-color .25s;background:transparent;
+}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--clay);}
+.field textarea{resize:vertical;min-height:90px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
 
 .chips{display:flex;flex-wrap:wrap;gap:.6rem;}
 .chip{
@@ -673,21 +544,18 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 .swatch.is-selected::after{content:"";position:absolute;inset:-6px;border:1px solid var(--clay);border-radius:50%;}
 .swatch-help{font-size:.78rem;color:var(--bone-text-dim);margin-top:.6rem;}
 
-.balin-preview{background:var(--bone-soft);border:1px solid var(--bone-line);padding:1rem .5rem .4rem;}
-.balin-svg{width:100%;height:auto;display:block;overflow:visible;}
-.balin-preview-caption{font-size:.78rem;color:var(--bone-text-dim);margin-top:.6rem;}
-.balin-dot{cursor:pointer;transform:translate(calc(var(--tx)*1px),calc(var(--ty)*1px));transform-origin:0 0;transition:transform .25s var(--ease);}
-.balin-dot:hover{transform:translate(calc(var(--tx)*1px),calc(var(--ty)*1px)) scale(1.08);}
-.balin-dot:focus-visible{outline:2px solid var(--clay);outline-offset:4px;border-radius:50%;}
-.balin-dot.is-selected{transform:translate(calc(var(--tx)*1px),calc(var(--ty)*1px)) scale(1.12);}
-.balin-dot.is-selected:hover{transform:translate(calc(var(--tx)*1px),calc(var(--ty)*1px)) scale(1.18);}
-
 .toggle-row{display:flex;align-items:center;gap:.7rem;}
 .toggle{width:42px;height:24px;border:1px solid var(--bone-line);border-radius:999px;position:relative;flex:none;transition:background .25s;}
 .toggle::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--bone-text-dim);transition:transform .25s;}
 .toggle.is-on{background:var(--clay);border-color:var(--clay);}
 .toggle.is-on::after{transform:translateX(17px);background:var(--bone);}
 
+.upload-box{border:1px dashed var(--bone-line);padding:1.6rem;text-align:center;cursor:pointer;transition:border-color .25s,background .25s;}
+.upload-box:hover{border-color:var(--clay);background:rgba(122,34,48,.04);}
+.upload-box svg{width:28px;height:28px;margin:0 auto .6rem;}
+.upload-box p{font-size:.85rem;color:var(--bone-text-dim);}
+.thumbs{display:flex;gap:.6rem;margin-top:1rem;flex-wrap:wrap;}
+.thumbs img{width:56px;height:56px;object-fit:cover;border:1px solid var(--bone-line);}
 
 .form-note{font-size:.8rem;color:var(--bone-text-dim);margin-top:1rem;display:flex;gap:.6em;align-items:flex-start;}
 .form-note svg{width:1.1em;height:1.1em;flex:none;margin-top:.15em;color:var(--clay);}
@@ -697,19 +565,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
 @media (max-width:900px){
   .crear-grid{grid-template-columns:1fr;}
   .crear-preview{position:static;}
-
-  .crear-sticky-cta{
-    display:flex;align-items:center;justify-content:center;gap:.6em;
-    position:fixed;left:1rem;right:1rem;bottom:1rem;z-index:60;
-    background:var(--ink);color:var(--bone);border:1px solid var(--brass);border-radius:999px;
-    padding:1em 1.2em;font-family:var(--mono);font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;
-    text-decoration:none;box-shadow:0 16px 32px -12px rgba(8,16,12,.45);
-    transform:translateY(120%);opacity:0;transition:transform .35s var(--ease),opacity .35s var(--ease);
-    pointer-events:none;
-  }
-  .crear-sticky-cta svg{width:1.2em;height:1.2em;flex:none;color:var(--brass-light);}
-  .crear-sticky-cta.is-visible{transform:translateY(0);opacity:1;pointer-events:auto;}
-  body.crear-sticky-active .wa-float{opacity:0;pointer-events:none;transition:opacity .3s var(--ease);}
+  .field-row{grid-template-columns:1fr;}
 }
 
 /* ============================================================
@@ -796,7 +652,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
     <div class="hero-copy">
       <p class="eyebrow hero-reveal" style="animation-delay:.1s">Manillas exclusivas · para él y para ella</p>
       <h1 class="hero-reveal" style="animation-delay:.25s">El lujo<br>también <em>se teje</em>.</h1>
-      <p class="hero-reveal" style="animation-delay:.5s">Trabajamos principalmente en acero inoxidable, cuidando cada detalle para ofrecer piezas duraderas, elegantes y únicas. Puedes elegir un diseño del catálogo tal cual, o crear el tuyo desde cero: hilo, color, balines y dije, a tu gusto. Las fotos del catálogo son referencia — si la quieres igual, la hacemos igual; si prefieres algo distinto, la diseñamos contigo.</p>
+      <p class="hero-reveal" style="animation-delay:.5s">Tejidas a mano y trabajadas en oro laminado, acero o rodio — con o sin piedras. Piezas exclusivas con un precio para cada quien: tú eliges el material, nosotros el detalle.</p>
       <div class="hero-cta hero-reveal" style="animation-delay:.68s">
         <a href="#catalogo" class="btn btn--solid">Ver catálogo completo</a>
         <a href="#crear" class="btn btn--ghost ink-ctx">Crea la tuya</a>
@@ -869,30 +725,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
     <p class="catalog-empty" id="catalogEmpty" hidden>Por ahora no hay sets de pareja en este material. Mira otra opción arriba o escríbenos y te ayudamos a armar uno a tu gusto.</p>
   </div>
 </section>
-
-<!-- ============================================================
-     ANZUELO — CREA TU PROPIA MANILLA
-     Justo al cerrar el catálogo: es el momento exacto en que alguien que
-     no encontró lo que buscaba está más receptivo a personalizar. La
-     vista previa mini rota sola entre tejida / cadena / piedras, para que
-     se entienda de un vistazo qué se puede hacer, sin tener que leer nada.
-     ============================================================ -->
-<a href="#crear" class="crear-showcase reveal">
-  <div class="container">
-    <div class="crear-showcase-card">
-      <div class="crear-showcase-art" id="teaserArt" aria-hidden="true"></div>
-      <div class="crear-showcase-copy">
-        <p class="crear-showcase-eyebrow">¿No ves lo que buscas?</p>
-        <h3>Crea tu propia manilla</h3>
-        <p>Tejida, cadena o con piedras — con el dije que quieras. Tú la imaginas, nosotros la hacemos.</p>
-      </div>
-      <span class="crear-showcase-cta">
-        Diseñarla
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
-    </div>
-  </div>
-</a>
 
 <!-- LIGHTBOX -->
 <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-labelledby="lightboxName">
@@ -1004,10 +836,6 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
         ¿Tu medida queda entre dos tallas? Elige la más grande — siempre es más fácil ajustar una manilla un poco holgada.
       </p>
-      <a href="#" id="tallasWaBtn" class="btn btn--wa talla-wa-cta" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-        ¿Ya sabes qué quieres? Escríbenos directo por WhatsApp
-      </a>
     </div>
   </div>
 </section>
@@ -1020,48 +848,42 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
     <div class="section-head reveal">
       <p class="eyebrow">Diseño personalizado</p>
       <h2>Crea tu propia manilla</h2>
-      <p class="section-lead">Puedes pedir lo que imagines: desde una tejida clásica hasta una cadena, con el dije que quieras o sin él. Mándanos tu idea, tu inspiración o una foto de referencia — y la hacemos realidad.</p>
+      <p>Elige el material, el estilo, las piedras y el dije. Verás una vista previa aquí mismo antes de escribirnos — con foto de inspiración si quieres.</p>
     </div>
-
-    <a href="#" id="crearQuickBtn" class="crear-quick reveal" target="_blank" rel="noopener">
-      <span class="crear-quick-icon">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-      </span>
-      <span class="crear-quick-copy">
-        <strong>¿Ya sabes qué quieres?</strong>
-        <span>Escríbenos directo por WhatsApp, sin llenar nada</span>
-      </span>
-      <svg class="crear-quick-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </a>
-    <p class="crear-divider reveal"><span>o descubre cómo se arma la tuya, paso a paso</span></p>
 
     <div class="crear-grid">
       <div class="crear-preview reveal">
         <div class="preview-card">
           <p class="eyebrow">Vista previa</p>
           <div id="previewSvg"></div>
-          <p class="preview-swatches-label" id="previewColorsLabel">Elige hasta 2 colores de hilo →</p>
+          <p class="preview-swatches-label" id="previewColorsLabel">Elige hasta 2 tonos →</p>
           <div class="preview-meta">
             <span id="previewMaterial">Material: Acero</span>
-            <span id="previewHilo">Hilo: 0.8 mm</span>
-            <span id="previewBalin">Balín: #4 · Liso</span>
+            <span id="previewOcasion">Ocasión: —</span>
+            <span id="previewTalla">Talla: —</span>
           </div>
-          <button class="btn btn--solid preview-cta" id="submitCustomPreview" type="button">Pedir por WhatsApp</button>
-          <p class="preview-cta-note">No tienes que elegir todo — cuéntanos lo que sí sabes y resolvemos el resto por chat.</p>
+          <a href="#" id="submitCustom" class="btn btn--solid preview-wa-btn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+            Enviar por WhatsApp
+          </a>
+          <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con tu idea. Si tienes fotos, ¡no olvides adjuntarlas en el chat!</p>
         </div>
       </div>
 
       <div class="crear-form reveal">
-        <p class="crear-subhead-note" style="margin-bottom:2rem;font-size:.92rem;">
-          <strong style="color:var(--bone-text);">✨ Personalización:</strong> puedes elegir el grosor del hilo, el color y el tipo de balines para crear una manilla totalmente a tu gusto.
-        </p>
-
-        <div class="crear-subhead">
-          <p class="eyebrow">Paso 1</p>
-          <h3>Material</h3>
+        <div class="field-row">
+          <div class="field">
+            <label for="ftName">Tu nombre</label>
+            <input type="text" id="ftName" placeholder="¿Cómo te llamas?">
+          </div>
+          <div class="field">
+            <label for="ftPhone">Tu número (opcional)</label>
+            <input type="tel" id="ftPhone" placeholder="Por si queremos confirmar algo">
+          </div>
         </div>
 
         <div class="field">
+          <label>Material</label>
           <div class="chips" id="materialPicker"></div>
         </div>
 
@@ -1082,43 +904,34 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
           </p>
         </div>
 
-        <div class="crear-subhead">
-          <p class="eyebrow">Paso 2</p>
-          <h3>Hilo chino</h3>
-          <p class="crear-subhead-note">Hilo chino resistente y de excelente acabado, en dos grosores.</p>
-        </div>
-
         <div class="field">
-          <div class="choice-cards" id="grosorPicker"></div>
-        </div>
-
-        <div class="field">
-          <label id="swatchLabel">Color del hilo (máx. 2)</label>
+          <label id="swatchLabel">Elige tus tonos o piedras (máx. 2)</label>
           <div class="swatches" id="swatchPicker"></div>
           <p class="swatch-help" id="swatchHelp">0 de 2 seleccionados</p>
         </div>
 
-        <div class="crear-subhead">
-          <p class="eyebrow">Paso 3</p>
-          <h3>Balines</h3>
-          <p class="crear-subhead-note">Varían en tamaño y estilo, para combinaciones únicas.</p>
-        </div>
-
-        <div class="field">
-          <label>Tamaño</label>
-          <div class="chips" id="balinTamanoPicker"></div>
-          <div class="balin-preview" id="balinPreview"></div>
-          <p class="balin-preview-caption">Comparación a escala real entre los 5 tamaños — toca cualquiera para elegirlo.</p>
-        </div>
-
-        <div class="field">
-          <label>Tipo</label>
-          <div class="choice-cards" id="balinTipoPicker"></div>
-        </div>
-
-        <div class="crear-subhead">
-          <p class="eyebrow">Paso 4 · opcional</p>
-          <h3>Dije o piedra central</h3>
+        <div class="field-row">
+          <div class="field">
+            <label for="ftOcasion">Ocasión</label>
+            <select id="ftOcasion">
+              <option value="">Selecciona...</option>
+              <option>Para regalar</option>
+              <option>Para mí</option>
+              <option>En pareja</option>
+              <option>Amistad</option>
+              <option>Carnaval</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ftTalla">Talla de muñeca</label>
+            <select id="ftTalla">
+              <option value="">Selecciona...</option>
+              <option>Niño/a</option>
+              <option>Pequeña (14–16 cm)</option>
+              <option>Mediana (17–19 cm)</option>
+              <option>Grande (20–22 cm)</option>
+            </select>
+          </div>
         </div>
 
         <div class="field">
@@ -1128,29 +941,28 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
           </div>
         </div>
 
-        <p class="crear-tagline">Personalización total — tú eliges, nosotros lo hacemos realidad.</p>
+        <div class="field">
+          <label for="ftMensaje">Cuéntanos tu idea</label>
+          <textarea id="ftMensaje" placeholder="Ej: la quiero con mi inicial, para regalo de cumpleaños..."></textarea>
+        </div>
 
-        <button class="btn btn--solid" id="submitCustom" type="button">Pedir por WhatsApp</button>
+        <div class="field">
+          <label>Fotos de inspiración (opcional)</label>
+          <div class="upload-box" id="uploadBox">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 16V4M12 4l-4 4M12 4l4 4M5 16v3a2 2 0 002 2h10a2 2 0 002-2v-3"/></svg>
+            <p>Haz clic para subir imágenes</p>
+          </div>
+          <input type="file" id="ftFiles" accept="image/*" multiple hidden>
+          <div class="thumbs" id="thumbs"></div>
+        </div>
+
         <p class="form-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          El precio puede variar según los materiales y especificaciones que elijas. Si prefieres un diseño tal cual está en el catálogo, conserva el precio indicado ahí.
+          Al enviar (botón "Enviar por WhatsApp" en la vista previa de arriba) se abrirá WhatsApp con tu pedido ya escrito. Si subiste fotos, adjúntalas también ahí mismo: por ahora no podemos enviarlas automáticamente desde la web.
         </p>
-        <p class="form-note">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          ¿Tienes una foto de inspiración o del dije que quieres? Cuéntanoslo por WhatsApp y la usamos para armar tu manilla juntos.
-        </p>
-        <p class="confirm-note" id="confirmNote">✓ Abrimos WhatsApp con tu idea. ¡No olvides adjuntar tus fotos de referencia en el chat!</p>
       </div>
     </div>
   </div>
-
-  <!-- Barra fija solo en móvil: la vista previa deja de ser sticky en pantallas
-       chicas, así que esto reemplaza esa función mientras el usuario explora
-       el formulario — siempre a la vista, siempre con el mensaje actualizado. -->
-  <a href="#" id="crearStickyBtn" class="crear-sticky-cta" target="_blank" rel="noopener">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.9-.4-1.8-1-2.6-1.7-.7-.7-1.3-1.5-1.8-2.3-.1-.2 0-.4.1-.6.2-.2.4-.5.6-.7.2-.2.2-.4.1-.6-.1-.2-.6-1.5-.8-2-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-1 1.6-1 2.6.1 1.2.6 2.3 1.4 3.4 1.4 1.9 3.1 3.3 5.2 4.2 1.7.7 2.7.5 3.5-.1.6-.5 1-1.2 1.1-2 .1-.2 0-.4-.2-.5zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.3c1.4.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-    <span>Enviar esta idea por WhatsApp</span>
-  </a>
 </section>
 
 <!-- ============================================================
@@ -1271,15 +1083,17 @@ const PRODUCTS = [
   { ref:"HB-10", name:"Cumbia Eterna",    material:"piedras",      texture:"piedras",tones:["#7A2230","#D9B97B","#16171A"], metal:"rodio", charm:true,  parejas:false, price:168000, badge:"Exclusiva", desc:"La pieza de piedras más elaborada del taller, con dije central." },
 ];
 
-// Colores reales de hilo chino que Leidy trabaja — antes esto tenía nombres
-// de fantasía (Turquesa, Cuarzo Rosa...) que ella no podía producir de verdad.
 const SWATCHES = [
-  {name:"Morado", hex:"#6B3FA0"},
-  {name:"Azul",   hex:"#2F4F9E"},
-  {name:"Negro",  hex:"#16171A"},
-  {name:"Rojo",   hex:"#A5222E"},
-  {name:"Dorado", hex:"#C4985E"},
-  {name:"Verde",  hex:"#2F6E45"},
+  {name:"Onyx",        hex:"#16171A"},
+  {name:"Marfil",      hex:"#F2EDE3"},
+  {name:"Turquesa",    hex:"#2E9A93"},
+  {name:"Coral",       hex:"#C76B4A"},
+  {name:"Esmeralda",   hex:"#2F5E45"},
+  {name:"Zafiro",      hex:"#2F4F7A"},
+  {name:"Granate",     hex:"#7A2230"},
+  {name:"Cuarzo Rosa", hex:"#C77B8C"},
+  {name:"Champagne",   hex:"#D9B97B"},
+  {name:"Perla",       hex:"#C7CBCE"},
 ];
 
 /* ============================================================
@@ -1351,28 +1165,47 @@ function braceletSVG(p){
 
 // Si el producto trae foto_url (desde el Sheet o editada a mano), se usa
 // la foto real. Si no, se dibuja el ícono ilustrado como hasta ahora.
-// Sin loading="lazy" ni decoding="async": son solo ~10 fotos, y ambos
-// atributos le dicen al navegador "no hay apuro" — con pocas imágenes eso
-// puede hacer que retrase decodificar/pintar algunas hasta que algo fuerce
-// un repaint (cambiar de pestaña, hacer clic), que es justo lo que se
-// reportó: fotos que "aparecen" solo al interactuar.
+// Google Drive, imgbb, postimg.cc, etc. a veces bloquean o limitan de forma
+// intermitente las peticiones "hotlinked" — la foto existe y es válida, pero
+// a veces el navegador la recibe como error. Por eso reintentamos un par de
+// veces (con cache-busting) antes de darla por rota de verdad.
+function attachPhotoFallback(img, product, opts = {}){
+  if (!img || !product) return;
+  const replaceParent = opts.replaceParent !== false;
+  img.addEventListener("error", () => {
+    const retries = parseInt(img.dataset.retries || "0", 10) + 1;
+    img.dataset.retries = String(retries);
+    if (retries <= 2){
+      setTimeout(() => {
+        const base = img.src.split("?")[0];
+        img.src = base + "?retry=" + retries + "-" + Date.now();
+      }, 700 * retries);
+    } else if (replaceParent) {
+      // caso tarjeta del grid: la tarjeta entera cae de vuelta al ícono ilustrado, igual que un producto sin foto
+      const holder = img.parentElement;
+      if (!holder) return;
+      holder.classList.remove("card-frame--photo", "lightbox-art--photo");
+      holder.innerHTML = braceletSVG(product);
+    } else {
+      // caso carrusel del lightbox: solo se reemplaza esta foto puntual, sin tocar
+      // flechas/dots — las otras fotos del mismo producto pueden seguir funcionando
+      img.outerHTML = `<div class="carousel-photo-fallback">${braceletSVG(product)}</div>`;
+    }
+  });
+}
+
 function productVisual(p){
-  if (p.foto) return `<img src="${p.foto}" alt="${p.name}">`;
+  if (p.foto) return `<img src="${p.foto}" alt="${p.name}" loading="lazy" decoding="async">`;
   return braceletSVG(p);
 }
 
 function braidSVG(p){
   const c = (p.tones && p.tones.length) ? p.tones : ["#B6904B","#17181A"];
   const c0=c[0], c1=c[1]||c[0], c2=c[2];
-  // El grosor real del hilo (0.8mm delgado / 1.0mm grueso) cambia el grosor
-  // visual de las hebras tejidas. Se fuerza por "style" inline porque la
-  // clase .strand ya trae su propio stroke-width en el CSS, que tiene más
-  // especificidad que un atributo suelto y lo ignoraría.
-  const w = p.hiloGrosor === "1.0" ? 11.5 : (p.hiloGrosor === "0.8" ? 6.5 : 9);
   return `<svg viewBox="0 0 160 70" class="bracelet-svg" preserveAspectRatio="xMidYMid meet">
-    <path class="strand" style="stroke-width:${w}" d="M5,35 C25,10 45,60 65,35 C85,10 105,60 125,35 C140,20 150,45 155,35" stroke="${c0}"/>
-    <path class="strand" style="stroke-width:${w}" d="M5,38 C25,55 45,15 65,38 C85,55 105,15 125,38 C140,48 150,22 155,38" stroke="${c1}"/>
-    ${c2 ? `<path class="strand" style="stroke-width:${w}" d="M5,32 C25,18 45,52 65,32 C85,18 105,52 125,32 C140,28 150,40 155,32" stroke="${c2}"/>` : ""}
+    <path class="strand" d="M5,35 C25,10 45,60 65,35 C85,10 105,60 125,35 C140,20 150,45 155,35" stroke="${c0}"/>
+    <path class="strand" d="M5,38 C25,55 45,15 65,38 C85,55 105,15 125,38 C140,48 150,22 155,38" stroke="${c1}"/>
+    ${c2 ? `<path class="strand" d="M5,32 C25,18 45,52 65,32 C85,18 105,52 125,32 C140,28 150,40 155,32" stroke="${c2}"/>` : ""}
     <g class="knots">
       <circle cx="25" cy="33"/><circle cx="45" cy="38"/><circle cx="65" cy="33"/>
       <circle cx="85" cy="38"/><circle cx="105" cy="33"/><circle cx="125" cy="38"/>
@@ -1410,87 +1243,6 @@ function gemsSVG(p){
   </svg>`;
 }
 
-// Comparador ilustrado de tamaños de balín (#3 al #8), en el mismo estilo de
-// línea que el resto de íconos del sitio — no es la foto real, es una guía
-// visual a escala real entre los 5 tamaños que Leidy trabaja, para que el
-// cliente entienda de un vistazo cuánto crece cada número antes de pedir.
-const BALIN_SIZES = [
-  {id:"#3", r:9},
-  {id:"#4", r:12},
-  {id:"#5", r:15},
-  {id:"#6", r:18},
-  {id:"#8", r:24},
-];
-
-// Patrón de facetado "diamantado": grabado de líneas paralelas en una sola
-// dirección diagonal, como el corte real de un balín diamantado (no una
-// rejilla triangulada, que se veía más como una malla que como un facetado).
-function balinFacets(r, uid){
-  const clipId = "balinClip" + uid;
-  const step = Math.max(1.8, r/4.2);
-  const w = Math.max(.4, r*0.06);
-  let lines = "";
-  for (let o=-r*1.4; o<=r*1.4; o+=step){
-    lines += `<line x1="${-r*1.3}" y1="${o.toFixed(1)}" x2="${(r*1.3).toFixed(1)}" y2="${o.toFixed(1)}" transform="rotate(-38)" stroke="#5B431F" stroke-width="${w.toFixed(2)}" opacity=".4"/>`;
-  }
-  const glint1 = `${-r*0.28},${-r*0.5} ${r*0.02},${-r*0.32} ${-r*0.12},${-r*0.12}`;
-  const glint2 = `${r*0.1},${r*0.02} ${r*0.4},${r*0.14} ${r*0.18},${r*0.36}`;
-  return `<clipPath id="${clipId}"><circle r="${r}"/></clipPath>
-    <g clip-path="url(#${clipId})">
-      ${lines}
-      <polygon points="${glint1}" fill="#FBE9BE" opacity=".9"/>
-      <polygon points="${glint2}" fill="#FBE9BE" opacity=".5"/>
-    </g>`;
-}
-
-function balinSVG(selTamano, tipo){
-  const cy = 78, gap = 15;
-  let x = 30;
-  let dots = "";
-  BALIN_SIZES.forEach(s => {
-    x += s.r;
-    const isSel = s.id === selTamano;
-    dots += `
-      <g class="balin-dot ${isSel ? 'is-selected' : ''}" data-tamano="${s.id}" tabindex="0" role="button" aria-pressed="${isSel}" aria-label="Balín tamaño ${s.id}" style="--tx:${x};--ty:${cy}">
-        ${isSel ? `<circle r="${s.r+6}" fill="none" stroke="var(--clay)" stroke-width="1.4" stroke-dasharray="2 3"/>` : ""}
-        <circle r="${s.r}" fill="${tipo === 'Diamantado' ? 'url(#balinFacetFill)' : 'url(#balinSmoothFill)'}" stroke="#8C6A34" stroke-width=".7"/>
-        ${tipo === "Diamantado" ? balinFacets(s.r, s.id.replace('#','')) : `<circle cx="${-s.r*0.32}" cy="${-s.r*0.32}" r="${s.r*0.22}" fill="#fff" opacity=".35"/>`}
-        <text y="${-(s.r+11)}" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" font-weight="${isSel?'700':'400'}" fill="${isSel ? 'var(--clay)' : 'var(--bone-text-dim)'}">${s.id}</text>
-      </g>`;
-    x += s.r + gap;
-  });
-  return `<svg viewBox="0 0 360 130" class="balin-svg" preserveAspectRatio="xMidYMid meet">
-    <defs>
-      <linearGradient id="balinSmoothFill" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#E3C794"/><stop offset="55%" stop-color="#C4985E"/><stop offset="100%" stop-color="#8C6A34"/>
-      </linearGradient>
-      <radialGradient id="balinFacetFill" cx="35%" cy="30%" r="75%">
-        <stop offset="0%" stop-color="#F1DDA8"/><stop offset="45%" stop-color="#C4985E"/><stop offset="100%" stop-color="#7A5A2C"/>
-      </radialGradient>
-    </defs>
-    <!-- cordón tejido de dos hebras entrelazadas, como el hilo real sobre el que van montados los balines -->
-    <path d="M8,${cy+6} C48,${cy} 88,${cy+11} 128,${cy+5} C168,${cy-1} 208,${cy+10} 248,${cy+4} C288,${cy-2} 328,${cy+9} 352,${cy+5}" fill="none" stroke="#151109" stroke-width="4.2" stroke-linecap="round" opacity=".85"/>
-    <path d="M8,${cy+9} C48,${cy+15} 88,${cy+3} 128,${cy+9} C168,${cy+15} 208,${cy+2} 248,${cy+8} C288,${cy+14} 328,${cy+2} 352,${cy+8}" fill="none" stroke="#3A2E1C" stroke-width="4.2" stroke-linecap="round" opacity=".8"/>
-    ${dots}
-  </svg>`;
-}
-
-function renderBalinPreview(){
-  const el = document.getElementById("balinPreview");
-  if (!el) return;
-  el.innerHTML = balinSVG(customState.balinTamano, customState.balinTipo);
-  el.querySelectorAll(".balin-dot").forEach(dot => {
-    const pick = () => {
-      customState.balinTamano = dot.dataset.tamano;
-      balinTamanoPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b.dataset.id===customState.balinTamano));
-      renderBalinPreview();
-      updatePreview();
-    };
-    dot.addEventListener("click", pick);
-    dot.addEventListener("keydown", (e) => { if (e.key==="Enter" || e.key===" "){ e.preventDefault(); pick(); } });
-  });
-}
-
 /* ============================================================
    HEADER: scroll state, mega menu, mobile nav
    ============================================================ */
@@ -1499,36 +1251,6 @@ const heroArt = document.querySelector(".hero-art");
 const heroSection = document.getElementById("inicio");
 const scrollCue = document.getElementById("scrollCue");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-// Vista previa mini del anzuelo "Crea tu propia manilla": rota sola entre
-// tejida / cadena / piedras para comunicar de un vistazo qué se puede
-// personalizar, sin que la persona tenga que leer el párrafo. Se detiene
-// en el primer estado si el usuario prefiere menos movimiento.
-const teaserArt = document.getElementById("teaserArt");
-if (teaserArt){
-  const TEASER_STATES = [
-    { texture:"tejida",  tones:MATERIAL_DEFAULT_TONES.acero,         metal:"rodio" },
-    { texture:"cadena",  tones:MATERIAL_DEFAULT_TONES.oro_laminado,  metal:"oro_laminado" },
-    { texture:"piedras", tones:MATERIAL_DEFAULT_TONES.piedras,       metal:"rodio" },
-  ];
-  let teaserIndex = 0;
-  function renderTeaserArt(){
-    teaserArt.innerHTML = braceletSVG(TEASER_STATES[teaserIndex]);
-    const svg = teaserArt.querySelector("svg");
-    if (svg) requestAnimationFrame(() => requestAnimationFrame(() => svg.classList.add("is-visible")));
-  }
-  renderTeaserArt();
-  if (!prefersReducedMotion){
-    setInterval(() => {
-      const svg = teaserArt.querySelector("svg");
-      if (svg) svg.classList.remove("is-visible");
-      setTimeout(() => {
-        teaserIndex = (teaserIndex + 1) % TEASER_STATES.length;
-        renderTeaserArt();
-      }, 500);
-    }, 2600);
-  }
-}
 
 // Estado combinado del hero-art: el scroll aporta traslado/escala/rotación de
 // "salida", el mouse aporta un tilt 3D sutil. Se combinan en una sola cadena
@@ -1765,144 +1487,18 @@ function renderGrid(){
       ${careNote(p)}
       <div class="card-bottom">
         <span class="card-price">${fmtCOP(p.price)}</span>
-        <span class="card-cta"><span class="card-cta-label">Pedir</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="card-cta">Pedir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </div>
     </article>`).join("");
-  gridEl.querySelectorAll(".bracelet-card").forEach((card, idx) => {
-    const product = list[idx]; // por posición, no por ref: dos productos con la misma ref no se confunden
-    const img = card.querySelector(".card-frame--photo img");
-    bindImgResilience(img, product);
-    bindCardCarousel(card, product);
+  gridEl.querySelectorAll(".bracelet-card").forEach((card, i) => {
     card.addEventListener("click", () => {
-      openLightboxFromCard(product, img);
+      const img = card.querySelector(".card-frame--photo img");
+      openLightboxFromCard(card.dataset.ref, img);
     });
     attachCardTilt(card);
+    const img = card.querySelector(".card-frame--photo img");
+    if (img) attachPhotoFallback(img, list[i], { replaceParent:true });
   });
-}
-
-// Blindaje de fotos de producto: evita que una foto rota o lenta se quede
-// en blanco para siempre.
-// - Mientras carga: shimmer animado (el mismo patrón que usa el skeleton
-//   inicial del catálogo) — así "cargando" se distingue a simple vista de
-//   "roto", en vez de ser un rectángulo liso sin información.
-// - Si falla (link caído, bloqueo temporal del host de imágenes): reintenta
-//   una vez a los 600ms con un parámetro anti-caché, por si fue un problema
-//   pasajero de red o del host.
-// - Timeout de seguridad (2s): algunos hosts (ej. copiar el link de la
-//   página de imgbb en vez del link directo a la imagen) no disparan ni
-//   "load" ni "error" — el navegador se queda esperando indefinidamente y
-//   la tarjeta se ve en blanco para siempre. Si a los 2s no ha cargado, se
-//   trata igual que un error: se reintenta, y si sigue sin cargar (~4.6s
-//   en total en el peor caso), cae al ícono ilustrado.
-// - Si vuelve a fallar: cae al ícono ilustrado (el mismo que ya se usa cuando
-//   un producto no tiene foto) en vez de dejar un hueco vacío o el ícono roto
-//   del navegador.
-function bindImgResilience(img, product){
-  if (!img || !product) return;
-  const originalSrc = img.getAttribute("src");
-  const frame = img.closest(".card-frame, .lightbox-art");
-  let retried = false;
-  let settled = false; // evita que el timeout dispare después de que ya cargó o ya fue reemplazada
-
-  function fail(){
-    if (settled) return;
-    if (!retried && originalSrc){
-      retried = true;
-      setTimeout(() => {
-        if (settled) return;
-        const sep = originalSrc.includes("?") ? "&" : "?";
-        img.src = originalSrc + sep + "retry=" + Date.now();
-        armTimeout(); // el reintento también necesita su propio límite de espera
-      }, 600);
-      return;
-    }
-    settled = true;
-    if (frame){
-      frame.classList.remove("card-frame--photo", "lightbox-art--photo");
-      frame.innerHTML = braceletSVG(product);
-    }
-  }
-
-  function armTimeout(){
-    setTimeout(() => { if (!settled && !img.classList.contains("is-loaded")) fail(); }, 2000);
-  }
-
-  img.addEventListener("load", () => {
-    settled = true;
-    // Doble requestAnimationFrame: fuerza a que el navegador complete un
-    // ciclo real de layout+pintura antes de aplicar la transición de
-    // opacidad. Sin esto, en algunos navegadores la imagen queda "cargada"
-    // pero sin pintarse hasta que algo más fuerza un repaint (cambiar de
-    // pestaña, hacer clic) — que es exactamente el síntoma reportado.
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        img.classList.add("is-loaded");
-        frame?.classList.add("img-ready");
-      });
-    });
-  });
-  img.addEventListener("error", fail);
-  armTimeout();
-}
-
-// Mini carrusel dentro de la tarjeta del catálogo: puntos (clic en
-// cualquier dispositivo) y deslizar sobre la foto en táctil cambian de foto
-// sin abrir el detalle. Un toque simple, sin deslizar, sigue abriendo el
-// lightbox como siempre — solo un swipe real cancela ese click. Sin flechas
-// superpuestas: tapaban la imagen.
-function bindCardCarousel(card, product){
-  if (!product.fotos || product.fotos.length < 2) return;
-  const frame = card.querySelector(".card-frame--photo");
-  const img = frame?.querySelector("img");
-  if (!frame || !img) return;
-
-  let idx = 0;
-  let startX = 0, startY = 0, swiped = false;
-
-  const dotsEl = document.createElement("div");
-  dotsEl.className = "card-dots";
-  dotsEl.innerHTML = product.fotos.map((_, i) => `<button class="card-dot ${i===0?'is-active':''}" data-i="${i}" type="button" aria-label="Ver foto ${i+1}"></button>`).join("");
-  frame.appendChild(dotsEl);
-
-  function goTo(next){
-    idx = (next + product.fotos.length) % product.fotos.length;
-    img.classList.remove("is-loaded");
-    img.src = product.fotos[idx];
-    dotsEl.querySelectorAll(".card-dot").forEach((d,j) => d.classList.toggle("is-active", j===idx));
-  }
-
-  dotsEl.querySelectorAll(".card-dot").forEach(dot => {
-    dot.addEventListener("click", (e) => {
-      e.stopPropagation();
-      goTo(parseInt(dot.dataset.i, 10));
-    });
-  });
-
-  frame.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    swiped = false;
-  }, { passive:true });
-
-  frame.addEventListener("touchmove", (e) => {
-    const dx = e.touches[0].clientX - startX;
-    const dy = e.touches[0].clientY - startY;
-    if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) swiped = true;
-  }, { passive:true });
-
-  frame.addEventListener("touchend", (e) => {
-    if (!swiped) return;
-    const dx = e.changedTouches[0].clientX - startX;
-    if (Math.abs(dx) > 30) goTo(idx + (dx < 0 ? 1 : -1));
-  });
-
-  // Si hubo un deslizamiento real, el "click" sintético que el navegador
-  // dispara justo después del touchend no debe abrir el lightbox — un
-  // swipe no es un tap. Se captura en fase de captura para adelantarse
-  // al listener de click de la tarjeta.
-  frame.addEventListener("click", (e) => {
-    if (swiped){ e.stopPropagation(); swiped = false; }
-  }, true);
 }
 
 // Tilt 3D real sobre la tarjeta (solo desktop con mouse fino, respeta reduced-motion):
@@ -1941,15 +1537,16 @@ function goToSlide(i, fotos){
     const swap = () => {
       if (swapped) return;
       swapped = true;
+      img.dataset.retries = "0"; // foto nueva y distinta: el contador de reintentos no debe arrastrarse de la anterior
       img.src = nextSrc;
       img.style.opacity = "1";
     };
     img.style.opacity = "0";
     const preload = new Image();
-    preload.onload = () => setTimeout(swap, 120); // deja terminar el fade-out antes de revelar
+    preload.onload = () => setTimeout(swap, 70);
     preload.onerror = swap;
     preload.src = nextSrc;
-    setTimeout(swap, 900); // salvavidas: con conexión lenta, igual se revela, nunca se queda "trabada" en blanco
+    setTimeout(swap, 500); // salvavidas: con conexión lenta, igual se revela, nunca se queda "trabada" en blanco
   }
   document.querySelectorAll("#carouselDots .carousel-dot").forEach((dot,idx)=>{
     dot.classList.toggle("is-active", idx===carouselIndex);
@@ -1963,12 +1560,11 @@ function renderCarousel(){
   carouselFotos = fotos;
 
   if (!fotos.length){
-    art.classList.remove("lightbox-art--photo", "img-ready");
+    art.classList.remove("lightbox-art--photo");
     art.innerHTML = braceletSVG(p);
     return;
   }
 
-  art.classList.remove("img-ready");
   art.classList.add("lightbox-art--photo");
   fotos.forEach(src => { const pre = new Image(); pre.src = src; }); // precarga silenciosa para que cambiar de foto sea instantáneo
   const arrows = fotos.length > 1 ? `
@@ -1977,8 +1573,8 @@ function renderCarousel(){
     <div class="carousel-dots" id="carouselDots">
       ${fotos.map((_,i)=>`<button class="carousel-dot ${i===carouselIndex?'is-active':''}" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join("")}
     </div>` : "";
-  art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" style="transition:opacity .18s var(--ease)">${arrows}`;
-  bindImgResilience(document.getElementById("carouselImg"), p);
+  art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" loading="eager" fetchpriority="high" style="transition:opacity .18s var(--ease)">${arrows}`;
+  attachPhotoFallback(document.getElementById("carouselImg"), p, { replaceParent:false });
 
   if (fotos.length > 1){
     document.getElementById("carouselPrev").addEventListener("click", (e)=>{ e.stopPropagation(); goToSlide((carouselIndex-1+fotos.length)%fotos.length, fotos); });
@@ -2004,11 +1600,8 @@ function fillLightboxContent(p){
   document.getElementById("lightboxWa").href = waLink(msg);
 }
 
-// Recibe el producto directamente (no su ref) a propósito: si el Sheet llegara
-// a tener dos filas con la misma referencia por error de captura, buscar por
-// ref abriría siempre la primera coincidencia. Usando el objeto ya resuelto
-// desde el grid, cada tarjeta abre exactamente el producto que muestra.
-function openLightbox(p){
+function openLightbox(ref){
+  const p = PRODUCTS.find(x=>x.ref===ref);
   fillLightboxContent(p);
   lightboxLastFocused = document.activeElement;
   lightboxOverlay.classList.add("is-open");
@@ -2019,11 +1612,12 @@ function openLightbox(p){
 // desde su posición real en la tarjeta hasta su lugar en el lightbox (FLIP:
 // First-Last-Invert-Play), en vez del corte seco anterior. Si la tarjeta no
 // tiene foto (SVG de respaldo) o hay reduced-motion, cae de vuelta al open normal.
-function openLightboxFromCard(p, imgEl){
-  if (!imgEl || prefersReducedMotion){ openLightbox(p); return; }
+function openLightboxFromCard(ref, imgEl){
+  const p = PRODUCTS.find(x=>x.ref===ref);
+  if (!imgEl || prefersReducedMotion){ openLightbox(ref); return; }
 
   const startRect = imgEl.getBoundingClientRect();
-  if (!startRect.width || !startRect.height){ openLightbox(p); return; }
+  if (!startRect.width || !startRect.height){ openLightbox(ref); return; }
   const startSrc = imgEl.currentSrc || imgEl.src;
 
   fillLightboxContent(p);
@@ -2031,11 +1625,8 @@ function openLightboxFromCard(p, imgEl){
   art.classList.add("lightbox-art--flipping"); // oculta el arte real mientras viaja el clon
 
   lightboxLastFocused = document.activeElement;
-  // is-flying quita el backdrop-filter del overlay mientras dura el vuelo (ver CSS).
-  lightboxOverlay.classList.add("is-priming", "is-flying", "is-open"); // congela el transform del panel para poder medir su posición final
-  // getBoundingClientRect ya fuerza por sí sola el reflow que necesitamos leer;
-  // el "void offsetHeight" que había antes aquí era un reflow síncrono duplicado
-  // (mismo costo, ningún dato nuevo) y se quitó.
+  lightboxOverlay.classList.add("is-priming", "is-open"); // congela el transform del panel para poder medir su posición final
+  void lightboxOverlay.offsetHeight; // fuerza reflow antes de medir (única lectura de layout que necesitamos)
   const targetRect = art.getBoundingClientRect();
   lightboxOverlay.classList.remove("is-priming");
 
@@ -2043,12 +1634,8 @@ function openLightboxFromCard(p, imgEl){
   // la foto real) y solo anima "transform" (translate + scale) para volver a
   // su tamaño identidad. Es compositor puro: no dispara layout en cada frame,
   // por eso deja de sentirse pesado o tardío como con top/left/width/height.
-  // Se clona el <img> real (no uno nuevo con el mismo src) para heredar el
-  // bitmap ya decodificado por el navegador y no pagar una decodificación
-  // extra justo en el instante más sensible de la animación.
-  const clone = imgEl.cloneNode(true);
-  clone.removeAttribute("loading");
-  clone.removeAttribute("sizes");
+  const clone = document.createElement("img");
+  clone.src = startSrc;
   clone.alt = "";
   clone.className = "lightbox-flip-clone";
   clone.style.top = targetRect.top + "px";
@@ -2062,21 +1649,12 @@ function openLightboxFromCard(p, imgEl){
   clone.style.transition = "none";
   clone.style.transform = `translate(${dx}px,${dy}px) scale(${sx},${sy})`;
   document.body.appendChild(clone);
-  // Doble rAF en vez de "void clone.offsetWidth": se deja que el navegador
-  // pinte el estado inicial del clon dentro de su ciclo normal de frame y
-  // solo entonces se activa la transición, sin forzar un reflow síncrono
-  // a mano. El segundo rAF es el patrón estándar para garantizar que el
-  // primer frame ya se pintó antes de animar.
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      clone.style.transition = "transform .38s var(--ease)";
-      clone.style.transform = "translate(0,0) scale(1,1)";
-    });
-  });
+  void clone.offsetWidth; // aplica el transform inicial antes de animar (sin esperar frames)
+  clone.style.transition = "transform .28s cubic-bezier(.22,.61,.36,1)";
+  clone.style.transform = "translate(0,0) scale(1,1)";
 
   const revealArt = () => {
     art.classList.remove("lightbox-art--flipping");
-    lightboxOverlay.classList.remove("is-flying"); // el backdrop-filter vuelve, ya no compite con ninguna animación
     clone.remove();
   };
   let flightDone = false;
@@ -2090,14 +1668,14 @@ function openLightboxFromCard(p, imgEl){
     if (realImg && !realImg.complete){
       realImg.addEventListener("load", revealArt, { once:true });
       realImg.addEventListener("error", revealArt, { once:true });
-      setTimeout(revealArt, 600); // salvavidas por conexión lenta
+      setTimeout(revealArt, 300); // salvavidas corto: la foto ya llevaba cargando desde el click
     } else {
       revealArt();
     }
     document.getElementById("lightboxClose").focus();
   };
   clone.addEventListener("transitionend", onFlightEnd);
-  setTimeout(onFlightEnd, 460); // salvavidas por si el navegador no dispara transitionend
+  setTimeout(onFlightEnd, 340); // salvavidas por si el navegador no dispara transitionend
 }
 function closeLightbox(){
   lightboxOverlay.classList.remove("is-open");
@@ -2151,10 +1729,8 @@ const customState = {
   texture:"tejida",
   metal:"rodio",
   colors:[], colorNames:[],
-  hiloGrosor:"0.8",
-  balinTamano:"#4",
-  balinTipo:"Liso",
   charm:false,
+  files:[],
 };
 
 // Material chips
@@ -2164,10 +1740,12 @@ materialPicker.innerHTML = MATERIAL_ORDER.map(id => `<button class="chip ${id===
 function syncCustomUI(){
   const esPiedrasMaterial = customState.material === "piedras";
   const esRodio = customState.material === "rodio";
+  const esEstiloPiedras = customState.texture === "piedras";
   document.getElementById("estiloRow").classList.toggle("is-hidden", esPiedrasMaterial);
   document.getElementById("engasteRow").classList.toggle("is-hidden", !esPiedrasMaterial);
   document.getElementById("rodioNote").classList.toggle("is-hidden", !(esPiedrasMaterial || esRodio));
   document.getElementById("previewMaterial").textContent = "Material: " + MATERIALS[customState.material].label;
+  document.getElementById("swatchLabel").textContent = esEstiloPiedras ? "Elige tus piedras (máx. 2)" : "Elige tus tonos (máx. 2)";
   // el engaste de las piedras es el material elegido (o rodio si "Piedras" es el material de base)
   customState.metal = esPiedrasMaterial ? "rodio" : customState.material;
 }
@@ -2187,11 +1765,9 @@ materialPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("cl
   updatePreview();
 }));
 
-// Estilo chips (tejida / cadena / piedras) — solo para materiales que no sean "Piedras".
-// "Cadena" se agregó para que la vista previa cumpla lo que dice el texto
-// principal de la sección: no solo tejidas, también cadenas.
+// Estilo chips (tejida / piedras) — solo para materiales que no sean "Piedras"
 const estiloPicker = document.getElementById("estiloPicker");
-estiloPicker.innerHTML = `<button class="chip is-active" data-id="tejida" type="button">Tejida</button><button class="chip" data-id="cadena" type="button">Cadena</button><button class="chip" data-id="piedras" type="button">Piedras</button>`;
+estiloPicker.innerHTML = `<button class="chip is-active" data-id="tejida" type="button">Tejida</button><button class="chip" data-id="piedras" type="button">Piedras</button>`;
 estiloPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
   customState.texture = btn.dataset.id;
   estiloPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
@@ -2202,57 +1778,14 @@ estiloPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("clic
 const swatchPicker = document.getElementById("swatchPicker");
 swatchPicker.innerHTML = SWATCHES.map(s => `<button class="swatch" style="background:${s.hex}" data-hex="${s.hex}" data-name="${s.name}" title="${s.name}" type="button"></button>`).join("");
 
-// Grosor del hilo — 0.8mm (delgado) o 1.0mm (grueso). Tarjetas con el texto
-// explicativo real de la clienta, no solo la medida: así la persona entiende
-// qué implica cada opción sin tener que preguntarlo por chat.
-const grosorPicker = document.getElementById("grosorPicker");
-const GROSORES = [
-  { id:"0.8", label:"0.8 mm · Delgado", desc:"Ideal para diseños delicados, finos y detallados. Aporta elegancia y ligereza." },
-  { id:"1.0", label:"1.0 mm · Grueso",  desc:"Perfecto para manillas más firmes y llamativas, con mayor presencia." },
-];
-grosorPicker.innerHTML = GROSORES.map(g => `<button class="choice-card ${g.id===customState.hiloGrosor?'is-active':''}" data-id="${g.id}" type="button"><span class="choice-card-title">${g.label}</span><span class="choice-card-desc">${g.desc}</span></button>`).join("");
-grosorPicker.querySelectorAll(".choice-card").forEach(btn => btn.addEventListener("click", () => {
-  customState.hiloGrosor = btn.dataset.id;
-  grosorPicker.querySelectorAll(".choice-card").forEach(b=>b.classList.toggle("is-active", b===btn));
-  updatePreview();
-}));
-
-// Tamaño de balín — del #3 (más pequeño) al #8 (más grande)
-const balinTamanoPicker = document.getElementById("balinTamanoPicker");
-const BALIN_TAMANOS = ["#3","#4","#5","#6","#8"];
-balinTamanoPicker.innerHTML = BALIN_TAMANOS.map(t => `<button class="chip ${t===customState.balinTamano?'is-active':''}" data-id="${t}" type="button">${t}</button>`).join("");
-balinTamanoPicker.querySelectorAll(".chip").forEach(btn => btn.addEventListener("click", () => {
-  customState.balinTamano = btn.dataset.id;
-  balinTamanoPicker.querySelectorAll(".chip").forEach(b=>b.classList.toggle("is-active", b===btn));
-  renderBalinPreview();
-  updatePreview();
-}));
-
-// Tipo de balín — liso (clásico) o diamantado/cilíndrico (más llamativo).
-// Mismo patrón de tarjeta con descripción que el grosor del hilo.
-const balinTipoPicker = document.getElementById("balinTipoPicker");
-const BALIN_TIPOS = [
-  { id:"Liso",       desc:"Superficie uniforme y brillante, estilo clásico." },
-  { id:"Diamantado", desc:"Con textura y forma cilíndrica que aporta un efecto más llamativo y moderno." },
-];
-balinTipoPicker.innerHTML = BALIN_TIPOS.map(t => `<button class="choice-card ${t.id===customState.balinTipo?'is-active':''}" data-id="${t.id}" type="button"><span class="choice-card-title">${t.id}</span><span class="choice-card-desc">${t.desc}</span></button>`).join("");
-balinTipoPicker.querySelectorAll(".choice-card").forEach(btn => btn.addEventListener("click", () => {
-  customState.balinTipo = btn.dataset.id;
-  balinTipoPicker.querySelectorAll(".choice-card").forEach(b=>b.classList.toggle("is-active", b===btn));
-  renderBalinPreview();
-  updatePreview();
-}));
-renderBalinPreview(); // dibuja el comparador con la selección por defecto al cargar
-
 function updatePreview(){
   const tones = customState.colors.length ? customState.colors : MATERIAL_DEFAULT_TONES[customState.material];
-  const pseudo = { texture:customState.texture, tones, metal:customState.metal, charm:customState.charm, hiloGrosor:customState.hiloGrosor };
+  const pseudo = { texture:customState.texture, tones, metal:customState.metal, charm:customState.charm };
   document.getElementById("previewSvg").innerHTML = braceletSVG(pseudo);
   document.getElementById("previewColorsLabel").textContent = customState.colors.length
-    ? "Hilo: " + customState.colorNames.join(" + ")
-    : "Elige hasta 2 colores de hilo →";
-  document.getElementById("previewHilo").textContent = "Hilo: " + customState.hiloGrosor + " mm";
-  document.getElementById("previewBalin").textContent = "Balín: " + customState.balinTamano + " · " + customState.balinTipo;
+    ? "Tonos: " + customState.colorNames.join(" + ")
+    : "Elige hasta 2 tonos →";
+  document.getElementById("submitCustom").href = waLink(buildCrearMessage());
 }
 
 swatchPicker.querySelectorAll(".swatch").forEach(sw => {
@@ -2282,30 +1815,70 @@ charmToggle.addEventListener("click", () => {
   updatePreview();
 });
 
+document.getElementById("ftOcasion").addEventListener("change", (e) => {
+  document.getElementById("previewOcasion").textContent = "Ocasión: " + (e.target.value || "—");
+  updatePreview();
+});
+document.getElementById("ftTalla").addEventListener("change", (e) => {
+  document.getElementById("previewTalla").textContent = "Talla: " + (e.target.value || "—");
+  updatePreview();
+});
+document.getElementById("ftName").addEventListener("input", updatePreview);
+document.getElementById("ftPhone").addEventListener("input", updatePreview);
+document.getElementById("ftMensaje").addEventListener("input", updatePreview);
 syncCustomUI();
-updatePreview(); // vista previa por defecto al cargar
+updatePreview(); // vista previa y link de WhatsApp por defecto al cargar
 
-// El botón de pedir por WhatsApp ya no se bloquea por campos incompletos:
-// el negocio se cierra por chat, así que la web solo necesita abrir la
-// conversación con lo que la persona ya decidió — el resto (nombre,
-// teléfono, fotos de inspiración, dudas) se resuelve hablando con Leidy,
-// no llenando más campos en la web.
-function sendCustomOrder(){
+// uploads (solo vista previa local — ver nota en el formulario)
+const uploadBox = document.getElementById("uploadBox");
+const ftFiles = document.getElementById("ftFiles");
+const thumbsEl = document.getElementById("thumbs");
+uploadBox.addEventListener("click", () => ftFiles.click());
+ftFiles.addEventListener("change", () => {
+  thumbsEl.innerHTML = "";
+  customState.files = Array.from(ftFiles.files).slice(0,6);
+  customState.files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = document.createElement("img");
+      img.src = ev.target.result;
+      thumbsEl.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+  updatePreview();
+});
+
+function buildCrearMessage(){
+  const name = document.getElementById("ftName").value.trim();
+  const phone = document.getElementById("ftPhone").value.trim();
+  const ocasion = document.getElementById("ftOcasion").value;
+  const talla = document.getElementById("ftTalla").value;
+  const mensaje = document.getElementById("ftMensaje").value.trim();
+  const fotos = customState.files.length;
+
   let text = `Hola HEBRA, quiero diseñar mi propia manilla.\n`;
+  text += `Nombre: ${name || "—"}\n`;
+  if (phone) text += `Teléfono: ${phone}\n`;
   text += `Material: ${MATERIALS[customState.material].label}\n`;
-  const ESTILO_LABELS = { tejida:"Tejida", cadena:"Cadena", piedras:"Con piedras" };
-  text += `Estilo: ${ESTILO_LABELS[customState.texture] || customState.texture}\n`;
+  text += `Estilo: ${customState.texture === "piedras" ? "Con piedras" : "Tejida"}\n`;
   if (customState.texture === "piedras") text += `Engaste: ${MATERIALS[customState.metal].label}\n`;
-  text += `Grosor del hilo: ${customState.hiloGrosor} mm\n`;
-  if (customState.colorNames.length) text += `Colores de hilo: ${customState.colorNames.join(", ")}\n`;
-  text += `Balín: tamaño ${customState.balinTamano}, ${customState.balinTipo}\n`;
+  if (customState.colorNames.length) text += `Tonos / piedras: ${customState.colorNames.join(", ")}\n`;
   text += `Dije o piedra central: ${customState.charm ? "Sí" : "No"}\n`;
-
-  window.open(waLink(text), "_blank");
-  document.getElementById("confirmNote").classList.add("is-visible");
+  if (ocasion) text += `Ocasión: ${ocasion}\n`;
+  if (talla) text += `Talla: ${talla}\n`;
+  if (mensaje) text += `Idea: ${mensaje}\n`;
+  if (fotos) text += `(Tengo ${fotos} foto(s) de inspiración para enviarte aquí mismo)\n`;
+  return text;
 }
-document.getElementById("submitCustom").addEventListener("click", sendCustomOrder);
-document.getElementById("submitCustomPreview").addEventListener("click", sendCustomOrder);
+
+// El link ya se mantiene actualizado por updatePreview() en cada cambio del
+// formulario, pero se refresca una vez más aquí mismo antes de navegar, para
+// que el href nunca quede desincronizado si algún campo no dispara evento.
+document.getElementById("submitCustom").addEventListener("click", (e) => {
+  e.currentTarget.href = waLink(buildCrearMessage());
+  document.getElementById("confirmNote").classList.add("is-visible");
+});
 
 /* ============================================================
    TESTIMONIOS — ejemplos, reemplaza por reseñas reales de clientes
@@ -2330,20 +1903,13 @@ document.getElementById("testimoniosGrid").innerHTML = TESTIMONIALS.map(t => `
    ENLACES WHATSAPP GENERALES
    ============================================================ */
 const generalMsg = `Hola HEBRA, vi su catálogo en la página web y quiero más información.`;
-["navWaBtn","footerWaBtn","footerWaLink","floatWaBtn","tallasWaBtn"].forEach(id => {
+["navWaBtn","footerWaBtn","footerWaLink","floatWaBtn"].forEach(id => {
   const el = document.getElementById(id);
   if (el) el.href = waLink(generalMsg);
 });
 const reviewMsg = `Hola HEBRA, ya tengo mi manilla y quiero dejarles mi opinión.`;
 const reviewBtn = document.getElementById("testimonioWaBtn");
 if (reviewBtn) reviewBtn.href = waLink(reviewMsg);
-
-const crearQuickMsg = `Hola HEBRA, quiero una manilla personalizada. ¿Me ayudan a armar la idea?`;
-const crearQuickBtn = document.getElementById("crearQuickBtn");
-if (crearQuickBtn){
-  crearQuickBtn.href = waLink(crearQuickMsg);
-  attachCardTilt(crearQuickBtn);
-}
 
 /* ============================================================
    SCROLL REVEAL
@@ -2353,26 +1919,6 @@ const io = new IntersectionObserver((entries) => {
   entries.forEach(en => { if(en.isIntersecting) en.target.classList.add("is-visible"); });
 }, { threshold:.15 });
 revealEls.forEach(el => io.observe(el));
-
-// Barra fija de WhatsApp (solo móvil, ver CSS): visible mientras la sección
-// "Crea tu manilla" está en pantalla, sin importar en qué parte del
-// formulario vaya el usuario. Usa el mismo mensaje armado que los otros
-// botones de pedir (sendCustomOrder), no un href fijo.
-const crearSection = document.getElementById("crear");
-const crearStickyCta = document.getElementById("crearStickyBtn");
-if (crearSection && crearStickyCta){
-  crearStickyCta.addEventListener("click", (e) => {
-    e.preventDefault();
-    sendCustomOrder();
-  });
-  const crearIo = new IntersectionObserver((entries) => {
-    entries.forEach(en => {
-      crearStickyCta.classList.toggle("is-visible", en.isIntersecting);
-      document.body.classList.toggle("crear-sticky-active", en.isIntersecting);
-    });
-  }, { threshold:.05 });
-  crearIo.observe(crearSection);
-}
 
 document.getElementById("footerYear").textContent = "© " + new Date().getFullYear();
 
