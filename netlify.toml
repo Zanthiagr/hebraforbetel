@@ -1,0 +1,5 @@
+# Habilita el optimizador de imágenes de Netlify (Image CDN) para las fotos del catálogo.
+# Si algún día las fotos se alojan en otro sitio, hay que agregar su dominio aquí
+# Y en IMG_CDN_HOSTS dentro de index.html. Los puntos se escapan con \. (comillas simples = literal).
+[images]
+  remote_images = ['https://i\.postimg\.cc/.*', 'https://i\.ibb\.co/.*']

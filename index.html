@@ -1169,10 +1169,30 @@ function braceletSVG(p){
 // intermitente las peticiones "hotlinked" — la foto existe y es válida, pero
 // a veces el navegador la recibe como error. Por eso reintentamos un par de
 // veces (con cache-busting) antes de darla por rota de verdad.
+// Optimizador de imágenes de Netlify (Image CDN): las fotos del Sheet suelen ser originales
+// de varios MB; por datos móviles quedaban "pendientes" y la tarjeta se veía gris. Netlify las
+// reduce y convierte a WebP/AVIF en su borde y las cachea. Solo aplica a hosts habilitados en
+// netlify.toml y solo cuando el sitio corre por http(s); en cualquier otro caso se usa la URL
+// original tal cual. Si la versión optimizada falla, attachPhotoFallback vuelve a la original.
+const IMG_CDN_HOSTS = /^https:\/\/(i\.postimg\.cc|i\.ibb\.co)\//i;
+const IMG_CDN_ON = /^https?:$/.test(location.protocol);
+const IMG_W_CARD = 720, IMG_W_LIGHTBOX = 1100;
+function photoUrl(src, w){
+  if (!IMG_CDN_ON || !src || !IMG_CDN_HOSTS.test(src)) return src;
+  return "/.netlify/images?url=" + encodeURIComponent(src) + "&w=" + w;
+}
+
 function attachPhotoFallback(img, product, opts = {}){
   if (!img || !product) return;
   const replaceParent = opts.replaceParent !== false;
   img.addEventListener("error", () => {
+    // Etapa 1: falló la versión optimizada → probar la foto original antes de reintentar.
+    // (Sin esto, el reintento de abajo rompería la URL de Netlify al cortar el "?url=...")
+    const orig = img.dataset.orig;
+    if (orig && img.dataset.usedOrig !== "1"){
+      img.dataset.usedOrig = "1";
+      if (img.getAttribute("src") !== orig){ img.src = orig; return; }
+    }
     const retries = parseInt(img.dataset.retries || "0", 10) + 1;
     if (retries === 1) console.warn("HEBRA: falló la carga de foto →", img.src);
     img.dataset.retries = String(retries);
@@ -1196,7 +1216,7 @@ function attachPhotoFallback(img, product, opts = {}){
 }
 
 function productVisual(p){
-  if (p.foto) return `<img src="${p.foto}" alt="${p.name}" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
+  if (p.foto) return `<img src="${photoUrl(p.foto, IMG_W_CARD)}" data-orig="${p.foto}" alt="${p.name}" loading="lazy" decoding="async" referrerpolicy="no-referrer">`;
   return braceletSVG(p);
 }
 
@@ -1533,11 +1553,13 @@ function goToSlide(i, fotos){
   carouselIndex = i;
   const img = document.getElementById("carouselImg");
   if (img){
-    const nextSrc = fotos[carouselIndex];
+    const nextOrig = fotos[carouselIndex];
+    const nextSrc = photoUrl(nextOrig, IMG_W_LIGHTBOX);
     let swapped = false;
     const swap = () => {
       if (swapped) return;
       swapped = true;
+      img.dataset.orig = nextOrig; img.dataset.usedOrig = "0";
       img.dataset.retries = "0"; // foto nueva y distinta: el contador de reintentos no debe arrastrarse de la anterior
       img.src = nextSrc;
       img.style.opacity = "1";
@@ -1568,14 +1590,14 @@ function renderCarousel(){
   }
 
   art.classList.add("lightbox-art--photo");
-  fotos.forEach(src => { const pre = new Image(); pre.referrerPolicy = "no-referrer"; pre.src = src; }); // precarga silenciosa para que cambiar de foto sea instantáneo
+  fotos.forEach(src => { const pre = new Image(); pre.referrerPolicy = "no-referrer"; pre.src = photoUrl(src, IMG_W_LIGHTBOX); }); // precarga silenciosa para que cambiar de foto sea instantáneo
   const arrows = fotos.length > 1 ? `
     <button class="carousel-arrow carousel-arrow--prev" id="carouselPrev" aria-label="Foto anterior">‹</button>
     <button class="carousel-arrow carousel-arrow--next" id="carouselNext" aria-label="Foto siguiente">›</button>
     <div class="carousel-dots" id="carouselDots">
       ${fotos.map((_,i)=>`<button class="carousel-dot ${i===carouselIndex?'is-active':''}" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join("")}
     </div>` : "";
-  art.innerHTML = `<img id="carouselImg" src="${fotos[carouselIndex]}" alt="${p.name}" loading="eager" fetchpriority="high" referrerpolicy="no-referrer" style="transition:opacity .18s var(--ease)">${arrows}`;
+  art.innerHTML = `<img id="carouselImg" src="${photoUrl(fotos[carouselIndex], IMG_W_LIGHTBOX)}" data-orig="${fotos[carouselIndex]}" alt="${p.name}" loading="eager" fetchpriority="high" referrerpolicy="no-referrer" style="transition:opacity .18s var(--ease)">${arrows}`;
   attachPhotoFallback(document.getElementById("carouselImg"), p, { replaceParent:false });
 
   if (fotos.length > 1){
