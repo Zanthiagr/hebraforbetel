@@ -1477,7 +1477,7 @@ function renderGrid(){
 
   emptyEl.hidden = list.length > 0;
   gridEl.innerHTML = list.map((p,i) => `
-    <article class="bracelet-card card-stagger" data-ref="${p.ref}" style="animation-delay:${Math.min(i,8)*60}ms">
+    <article class="bracelet-card card-stagger" data-ref="${p.ref}" data-uid="${p.uid}" style="animation-delay:${Math.min(i,8)*60}ms">
       <div class="card-frame ${p.foto ? 'card-frame--photo' : ''}">${productVisual(p)}</div>
       <div class="card-top">
         <span class="card-ref">Ref. ${p.ref}</span>
@@ -1494,7 +1494,7 @@ function renderGrid(){
   gridEl.querySelectorAll(".bracelet-card").forEach((card, i) => {
     card.addEventListener("click", () => {
       const img = card.querySelector(".card-frame--photo img");
-      openLightboxFromCard(card.dataset.ref, img);
+      openLightboxFromCard(card.dataset.uid, img);
     });
     attachCardTilt(card);
     const img = card.querySelector(".card-frame--photo img");
@@ -1602,8 +1602,8 @@ function fillLightboxContent(p){
   document.getElementById("lightboxWa").href = waLink(msg);
 }
 
-function openLightbox(ref){
-  const p = PRODUCTS.find(x=>x.ref===ref);
+function openLightbox(uid){
+  const p = PRODUCTS.find(x=>String(x.uid)===String(uid));
   fillLightboxContent(p);
   lightboxLastFocused = document.activeElement;
   lightboxOverlay.classList.add("is-open");
@@ -1614,12 +1614,12 @@ function openLightbox(ref){
 // desde su posición real en la tarjeta hasta su lugar en el lightbox (FLIP:
 // First-Last-Invert-Play), en vez del corte seco anterior. Si la tarjeta no
 // tiene foto (SVG de respaldo) o hay reduced-motion, cae de vuelta al open normal.
-function openLightboxFromCard(ref, imgEl){
-  const p = PRODUCTS.find(x=>x.ref===ref);
-  if (!imgEl || prefersReducedMotion){ openLightbox(ref); return; }
+function openLightboxFromCard(uid, imgEl){
+  const p = PRODUCTS.find(x=>String(x.uid)===String(uid));
+  if (!imgEl || prefersReducedMotion){ openLightbox(uid); return; }
 
   const startRect = imgEl.getBoundingClientRect();
-  if (!startRect.width || !startRect.height){ openLightbox(ref); return; }
+  if (!startRect.width || !startRect.height){ openLightbox(uid); return; }
   const startSrc = imgEl.currentSrc || imgEl.src;
 
   fillLightboxContent(p);
@@ -1717,6 +1717,8 @@ document.addEventListener("keydown", (e) => {
 (async function initCatalog(){
   renderSkeleton();
   await loadProductsFromSheet();
+  // id interno único: la "ref" puede repetirse en el Sheet (pasó con HB-16) y no sirve para buscar
+  PRODUCTS.forEach((p, i) => { p.uid = i; });
   renderMegaMenu();
   renderFilters();
   renderGrid();
