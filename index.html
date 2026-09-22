@@ -1205,7 +1205,9 @@ function photoUrl(src, w){
 
 // Vigilante: el fallback por "error" no cubre el caso en que la foto optimizada se CUELGA
 // (el optimizador no logra bajar la original y la petición queda pendiente sin fallar).
-// Si a los 7 s de estar la foto en pantalla (o cerca) no ha cargado, se pide la original.
+// Según datos reales de diagnóstico (dic. 2026): las fotos optimizadas que sí sirven llegan
+// casi siempre en <2.5s; solo unas pocas, de archivo fuente mucho más pesado, se cuelgan hasta
+// 30s. Un plazo de 4s deja terminar a las normales y corta antes la espera de las problemáticas.
 function armPhotoWatchdog(img){
   const orig = img.dataset.orig;
   if (!orig || img.dataset.usedOrig === "1" || img.getAttribute("src") === orig) return;
@@ -1217,7 +1219,7 @@ function armPhotoWatchdog(img){
       img.dataset.usedOrig = "1";
       img.src = orig;
     }
-  }, 7000);
+  }, 4000);
   if ("IntersectionObserver" in window){
     const io = new IntersectionObserver((entries) => {
       if (entries.some(e => e.isIntersecting)){ io.disconnect(); fire(); }
