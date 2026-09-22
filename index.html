@@ -1195,7 +1195,9 @@ const IMG_ENDPOINT = (() => {
   if (/\.netlify\.app$/i.test(h)) return { path:"/.netlify/images", extra:"" };
   return null;
 })();
-const IMG_W_CARD = 720, IMG_W_LIGHTBOX = 1100; // deben estar en "sizes" de vercel.json
+const IMG_W_CARD = 720, IMG_W_LIGHTBOX = IMG_W_CARD; // mismo ancho que la tarjeta a propósito: así la
+// primera foto del lightbox reutiliza la versión que la tarjeta ya dejó cacheada, en vez de
+// pedir un tamaño nuevo y partir de cero cada vez que alguien abre un producto (bug real: era 1100)
 function photoUrl(src, w){
   if (!IMG_ENDPOINT || !src || !IMG_CDN_HOSTS.test(src)) return src;
   return IMG_ENDPOINT.path + "?url=" + encodeURIComponent(src) + "&w=" + w + IMG_ENDPOINT.extra;
@@ -1639,7 +1641,13 @@ function renderCarousel(){
   }
 
   art.classList.add("lightbox-art--photo");
-  fotos.forEach(src => { const pre = new Image(); pre.referrerPolicy = "no-referrer"; pre.src = photoUrl(src, IMG_W_LIGHTBOX); }); // precarga silenciosa para que cambiar de foto sea instantáneo
+  if (fotos.length > 1){
+    setTimeout(() => { // tras la foto principal, no compitiendo por ancho de banda con ella
+      fotos.forEach((src, i) => { if (i === carouselIndex) return;
+        const pre = new Image(); pre.referrerPolicy = "no-referrer"; pre.src = photoUrl(src, IMG_W_LIGHTBOX);
+      });
+    }, 400);
+  } // precarga silenciosa de las demás fotos para que cambiar de foto sea instantáneo
   const arrows = fotos.length > 1 ? `
     <button class="carousel-arrow carousel-arrow--prev" id="carouselPrev" aria-label="Foto anterior">‹</button>
     <button class="carousel-arrow carousel-arrow--next" id="carouselNext" aria-label="Foto siguiente">›</button>
